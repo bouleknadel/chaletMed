@@ -41,7 +41,7 @@ Dashboard
             <div class="icon">
                 <i class="fas fa-users"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('users.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -49,14 +49,15 @@ Dashboard
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{ $pourcentage_paye }}<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{ $pourcentage_paye }}<sup style="font-size: 20px">%</sup> -
+            {{ $chiffre_affaire_payé}} DH</h3>
 
-              <p>Cotisations payées</p>
+              <p>Cotisations payées <span style="font-size: 11px">(année en cours)</span> </p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('cotisations.showCurrentYearCotisations', ['status' => 'paid']) }}" class="small-box-footer">More info  <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -65,14 +66,15 @@ Dashboard
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{ $pourcentage_non_paye }}<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{ $pourcentage_non_paye }}<sup style="font-size: 20px">%</sup> -
+            {{$chiffre_affaire_non_payé}} DH</h3>
 
-              <p>Cotisations non payées</p>
+              <p>Cotisations non payées <span style="font-size: 11px">(année en cours)</span></p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('cotisations.showCurrentYearCotisations', ['status' => 'unpaid']) }}" class="small-box-footer">More info  <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -80,14 +82,28 @@ Dashboard
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{ $total_users }}</h3>
+              <h3>{{ $total_adherents }}</h3>
 
-              <p>Nombre villa occupe</p>
+              <p>Nombre des adherents</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-4 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{ $total_adherents }}</h3>
+
+              <p>Nombre chalet occupé</p>
             </div>
             <div class="icon">
                 <i class="fas fa-home"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
         <!-- ./col -->

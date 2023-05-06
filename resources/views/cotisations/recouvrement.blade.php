@@ -2,7 +2,7 @@
 
 
 @section('title')
-Listes des charges
+Synthese RECOUVREMENT
 @endsection
 
 
@@ -27,82 +27,60 @@ Listes des charges
 
 
 @section('content2')
-@if(session('successedit'))
-    <div class="alert alert-info text-white" style="background-color: #17a2b8;">
-        <i class="fas fa-edit"></i> {{ session('successedit') }}
-    </div>
-@endif
-
-@if (session('successdelete'))
-    <div class="alert alert-danger text-white" role="alert">
-        <i class="fas fa-trash-alt mr-2"></i>{{ session('successdelete') }}
-    </div>
-@endif
-
-
-
 <section class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Table des charges</h3>
+              <h3 class="card-title">Table des cotisations</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped" >
                 <thead >
-                  <tr>
-                    <th>Rubrique</th>
-                    <th>Description</th>
-                    <th>Montant</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Recus</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
+                <tr>
+                    <th>N° du chalet</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+
+                    @foreach ($annees as $annee)
+                        <th>{{ $annee }}</th>
+                    @endforeach
+
+                    <th>Total Impayes</th>
+                </tr>
                 </thead>
                 <tbody>
-                  @foreach ($charges as $charge)
-                    <tr>
-                      <td>{{ $charge->rubrique }}</td>
-                      <td>{{ $charge->description }}</td>
-                      <td>{{ $charge->montant }}</td>
-                      <td>{{ $charge->type }}</td>
-                      <td>{{ $charge->date }}</td>
-                      <td>
-                        @if($charge->recus)
-                          <a href="{{ asset('uploads/charges/'.$charge->recus) }}"  download>
-                            <img src="{{ asset('uploads/charges/'.$charge->recus) }}" height="40" width="40" class="img-responsive" alt="recu">
-                          </a>
-                          @else
-                            Pas de recus
-                       @endif
-                      </td>
+                    @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->numero_devilla }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->lastname	 }}</td>
+                @php
+                    $total = 0;
+                @endphp
+                @foreach ($annees as $annee)
+                    <td>
+                        @foreach ($cotisations as $cotisation)
+                            @if ($cotisation->user_id == $user->id && $cotisation->annee == $annee)
+                                @if ($cotisation->status == 'payé')
+                                    <span class="badge badge-success">Payé</span>
+                                @else
+                                    <span class="badge badge-danger">{{$cotisation->total_impaye}} DH</span>
+                                    @php
+                                        $total +=  $cotisation->total_impaye ;
+                                    @endphp
+                                @endif
+                            @endif
+                        @endforeach
+                    </td>
 
-                      <td class="@if($charge->status == 'paye') text-success @else text-danger @endif">
-                        <strong>
-                          @if($charge->status == 'paye')
-                            <i class="fas fa-check-circle"></i> Paye
-                          @else
-                            <i class="fas fa-times-circle"></i> Non paye
-                          @endif
-                        </strong>
-                      </td>
-
-                      <td>
-                        <a href="{{ route('charges.edit', $charge->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('charges.destroy', $charge->id) }}" method="post" style="display: inline-block" class="mt-1">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-                      </td>
-                    </tr>
-                  @endforeach
-                </tfoot>
+                @endforeach
+                <td class="{{ $total > 0 ? 'text-danger' : 'text-success' }}">{{ $total }} DH</td>
+            </tr>
+        @endforeach
+                </tbody>
               </table>
             </div>
             <!-- /.card-body -->
@@ -116,6 +94,9 @@ Listes des charges
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+
+
+
 
 @endsection
 
@@ -138,7 +119,7 @@ Listes des charges
 <script src="{{ URL::asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script>
-$(function () {
+ $(function () {
   $("#example1").DataTable({
     "responsive": true,
     "lengthChange": false,
@@ -187,5 +168,6 @@ $(function () {
     "responsive": true,
   });
 });
+
 </script>
 @endsection

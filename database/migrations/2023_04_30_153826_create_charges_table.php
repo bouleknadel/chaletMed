@@ -20,7 +20,7 @@ class CreateChargesTable extends Migration
             $table->float('montant');
             $table->enum('type');
             $table->date('date');
-            $table->text('recu')->nullable();
+            $table->text('recus')->nullable();
             $table->enum('status');
             $table->timestamps();
         });

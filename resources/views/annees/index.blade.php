@@ -2,7 +2,7 @@
 
 
 @section('title')
-Listes des charges
+Liste prix_location
 @endsection
 
 
@@ -27,6 +27,12 @@ Listes des charges
 
 
 @section('content2')
+
+@if(session('success'))
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle alert-icon"></i>{{ session('success') }}
+    </div>
+@endif
 @if(session('successedit'))
     <div class="alert alert-info text-white" style="background-color: #17a2b8;">
         <i class="fas fa-edit"></i> {{ session('successedit') }}
@@ -47,61 +53,38 @@ Listes des charges
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Table des charges</h3>
+              <h3 class="card-title">Table des cotisations</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped" >
                 <thead >
-                  <tr>
-                    <th>Rubrique</th>
-                    <th>Description</th>
-                    <th>Montant</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Recus</th>
-                    <th>Status</th>
+                <tr>
+                    <th>Année</th>
+                    <th>prix_location</th>
+                    <th>Date de création</th>
+                    <th>Date de modification</th>
                     <th>Action</th>
-                  </tr>
+
+                </tr>
                 </thead>
                 <tbody>
-                  @foreach ($charges as $charge)
+                    @foreach($annees as $annee)
                     <tr>
-                      <td>{{ $charge->rubrique }}</td>
-                      <td>{{ $charge->description }}</td>
-                      <td>{{ $charge->montant }}</td>
-                      <td>{{ $charge->type }}</td>
-                      <td>{{ $charge->date }}</td>
-                      <td>
-                        @if($charge->recus)
-                          <a href="{{ asset('uploads/charges/'.$charge->recus) }}"  download>
-                            <img src="{{ asset('uploads/charges/'.$charge->recus) }}" height="40" width="40" class="img-responsive" alt="recu">
-                          </a>
-                          @else
-                            Pas de recus
-                       @endif
-                      </td>
-
-                      <td class="@if($charge->status == 'paye') text-success @else text-danger @endif">
-                        <strong>
-                          @if($charge->status == 'paye')
-                            <i class="fas fa-check-circle"></i> Paye
-                          @else
-                            <i class="fas fa-times-circle"></i> Non paye
-                          @endif
-                        </strong>
-                      </td>
-
-                      <td>
-                        <a href="{{ route('charges.edit', $charge->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('charges.destroy', $charge->id) }}" method="post" style="display: inline-block" class="mt-1">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-                      </td>
+                        <td>{{ $annee->annee }}</td>
+                        <td>{{ $annee->prix_location }}</td>
+                        <td>{{ $annee->created_at }}</td>
+                        <td>{{ $annee->updated_at }}</td>
+                        <td>
+                            <a href="{{ route('annees.edit', $annee->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                            <form action="{{ route('annees.destroy', $annee->id) }}" method="post" style="display: inline-block" class="mt-1">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
                     </tr>
-                  @endforeach
+                    @endforeach
                 </tfoot>
               </table>
             </div>
@@ -116,7 +99,6 @@ Listes des charges
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-
 @endsection
 
 
@@ -138,7 +120,7 @@ Listes des charges
 <script src="{{ URL::asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script>
-$(function () {
+ $(function () {
   $("#example1").DataTable({
     "responsive": true,
     "lengthChange": false,
@@ -187,5 +169,6 @@ $(function () {
     "responsive": true,
   });
 });
+
 </script>
 @endsection

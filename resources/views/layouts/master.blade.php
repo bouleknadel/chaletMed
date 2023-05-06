@@ -9,6 +9,11 @@
     th {
         background: rgb(197, 224, 233) ;
     }
+    .filtre{
+        display : flex ;
+        justify-content: space-between ;
+        width : 100% ;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

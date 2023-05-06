@@ -13,9 +13,16 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'admin']);
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth', 'admin']);
+Route::get('cotisations/download/{id}', [App\Http\Controllers\CotisationController::class, 'downloadReceipt'])->name('cotisations.download')->middleware(['auth', 'admin']);
+Route::get('/cotisations/recouvrement', [App\Http\Controllers\CotisationController::class, 'recouvrement'])->name('cotisations.recouvrement');
+Route::get('/cotisations/current-year/{status}', [App\Http\Controllers\CotisationController::class, 'showCurrentYearCotisations'])->name('cotisations.showCurrentYearCotisations');
 Route::resource('cotisations', App\Http\Controllers\CotisationController::class)->middleware(['auth', 'admin']);
 Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
-Route::get('cotisations/download/{id}', [App\Http\Controllers\CotisationController::class, 'downloadReceipt'])->name('cotisations.download')->middleware(['auth', 'admin']);
+Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
+
+
+
+
 
 Route::get('/userPage', function () {
     return view('userPage');
