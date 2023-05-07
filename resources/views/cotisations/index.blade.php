@@ -76,6 +76,7 @@ Listes des cotisations
             <select id="select-status" class="form-control filter" onchange="this.form.submit()" name="status">
                 <option value="" selected disabled>Tous les statuts de paiement</option>
                 <option value="payé" {{ $selectedStatus == 'payé' ? 'selected' : '' }}>Payé</option>
+                <option value="partiellement payé" {{ $selectedStatus == 'partiellement payé' ? 'selected' : '' }}>Partiellement payé</option>
                 <option value="non payé" {{ $selectedStatus == 'non payé' ? 'selected' : '' }}>Non payé</option>
             </select>
         </form>
@@ -121,10 +122,12 @@ Listes des cotisations
                                         Pas de recus
                                         @endif
                                     </td>
-                                    <td class="@if($cotisation->status == 'payé') text-success @else text-danger @endif">
+                                    <td class="@if($cotisation->status == 'payé') text-success @elseif($cotisation->status == 'partiellement payé') text-info @else text-danger @endif">
                                         <strong>
                                             @if($cotisation->status == 'payé')
                                             <i class="fas fa-check-circle"></i> Payé
+                                            @elseif($cotisation->status == 'partiellement payé')
+                                            <i class="fas fa-exclamation-circle"></i>  Partiellement payé
                                             @else
                                             <i class="fas fa-times-circle"></i> Non payé
                                             @endif
@@ -180,6 +183,7 @@ Listes des cotisations
                                                         <select name="status" id="status" class="form-control" required>
                                                         <option value="">Sélectionner un status</option>
                                                         <option value="payé" @if($cotisation->status == 'payé') selected @endif>Payé</option>
+                                                        <option value="partiellement payé" @if($cotisation->status == 'partiellement payé') selected @endif>Partiellement payé</option>
                                                         <option value="non payé" @if($cotisation->status == 'non payé') selected @endif>Non payé</option>
                                                         </select>
                                                         </div>

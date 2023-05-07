@@ -64,10 +64,25 @@ Dashboard
         <!-- ./col -->
         <div class="col-lg-4 col-6">
           <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{ $pourcentage_partiellement_paye }}<sup style="font-size: 20px">%</sup> -
+            {{$chiffre_affaire_non_payé}} DH</h3>
+
+              <p>Cotisations partiellemt paye <span style="font-size: 11px">(année en cours)</span></p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="{{ route('cotisations.showCurrentYearCotisations', ['status' => 'partially_paid']) }}" class="small-box-footer">More info  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-6">
+          <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{ $pourcentage_non_paye }}<sup style="font-size: 20px">%</sup> -
-            {{$chiffre_affaire_non_payé}} DH</h3>
+              <h3>{{ $pourcentage_non_paye }}<sup style="font-size: 20px">%</sup>
+            </h3>
 
               <p>Cotisations non payées <span style="font-size: 11px">(année en cours)</span></p>
             </div>

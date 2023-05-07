@@ -14,7 +14,7 @@ class CreateCotisationsTable extends Migration
             $table->float('montant');
             $table->string('date');
             $table->string('recu_paiement')->nullable();
-            $table->enum('status', ['payé', 'non payé'])->default('non payé');
+            $table->enum('status', ['payé', 'non payé', 'partiellement payé'])->default('non payé');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -86,6 +86,7 @@ cree cotisation
         <label for="status">Statut</label>
         <select name="status" id="status" class="form-control" required>
             <option value="non payé">Non payé</option>
+            <option value="partiellement payé">Partiellement payé</option>
             <option value="payé">Payé</option>
         </select>
     </div>

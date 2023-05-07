@@ -53,24 +53,25 @@ class CotisationController extends Controller
 
         });
     }
-
-    // Filtrer les cotisations par statut de paiement
-    $selectedStatus = $request->input('status');
-    if ($selectedStatus) {
-    $cotisations = $cotisations->filter(function ($cotisation) use ($selectedStatus) {
-        if ($selectedStatus === 'payé') {
-            return $cotisation->status === 'payé';
-        } elseif ($selectedStatus === 'non payé') {
-            return $cotisation->status === 'non payé';
-        }
-    });
-    }
+ // Filtrer les cotisations par statut de paiement
+ $selectedStatus = $request->input('status');
+ if ($selectedStatus) {
+     $cotisations = $cotisations->filter(function ($cotisation) use ($selectedStatus) {
+         if ($selectedStatus === 'payé') {
+             return $cotisation->status === 'payé';
+         } elseif ($selectedStatus === 'non payé') {
+             return $cotisation->status === 'non payé';
+         } elseif ($selectedStatus === 'partiellement payé') {
+             return $cotisation->status === 'partiellement payé';
+         }
+     });
+ }
         return view('cotisations.index', compact('users', 'cotisations', 'years', 'selectedYear','selectedLetter','selectedStatus'));
     }
 
 
-
-    public function showCurrentYearCotisations(Request $request)
+//dashboard-----------------------------------------------------------------------------------------------------------------------------
+public function showCurrentYearCotisations(Request $request)
 {
     // Récupérer l'année en cours
     $currentYear = Carbon::now()->year;
@@ -86,6 +87,11 @@ class CotisationController extends Controller
             ->where('status', 'non payé')
             ->with('user')
             ->get();
+    } else if ($request->status == 'partially_paid') {
+        $cotisations = Cotisation::whereYear('date', $currentYear)
+            ->where('status', 'partiellement payé')
+            ->with('user')
+            ->get();
     } else {
         // Si aucun statut n'est précisé, récupérer toutes les cotisations de l'année en cours
         $cotisations = Cotisation::whereYear('date', $currentYear)
@@ -97,15 +103,17 @@ class CotisationController extends Controller
     return view('cotisations.showCurrentYearCotisations', compact('cotisations', 'request'));
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
 
 
+
+//recouvrement------------------------------------------------------------------------------------------------------------------------
 public function recouvrement()
 {
-
     $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, YEAR(cotisations.date) AS annee, cotisations.status , SUM(annees.prix_location - cotisations.montant) AS total_impaye')
     ->join('users', 'cotisations.user_id', '=', 'users.id')
     ->join('annees', 'annees.annee', '=', DB::raw('YEAR(cotisations.date)'))
@@ -122,6 +130,7 @@ public function recouvrement()
 
     return view('cotisations.recouvrement', compact('users', 'cotisations', 'annees'));
 }
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 
     /**
@@ -151,7 +160,7 @@ public function recouvrement()
         'montant' => 'required|numeric|min:0',
         'date' => 'required|date',
         'recu_paiement' => 'nullable|file',
-        'status' => 'required|in:payé,non payé',
+        'status' => 'required|in:payé,non payé,partiellement payé',
     ]);
 
 

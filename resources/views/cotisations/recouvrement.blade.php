@@ -61,20 +61,25 @@ Synthese RECOUVREMENT
                     $total = 0;
                 @endphp
                 @foreach ($annees as $annee)
-                    <td>
-                        @foreach ($cotisations as $cotisation)
-                            @if ($cotisation->user_id == $user->id && $cotisation->annee == $annee)
-                                @if ($cotisation->status == 'payé')
-                                    <span class="badge badge-success">Payé</span>
-                                @else
-                                    <span class="badge badge-danger">{{$cotisation->total_impaye}} DH</span>
-                                    @php
-                                        $total +=  $cotisation->total_impaye ;
-                                    @endphp
+                <td>
+                    @foreach ($cotisations as $cotisation)
+                        @if ($cotisation->user_id == $user->id && $cotisation->annee == $annee)
+                            @if ($cotisation->status == 'payé')
+                                <span class="badge badge-success">Payé</span>
+                            @elseif ($cotisation->status == 'partiellement payé')
+                                <span class="badge badge-info">{{- $cotisation->total_impaye}} DH</span>
+                                @php
+                            $total += $cotisation->total_impaye;
+                        @endphp
+                            @else
+                                @if ($cotisation->status == '' || $cotisation->status == 'non payé')
+                                    <span class="badge badge-danger">Non payé</span>
                                 @endif
                             @endif
-                        @endforeach
-                    </td>
+                        @endif
+                    @endforeach
+                </td>
+
 
                 @endforeach
                 <td class="{{ $total > 0 ? 'text-danger' : 'text-success' }}">{{ $total }} DH</td>

@@ -77,8 +77,10 @@ Modifier cotisation
                         <div class="form-group">
                             <label for="status">Statut</label>
                             <select name="status" id="status" class="form-control" required>
-                                <option value="non payé" {{ $cotisation->status == 'non payé' ? 'selected' : '' }}>Non payé</option>
                                 <option value="payé" {{ $cotisation->status == 'payé' ? 'selected' : '' }}>Payé</option>
+                                <option value="partiellement payé" {{ $cotisation->status == 'partiellement payé' ? 'selected' : '' }}>Partiellement payé</option>
+                                <option value="non payé" {{ $cotisation->status == 'non payé' ? 'selected' : '' }}>Non payé</option>
+
                             </select>
                         </div>
                     </div>
