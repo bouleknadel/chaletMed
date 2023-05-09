@@ -9,6 +9,27 @@
     th {
         background: rgb(197, 224, 233) ;
     }
+    .card-head{
+        margin: 30px 20px ;
+
+    }
+    .card-head .card-title{
+        font-size: 30px ;
+        font-weight: 400 ;
+    }
+   .table {
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

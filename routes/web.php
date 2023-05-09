@@ -20,6 +20,7 @@ Route::resource('cotisations', App\Http\Controllers\CotisationController::class)
 Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
 Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
 
+Route::get('/dashboard-u', [App\Http\Controllers\AdherentController::class, 'dashboard'])->name('adherent.dashboard')->middleware('auth');
 
 
 
@@ -38,6 +39,8 @@ Route::get('/dashboard-user', function () {
 
 
 Route::resource('adherent', App\Http\Controllers\AdherentController::class)->middleware(['auth']);
+
+
 
 
 

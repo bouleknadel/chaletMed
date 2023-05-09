@@ -14,6 +14,10 @@
         justify-content: space-between ;
         width : 100% ;
     }
+
+
+    
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

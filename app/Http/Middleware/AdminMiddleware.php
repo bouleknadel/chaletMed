@@ -26,7 +26,7 @@ class AdminMiddleware
         }
     }
 
-    return redirect()->route('adherent.index');
+    return redirect()->route('adherent.dashboard');
 
 
 }
