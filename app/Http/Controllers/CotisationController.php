@@ -239,6 +239,7 @@ public function recouvrement()
         $cotisation->montant = $request->input('montant');
         $cotisation->date = $request->input('date');
         $cotisation->status = $request->input('status');
+        $cotisation->statuValidation = $request->input('statuValidation');
 
         if ($request->hasFile('recu_paiement')) {
             $file = $request->file('recu_paiement');

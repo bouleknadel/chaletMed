@@ -129,14 +129,19 @@ public function update(Request $request, $id)
 {
     $cotisation = Cotisation::findOrFail($id);
 
-   
+    // Vérifier si la cotisation est en attente de validation
+    if ($cotisation->statuValidation !== 'en attente') {
+        return redirect()->back()->with('error', 'Vous ne pouvez pas modifier une cotisation validée.');
+    }
+
+
     $validatedData = $request->validate([
         'montant' => 'required|numeric',
         'date' => 'nullable|date',
         'recu_paiement' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:2048',
     ]);
     // Vérifier si une cotisation pour cette année existe déjà
- 
+
 
     $cotisation->montant = $validatedData['montant'];
     $cotisation->date = $validatedData['date'];
@@ -166,6 +171,11 @@ public function update(Request $request, $id)
     public function destroy($id)
 {
     $cotisation = Cotisation::findOrFail($id);
+     // Vérifier si l'utilisateur est l'auteur de la cotisation et si le statut est "en attente"
+     if ($cotisation->statuValidation !== 'en attente') {
+        return redirect()->back()->with('errordelete', 'Vous ne pouvez pas supprimer une cotisation validée.');
+    }
+
     $cotisation->delete();
 
     return redirect()->back()->with('successdelete', 'La cotisation a été supprimée avec succès.');

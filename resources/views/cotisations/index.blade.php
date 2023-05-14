@@ -16,7 +16,7 @@ Listes des cotisations
 
 
 @section('title_page')
-
+Cotisations
 @endsection
 
 
@@ -96,21 +96,23 @@ Listes des cotisations
                             <thead>
                                 <tr>
                                     <th>N° du chalet</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                   <th>Nom et Prénom</th>
+                                    <!-- <th>Prénom</th> -->
                                     <th>Montant</th>
                                     <th>Date</th>
                                     <th>Recu Paiement</th>
                                     <th>Status</th>
+                                    <th>Status validation</th>
                                     <th>Action</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($cotisations as $cotisation)
-                                <tr>
+                                <tr class="{{ $cotisation->statuValidation === 'validé' ? 'validé' : '' }}">
                                     <td>{{ $cotisation->user->numero_devilla }}</td>
-                                    <td>{{ $cotisation->user->name }}</td>
-                                    <td>{{ $cotisation->user->lastname }}</td>
+                                 <td> {{$cotisation->user->name}} {{$cotisation->user->lastname}} </td>
+                                 <!--   <td> $cotisation->user->lastname </td> -->
                                     <td>{{ $cotisation->montant }} DH</td>
                                     <td>{{ $cotisation->date }}</td>
                                     <td>
@@ -133,6 +135,14 @@ Listes des cotisations
                                             @endif
                                         </strong>
                                     </td>
+                                    <td>
+                                        @if ($cotisation->statuValidation == 'validé')
+                                          <i class="fas fa-check-circle text-success"></i>
+                                        @else
+                                          <i class="fas fa-clock text-warning"></i>
+                                        @endif
+                                        {{ $cotisation->statuValidation }}
+                                      </td>
                                     <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal{{ $cotisation->id }}">
@@ -187,6 +197,14 @@ Listes des cotisations
                                                         <option value="non payé" @if($cotisation->status == 'non payé') selected @endif>Non payé</option>
                                                         </select>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label for="statuValidation">Statut Validation</label>
+                                                            <select name="statuValidation" id="statuValidation" class="form-control">
+                                                              <option value="valide" {{ $cotisation->statuValidation == 'valide' ? 'selected' : '' }}>validé</option>
+                                                              <option value="en attente" {{ $cotisation->statuValidation == 'en attente' ? 'selected' : '' }}>En attente</option>
+                                                            </select>
+                                                          </div>
+
                                                         </div>
                                                         <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -196,7 +214,7 @@ Listes des cotisations
                                                         </div>
                                                         </div>
                                                         </div>
-                                                        <form method="POST" action="{{ route('cotisations.destroy', $cotisation->id) }}" style="display: inline-block;">
+                                                        <form method="POST" action="{{ route('cotisations.destroy', $cotisation->id) }}" style="display: inline-block;" class="mt-2">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette cotisation?')">
@@ -282,7 +300,7 @@ Listes des cotisations
   $('#example2').DataTable({
     "paging": true,
     "lengthChange": false,
-    "searching": false,
+    "searching": true,
     "ordering": true,
     "info": true,
     "autoWidth": false,

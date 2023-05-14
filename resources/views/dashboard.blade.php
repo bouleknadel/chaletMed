@@ -14,12 +14,12 @@ Dashboard
 
 
 @section('title_page')
-
+Admin dashboard
 @endsection
 
 
 @section('title_page2')
-
+Dashboard
 @endsection
 
 

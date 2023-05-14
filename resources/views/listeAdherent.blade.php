@@ -2,7 +2,7 @@
 
 
 @section('title')
-Liste des adherent
+List des utilisateurs
 @endsection
 
 
@@ -16,7 +16,7 @@ Liste des adherent
 
 
 @section('title_page')
-Adherent
+Uitlisateurs
 @endsection
 
 

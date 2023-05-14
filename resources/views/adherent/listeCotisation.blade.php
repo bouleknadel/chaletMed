@@ -40,6 +40,11 @@ Listes de mes cotisations
         <i class="fas fa-exclamation-triangle alert-icon"></i>{{ session('error') }}
     </div>
 @endif
+@if(session('errordelete'))
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle alert-icon"></i>{{ session('errordelete') }}
+    </div>
+@endif
 @if(session('successedit'))
     <div class="alert alert-info text-white" style="background-color: #17a2b8;">
         <i class="fas fa-edit"></i> {{ session('successedit') }}
@@ -68,6 +73,7 @@ Listes de mes cotisations
                                     <th>Date</th>
                                     <th>Recu Paiement</th>
                                     <th>Status</th>
+                                    <th>Status validation</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -99,12 +105,29 @@ Listes de mes cotisations
                                         </strong>
                                     </td>
                                     <td>
+                                        @if ($cotisation->statuValidation == 'validé')
+                                          <i class="fas fa-check-circle text-success"></i>
+                                        @else
+                                          <i class="fas fa-clock text-warning"></i>
+                                        @endif
+                                        {{ $cotisation->statuValidation }}
+                                      </td>
+                                    <td>
+                                        @if ($cotisation->statuValidation == 'en attente')
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal{{ $cotisation->id }}"><i class="fas fa-edit"></i></button>
                                         <form action="{{ route('adherent.destroy', $cotisation->id) }}" method="post" style="display: inline-block" class="mt-1">
-                                          @csrf
-                                          @method('DELETE')
-                                          <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                         </form>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-primary" disabled><i class="fas fa-edit"></i></button>
+                                        <form action="{{ route('adherent.destroy', $cotisation->id) }}" method="post" style="display: inline-block" class="mt-1">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" disabled><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    @endif
 
                                           <!-- Modal de modification -->
                     <div class="modal fade" id="editModal{{ $cotisation->id }}" tabindex="-1" role="dialog" aria-labelledby="editModal{{ $cotisation->id }}Label" aria-hidden="true">

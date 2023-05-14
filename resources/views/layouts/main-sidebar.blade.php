@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{ asset('assets/img/admin2.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Abdo Admin</span>
+      <span class="brand-text font-weight-light">{{ auth()->user()->name }}  {{ auth()->user()->lastname }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -26,8 +26,9 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-         <li class="nav-item">
+
+            with font-awesome or any other icon font library -->
+            <li class="nav-item">
   <a href="{{ route('dashboard') }}" class="nav-link">
     <i class="nav-icon fas fa-tachometer-alt"></i>
     <p class="ml-2" >Dashboard</p>
@@ -39,6 +40,7 @@
     <p class="ml-2">Liste des utilisateurs</p>
   </a>
 </li>
+
 <li class="nav-item">
   <a href="{{ route('cotisations.index') }}" class="nav-link">
     <i class="fas fa-money-bill"></i>
@@ -114,7 +116,7 @@
             </ul>
           </li>
           <!--=================================Exemples========================================-->
-        
+
       </nav>
       <!-- /.sidebar-menu -->
     </div>

@@ -15,6 +15,7 @@ class Cotisation extends Model
         'date',
         'recu_paiement',
         'status',
+        'statuValidation',
     ];
 
     public function user()

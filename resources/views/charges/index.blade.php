@@ -16,7 +16,7 @@ Listes des charges
 
 
 @section('title_page')
-
+Charges
 @endsection
 
 
