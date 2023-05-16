@@ -71,7 +71,9 @@ cree charge
                                 <option value="">Sélectionner un type</option>
                                 <option value="charge_fixe_mensuelle">Charge fixe mensuelle</option>
                                 <option value="charge_occasionnelle">Charge occasionnelle</option>
+                                <option value="charge_annuelle">Charge annuelle</option> <!-- Nouvelle option -->
                             </select>
+                            
                         </div>
                         <div class="form-group">
                             <label for="date">Date</label>

@@ -16,7 +16,7 @@ Synthese RECOUVREMENT
 
 
 @section('title_page')
-
+Recouvrement
 @endsection
 
 
@@ -48,7 +48,11 @@ Synthese RECOUVREMENT
                         <th>{{ $annee }}</th>
                     @endforeach
 
-                    <th>Total Impayes</th>
+                   
+                    <th class="bg-danger text-white" >Total Impayés</th>
+
+                    <th class="bg-success text-white">Total Payés</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -59,6 +63,8 @@ Synthese RECOUVREMENT
                 <td>{{ $user->lastname	 }}</td>
                 @php
                     $total = 0;
+                    $totalPrixLocation = 0;
+                    $totalPaye = 0 ;
                 @endphp
                 @foreach ($annees as $annee)
                 <td>
@@ -66,6 +72,9 @@ Synthese RECOUVREMENT
                         @if ($cotisation->user_id == $user->id && $cotisation->annee == $annee)
                             @if ($cotisation->status == 'payé')
                                 <span class="badge badge-success">Payé</span>
+                                @php
+                                    $totalPaye += $cotisation->total_paye;
+                                @endphp
                             @elseif ($cotisation->status == 'partiellement payé')
                                 <span class="badge badge-info">{{- $cotisation->total_impaye}} DH</span>
                                 @php
@@ -73,7 +82,10 @@ Synthese RECOUVREMENT
                         @endphp
                             @else
                                 @if ($cotisation->status == '' || $cotisation->status == 'non payé')
-                                    <span class="badge badge-danger">Non payé</span>
+                                    <span class="badge badge-danger">Non payé : {{- $cotisation->total_prix_location}} DH</span>
+                                    @php
+                                    $totalPrixLocation += $cotisation->total_prix_location;
+                                @endphp
                                 @endif
                             @endif
                         @endif
@@ -82,7 +94,15 @@ Synthese RECOUVREMENT
 
 
                 @endforeach
-                <td class="{{ $total > 0 ? 'text-danger' : 'text-success' }}">{{ $total }} DH</td>
+                <td class="font-weight-bold {{ $total > 0 ? 'text-danger' : 'text-success' }}">
+                    {{ $total + $totalPrixLocation }} DH
+                </td>
+                
+                <td class="font-weight-bold text-success">
+                    {{ $totalPaye }} DH
+                </td>
+                
+
             </tr>
         @endforeach
                 </tbody>
@@ -104,7 +124,6 @@ Synthese RECOUVREMENT
 
 
 @endsection
-
 
 
 
@@ -166,7 +185,7 @@ Synthese RECOUVREMENT
   $('#example2').DataTable({
     "paging": true,
     "lengthChange": false,
-    "searching": false,
+    "searching": true,
     "ordering": true,
     "info": true,
     "autoWidth": false,

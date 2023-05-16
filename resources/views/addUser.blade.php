@@ -59,7 +59,7 @@ Ajouter Utilisateur
                 <input type="text" class="form-control" name="lastname" id="exampleInputEmail1" placeholder="Enter email">
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">numero_devilla</label>
+                <label for="exampleInputEmail1">Numero chalet</label>
                 <input type="text"  name="numero_devilla" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
               </div>
               <div class="form-group">

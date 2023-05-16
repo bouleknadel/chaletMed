@@ -53,35 +53,65 @@ Cotisations
                     <div class="card-body">
                         <!--filter les annes-->
 
-    <div class="col-md-8 filtre">
-        <form action="{{ route('cotisations.index') }}" method="GET">
-        <label for="select-year">Année :</label>
-        <select id="select-year" class="form-control filter" onchange="this.form.submit()" name="year">
-            <option value="" disabled {{ empty($selectedYear) ? 'selected' : '' }}>Toutes les années</option>
-            @foreach ($years as $year)
-                <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
-            @endforeach
-        </select>
-        </form>
-        <form action="{{ route('cotisations.index') }}" method="GET">
-            <label for="select-letter">N° du chalet :</label>
-            <select id="select-letter" class="form-control filter" onchange="this.form.submit()" name="letter">
-                <option value="" selected disabled>Toutes les lettres</option>
-                <option value="A" {{ $selectedLetter == 'A' ? 'selected' : '' }}>A</option>
-                <option value="B" {{ $selectedLetter == 'B' ? 'selected' : '' }}>B</option>
-            </select>
-        </form>
-        <form action="{{ route('cotisations.index') }}" method="GET">
-            <label for="select-status">Statut de paiement :</label>
-            <select id="select-status" class="form-control filter" onchange="this.form.submit()" name="status">
-                <option value="" selected disabled>Tous les statuts de paiement</option>
-                <option value="payé" {{ $selectedStatus == 'payé' ? 'selected' : '' }}>Payé</option>
-                <option value="partiellement payé" {{ $selectedStatus == 'partiellement payé' ? 'selected' : '' }}>Partiellement payé</option>
-                <option value="non payé" {{ $selectedStatus == 'non payé' ? 'selected' : '' }}>Non payé</option>
-            </select>
-        </form>
-
-    </div>
+                        <div class="col-md-12 ">
+                            <form action="{{ route('cotisations.index') }}" method="GET" class="filter-form">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="select-year">Année :</label>
+                                            <select id="select-year" class="form-control" name="year">
+                                                <option value="" disabled {{ empty($selectedYear) ? 'selected' : '' }}>Toutes les années</option>
+                                                @foreach ($years as $year)
+                                                    <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="select-letter">N° du chalet :</label>
+                                            <select id="select-letter" class="form-control" name="letter">
+                                                <option value="" selected disabled>Toutes les lettres</option>
+                                                <option value="A" {{ $selectedLetter == 'A' ? 'selected' : '' }}>A</option>
+                                                <option value="B" {{ $selectedLetter == 'B' ? 'selected' : '' }}>B</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="select-status">Statut de paiement :</label>
+                                            <select id="select-status" class="form-control" name="status">
+                                                <option value="" selected disabled>Tous les statuts de paiement</option>
+                                                <option value="payé" {{ $selectedStatus == 'payé' ? 'selected' : '' }}>Payé</option>
+                                                <option value="partiellement payé" {{ $selectedStatus == 'partiellement payé' ? 'selected' : '' }}>Partiellement payé</option>
+                                                <option value="non payé" {{ $selectedStatus == 'non payé' ? 'selected' : '' }}>Non payé</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="select-validation-status">Statut de validation :</label>
+                                            <select id="select-validation-status" class="form-control " name="validation_status">
+                                                <option value="" selected disabled>Tous les statuts de validation</option>
+                                                <option value="Validé" {{ $selectedValidationStatus == 'Validé' ? 'selected' : '' }}>Validé</option>
+                                                <option value="en attente" {{ $selectedValidationStatus == 'en attente' ? 'selected' : '' }}>En attente</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="row justify-content-center mt-2 ff">
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary btn-block" style="font-size: 17px; font-weight : 600 ;">Filtrer</button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        
 
 
 
@@ -108,6 +138,18 @@ Cotisations
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                // Trier les cotisations par ordre : non payé, en attente, payé
+                                $sortedCotisations = $cotisations->sortBy(function ($cotisation) {
+                                    if ($cotisation->status === 'non payé') {
+                                        return 0;
+                                    } elseif ($cotisation->statuValidation === 'en attente') {
+                                        return 1;
+                                    } elseif ($cotisation->status === 'payé') {
+                                        return 2;
+                                    }
+                                });
+                            @endphp
                                 @foreach ($cotisations as $cotisation)
                                 <tr class="{{ $cotisation->statuValidation === 'validé' ? 'validé' : '' }}">
                                     <td>{{ $cotisation->user->numero_devilla }}</td>

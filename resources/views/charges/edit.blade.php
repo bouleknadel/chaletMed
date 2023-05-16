@@ -73,7 +73,9 @@ Modifier cotisation
                                 <option value="">Sélectionner un type</option>
                                 <option value="charge_fixe_mensuelle" {{ $charge->type == "charge_fixe_mensuelle" ? "selected" : "" }}>Charge fixe mensuelle</option>
                                 <option value="charge_occasionnelle" {{ $charge->type == "charge_occasionnelle" ? "selected" : "" }}>Charge occasionnelle</option>
+                                <option value="charge_annuelle" {{ $charge->type == "charge_annuelle" ? "selected" : "" }}>Charge annuelle</option> <!-- Nouvelle option -->
                             </select>
+                            
                         </div>
                         <div class="form-group">
                             <label for="date">Date</label>

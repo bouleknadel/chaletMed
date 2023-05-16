@@ -20,6 +20,8 @@ Route::resource('cotisations', App\Http\Controllers\CotisationController::class)
 Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
 Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
 
+Route::post('importer-excel', [App\Http\Controllers\ImporterExel::class, 'import'])->name('importer-excel.import')->middleware(['auth', 'admin']);
+
 Route::get('/dashboard-u', [App\Http\Controllers\AdherentController::class, 'dashboard'])->name('adherent.dashboard')->middleware('auth');
 
 

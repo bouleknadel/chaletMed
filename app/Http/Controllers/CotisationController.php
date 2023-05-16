@@ -20,107 +20,58 @@ class CotisationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $users = User::where('role', 'user')->get();
 
-        // Récupérer les cotisations et filtrer par année si une année est sélectionnée
-        $cotisations = Cotisation::with('user');
 
-        if ($request->has('year')) {
-            $selectedYear = $request->year;
-            $cotisations->whereYear('date', $selectedYear);
-        } else {
-            $selectedYear = '';
-        }
-
-        $cotisations = $cotisations->get();
-
-        // Récupérer les années distinctes dans la table cotisations
-        $years = Cotisation::distinct()
-        ->orderBy('date', 'desc')
-        ->pluck('date')
-        ->map(function ($item) {
-            return Carbon::parse($item)->format('Y');
-        })
-        ->unique();
-
-        // Filtrer les cotisations par lettre de numero_devillae
-       $selectedLetter = $request->input('letter');
-    if ($selectedLetter) {
-        $cotisations = $cotisations->filter(function ($cotisation) use ($selectedLetter) {
-            return Str::startsWith($cotisation->user->numero_devilla, $selectedLetter) ;
-
-        });
-    }
- // Filtrer les cotisations par statut de paiement
- $selectedStatus = $request->input('status');
- if ($selectedStatus) {
-     $cotisations = $cotisations->filter(function ($cotisation) use ($selectedStatus) {
-         if ($selectedStatus === 'payé') {
-             return $cotisation->status === 'payé';
-         } elseif ($selectedStatus === 'non payé') {
-             return $cotisation->status === 'non payé';
-         } elseif ($selectedStatus === 'partiellement payé') {
-             return $cotisation->status === 'partiellement payé';
+     public function index(Request $request)
+     {
+         $users = User::where('role', 'user')->get();
+         $cotisations = Cotisation::with('user');
+     
+         // Récupérer les valeurs des filtres
+         $selectedYear = $request->input('year');
+         $selectedLetter = $request->input('letter');
+         $selectedStatus = $request->input('status');
+         $selectedValidationStatus = $request->input('validation_status');
+     
+         // Appliquer les conditions de filtrage
+         if ($selectedYear) {
+             $cotisations->whereYear('date', $selectedYear);
          }
-     });
- }
-        return view('cotisations.index', compact('users', 'cotisations', 'years', 'selectedYear','selectedLetter','selectedStatus'));
-    }
+     
+         if ($selectedLetter) {
+             $cotisations->whereHas('user', function ($query) use ($selectedLetter) {
+                 $query->where('numero_devilla', 'like', $selectedLetter . '%');
+             });
+         }
+     
+         if ($selectedStatus) {
+             $cotisations->where('status', $selectedStatus);
+         }
+         
+         if ($selectedValidationStatus) {
+             $cotisations->where('statuValidation', $selectedValidationStatus);
+         }
+     
+         $cotisations = $cotisations->get();
+     
+         // Récupérer toutes les années disponibles pour le filtre par année
+         $years = Cotisation::distinct()->selectRaw('YEAR(date) AS year')->pluck('year');
+     
+         return view('cotisations.index', compact('users', 'cotisations', 'years', 'selectedYear', 'selectedLetter', 'selectedStatus', 'selectedValidationStatus'));
+     }
+     
 
 
-//dashboard-----------------------------------------------------------------------------------------------------------------------------
-public function showCurrentYearCotisations(Request $request)
-{
-    // Récupérer l'année en cours
-    $currentYear = Carbon::now()->year;
-
-    // Récupérer les cotisations en fonction du statut
-    if ($request->status == 'paid') {
-        $cotisations = Cotisation::whereYear('date', $currentYear)
-            ->where('status', 'payé')
-            ->with('user')
-            ->get();
-    } else if ($request->status == 'unpaid') {
-        $cotisations = Cotisation::whereYear('date', $currentYear)
-            ->where('status', 'non payé')
-            ->with('user')
-            ->get();
-    } else if ($request->status == 'partially_paid') {
-        $cotisations = Cotisation::whereYear('date', $currentYear)
-            ->where('status', 'partiellement payé')
-            ->with('user')
-            ->get();
-    } else {
-        // Si aucun statut n'est précisé, récupérer toutes les cotisations de l'année en cours
-        $cotisations = Cotisation::whereYear('date', $currentYear)
-            ->with('user')
-            ->get();
-    }
-
-    // Retourner la vue avec les cotisations filtrées et le statut sélectionné
-    return view('cotisations.showCurrentYearCotisations', compact('cotisations', 'request'));
-}
-
+ 
 //--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 //recouvrement------------------------------------------------------------------------------------------------------------------------
 public function recouvrement()
 {
-    $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, YEAR(cotisations.date) AS annee, cotisations.status , SUM(annees.prix_location - cotisations.montant) AS total_impaye')
-    ->join('users', 'cotisations.user_id', '=', 'users.id')
-    ->join('annees', 'annees.annee', '=', DB::raw('YEAR(cotisations.date)'))
-    ->groupBy('cotisations.user_id', 'annee', 'status', 'numero_devilla', 'users.name', 'users.lastname', 'cotisations.date')
-    ->get();
-
-
+    $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, YEAR(cotisations.date) AS annee, cotisations.status, SUM(annees.prix_location - cotisations.montant) AS total_impaye, SUM(CASE WHEN cotisations.status = "non payé" THEN annees.prix_location ELSE 0 END) AS total_prix_location, SUM(CASE WHEN cotisations.status = "payé" THEN cotisations.montant ELSE 0 END) AS total_paye')
+        ->join('users', 'cotisations.user_id', '=', 'users.id')
+        ->join('annees', 'annees.annee', '=', DB::raw('YEAR(cotisations.date)'))
+        ->groupBy('cotisations.user_id', 'annee', 'status', 'numero_devilla', 'users.name', 'users.lastname', 'cotisations.date')
+        ->get();
 
     // Récupérer la liste des utilisateurs pour lesquels des cotisations ont été effectuées
     $users = User::whereIn('id', $cotisations->pluck('user_id')->unique())->get();
@@ -130,8 +81,9 @@ public function recouvrement()
 
     return view('cotisations.recouvrement', compact('users', 'cotisations', 'annees'));
 }
-//--------------------------------------------------------------------------------------------------------------------------------------
 
+
+//_---------------
 
     /**
      * Show the form for creating a new resource.

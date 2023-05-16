@@ -18,10 +18,10 @@ class CreateChargesTable extends Migration
             $table->string('rubrique');
             $table->text('description');
             $table->float('montant');
-            $table->enum('type');
+            $table->String('type');
             $table->date('date');
             $table->text('recus')->nullable();
-            $table->enum('status');
+            $table->string('status');
             $table->timestamps();
         });
     }

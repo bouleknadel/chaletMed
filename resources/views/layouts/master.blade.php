@@ -9,17 +9,16 @@
     th {
         background: rgb(197, 224, 233) ;
     }
-    .filtre{
-        display : flex ;
-        justify-content: space-between ;
-        width : 100% ;
+    .filter {
+        font-size: 17px ;
+        font-weight: 600 ;
     }
+   
     table {
         max-width: 100% ;
      }
      .validé  td {
     background-color: rgba(200, 230, 201,0.8);
-
 }
 table {
         border-collapse: collapse;
