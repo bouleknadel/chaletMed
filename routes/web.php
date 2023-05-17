@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BilanController;
 
 Route::get('/', function () {
     return view('bienvenue');
@@ -19,6 +19,10 @@ Route::get('/cotisations/current-year/{status}', [App\Http\Controllers\Cotisatio
 Route::resource('cotisations', App\Http\Controllers\CotisationController::class)->middleware(['auth', 'admin']);
 Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
 Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
+
+
+Route::get('/bilan', [BilanController::class, 'calculateTotals'])->name('bilan.calculate')->middleware(['auth', 'admin']);
+
 
 Route::post('importer-excel', [App\Http\Controllers\ImporterExel::class, 'import'])->name('importer-excel.import')->middleware(['auth', 'admin']);
 

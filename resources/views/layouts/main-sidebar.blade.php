@@ -60,6 +60,13 @@
         </p>
       </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('bilan.calculate') }}" class="nav-link">
+        <i class="fas fa-chart-bar"></i>
+        <p class="ml-2">Bilan
+        </p>
+      </a>
+</li>
 
 
           <li class="nav-item">

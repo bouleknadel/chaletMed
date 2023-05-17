@@ -57,6 +57,8 @@ Modifier cotisation
                                 <option value="Jardinage" {{ $charge->rubrique == "Jardinage" ? "selected" : "" }}>Jardinage</option>
                                 <option value="Charges annexes" {{ $charge->rubrique == "Charges annexes" ? "selected" : "" }}>Charges annexes</option>
                                 <option value="Divers" {{ $charge->rubrique == "Divers" ? "selected" : "" }}>Divers</option>
+                                <option value="Salaire" {{ $charge->rubrique == "Salaire" ? "selected" : "" }}>Salaire</option>
+                                <option value="Plomberie" {{ $charge->rubrique == "Plomberie" ? "selected" : "" }}>Plomberie</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -75,7 +77,7 @@ Modifier cotisation
                                 <option value="charge_occasionnelle" {{ $charge->type == "charge_occasionnelle" ? "selected" : "" }}>Charge occasionnelle</option>
                                 <option value="charge_annuelle" {{ $charge->type == "charge_annuelle" ? "selected" : "" }}>Charge annuelle</option> <!-- Nouvelle option -->
                             </select>
-                            
+
                         </div>
                         <div class="form-group">
                             <label for="date">Date</label>

@@ -13,7 +13,7 @@
         font-size: 17px ;
         font-weight: 600 ;
     }
-   
+
     table {
         max-width: 100% ;
      }
@@ -82,6 +82,10 @@ table {
         background-color: #0069d9;
         border-color: #0062cc;
     }
+    .tablebilan td, .tablebilan th {
+        padding: 5px;
+        font-size: 14px;
+    }
 
 
 
@@ -107,7 +111,7 @@ table {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            @yield('titre')
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

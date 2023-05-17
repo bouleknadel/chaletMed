@@ -55,7 +55,10 @@ cree charge
                                 <option value="Jardinage">Jardinage</option>
                                 <option value="Charges annexes">Charges annexes</option>
                                 <option value="Divers">Divers</option>
+                                <option value="Salaire">Salaire</option>
+                                <option value="Plomberie">Plomberie</option>
                             </select>
+
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
@@ -73,7 +76,7 @@ cree charge
                                 <option value="charge_occasionnelle">Charge occasionnelle</option>
                                 <option value="charge_annuelle">Charge annuelle</option> <!-- Nouvelle option -->
                             </select>
-                            
+
                         </div>
                         <div class="form-group">
                             <label for="date">Date</label>
