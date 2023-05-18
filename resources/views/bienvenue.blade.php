@@ -31,7 +31,7 @@
 
   img.d-block.w-100 {
     width: auto;
-    height: 600px;
+    height: 500px;
   }
   .about-img img{
      width : 100vh ;
@@ -160,38 +160,40 @@
 
 <!------------------------------------ à propos ------------------------------------------>
 <section class="about section-padding" id="à propos">
-    <h1 class="text-center"><span class=" apropos-title"> À Propos</span></h1>
-  <div class="container">
-
-    <div class="row">
-
-      <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
-        <div class="about-text">
-          <h2>
-            Nous vous offrons des services  <br />exceptionnels
-            pour une expérience inoubliable.
-          </h2>
-          <p>
-            Situées aux portes de Ceuta, à Fnideq dans la région de Tanger-Tétouan, les villas de Chalet Med offrent une vue imprenable sur
-             la Méditerranée et disposent d'un accès direct à une plage de sable fin , pour des moments inoubliables en famille ou entre amis.
-             Le projet Chalet Med est le dernier projet immobilier en bord de mer de la région.
-          </p>
-          <p><i class="fa-solid fa-location-dot"></i>   <span>   Chalets Med, RJJW+X44, Fnideq</span> </p>
-          <p><i class="fa-solid fa-house"></i>   <span>  Villa</span> </p>
-          <p><i class="fa-solid fa-person-swimming"></i>   <span>   Plage de sable doré et fin</span> </p>
+    <h1 class="text-center"><span class="apropos-title"> À Propos</span></h1>
+    
+      <div class="row">
+        <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
+          <div class="about-text">
+            <h2>
+                Le syndic chalet Med, est une entité à but non lucratif, géré par des 
+                <br />bénévoles, qui sont à la source des propriétaires, des 41 chalets.
+            </h2>
+            <p>
+                Ils ont pour mission principale, le maintien, de la sécurité sur les quatre coins de la résidence, jour et nuit, par le biais d’une équipe de sécurité composée principalement d’ancien soldats de l’armée.
+                Les défis de tous les jours, en matière de jardinage, d’espace vert et de sécurité font partie du quotidien du bureau exécutif du syndic CHALET MED.
+                Cet espace, vient renforcer notre détermination, à veiller sur la valeur ajouter des chalets, par la gestion efficace, des cotisations des adhérents, sur tous les plans.
+                
+            </p>
+            <p><i class="fa-solid fa-location-dot"></i> <span>CHALET MED ROUTE DE SEBTA
+            </span></p>
+            <p><i class="fa-solid fa-house"></i> <span>Villa</span></p>
+            <p><i class="fa-solid fa-person-swimming"></i> <span>PLAGE SABLE DOREE AVEC CORNICHE
+            </span></p>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-12 col-12">
-        <div class="about-img">
-          <img alt="" class="img-fluid" src="images/img1.jpg" />
+        <div class="col-lg-4 col-md-12 col-12">
+          <div class="about-img">
+            <img alt="" class="img-fluid" src="images/img1.jpg" />
+          </div>
+          <div class="about-img">
+            <img alt="" class="img-fluid img2apropos" src="images/img3.jpg" />
+          </div>
         </div>
-        <div class="about-img">
-          <img alt="" class="img-fluid img2apropos" src="images/img3.jpg" />
-        </div>
-      </div>
+      
     </div>
-  </div>
-</section>
+  </section>
+  
 
   <!--video
   -->
@@ -308,8 +310,8 @@ Saisir et d'importer les reçus de paiement des charges fixes mensuelles et occa
       <div class="col-md-12">
         <div class="section-header text-center pb-5">
           <h2><span>Contactez-nous</span> </h2>
-          <p><i class="fa-solid fa-envelope"></i><span>*********@gmail.com</span></p>
-          <p><i class="fa-solid fa-phone"></i><span>+212 *********</span></p>
+         <!-- <p><i class="fa-solid fa-envelope"></i><span>*********@gmail.com</span></p> -->
+          <p style="margin-top: 18px ; font-size : 20px;"><i class="fa-solid fa-phone" ></i><span>+212 6 61 18 82 81</span></p>
         </div>
       </div>
     </div>
