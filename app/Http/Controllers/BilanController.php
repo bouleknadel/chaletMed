@@ -32,7 +32,7 @@ $anneePrecedente = Carbon::now()->subYear()->format('Y');
 $anneeMin = Cotisation::min(DB::raw('YEAR(date)'));
 
 if(!$anneeMin) {
-    $anneeMin = now()->formaat('Y');
+    $anneeMin = date('Y');
 }
 
 // Tableau pour stocker les montants non payés par année
