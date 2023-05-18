@@ -6,9 +6,7 @@
   @include('layouts.head')
 
   <style>
-    th {
-        background: rgb(197, 224, 233) ;
-    }
+
     .filter {
         font-size: 17px ;
         font-weight: 600 ;
@@ -20,6 +18,7 @@
      .validé  td {
     background-color: rgba(200, 230, 201,0.8);
 }
+
 table {
         border-collapse: collapse;
         width: 100%;
@@ -86,6 +85,36 @@ table {
         padding: 5px;
         font-size: 14px;
     }
+
+
+    .card-title {
+    font-size: 18px;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .btn.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 12px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-body .form-control {
+    font-size: 14px;
+    height: auto;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .modal-footer .btn {
+    font-size: 12px;
+  }
 
 
 

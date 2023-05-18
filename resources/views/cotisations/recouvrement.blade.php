@@ -48,7 +48,7 @@ Recouvrement
                         <th>{{ $annee }}</th>
                     @endforeach
 
-                   
+
                     <th class="bg-danger text-white" >Total Impayés</th>
 
                     <th class="bg-success text-white">Total Payés</th>
@@ -94,14 +94,14 @@ Recouvrement
 
 
                 @endforeach
-                <td class="font-weight-bold {{ $total > 0 ? 'text-danger' : 'text-success' }}">
+                <td class="font-weight-bold text-danger">
                     {{ $total + $totalPrixLocation }} DH
                 </td>
-                
+
                 <td class="font-weight-bold text-success">
                     {{ $totalPaye }} DH
                 </td>
-                
+
 
             </tr>
         @endforeach

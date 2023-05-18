@@ -22,110 +22,96 @@
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-
-            with font-awesome or any other icon font library -->
-            <li class="nav-item">
-  <a href="{{ route('dashboard') }}" class="nav-link">
-    <i class="nav-icon fas fa-tachometer-alt"></i>
-    <p class="ml-2" >Dashboard</p>
-  </a>
-</li>
-<li class="nav-item">
-  <a href="{{ route('users.index') }}" class="nav-link">
-    <i class="fas fa-users"></i>
-    <p class="ml-2">Liste des utilisateurs</p>
-  </a>
-</li>
-
-<li class="nav-item">
-  <a href="{{ route('cotisations.index') }}" class="nav-link">
-    <i class="fas fa-money-bill"></i>
-    <p class="ml-2">Cotisations</p>
-  </a>
-</li>
-<li class="nav-item">
-  <a href="{{ route('charges.index') }}" class="nav-link">
-    <i class="fas fa-file-invoice-dollar"></i>
-    <p class="ml-2">Charges</p>
-  </a>
-</li>
-<li class="nav-item">
-    <a href="{{ route('cotisations.recouvrement') }}" class="nav-link">
-        <i class="fas fa-file-invoice-dollar"></i>
-        <p class="ml-2">Synthese recouvrement
-        </p>
-      </a>
-</li>
-<li class="nav-item">
-    <a href="{{ route('bilan.calculate') }}" class="nav-link">
-        <i class="fas fa-chart-bar"></i>
-        <p class="ml-2">Bilan
-        </p>
-      </a>
-</li>
-
-
+     <!-- Sidebar Menu -->
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+      <li class="nav-item">
+        <a href="{{ route('dashboard') }}" class="nav-link">
+          <i class="nav-icon fas fa-tachometer-alt"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('users.index') }}" class="nav-link">
+          <i class="fas fa-users"></i>
+          <p>Liste des utilisateurs</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('cotisations.index') }}" class="nav-link">
+          <i class="fas fa-money-bill"></i>
+          <p>Cotisations</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('charges.index') }}" class="nav-link">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <p>Charges</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('cotisations.recouvrement') }}" class="nav-link">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <p>Synthèse recouvrement</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('bilan.calculate') }}" class="nav-link">
+          <i class="fas fa-chart-bar"></i>
+          <p>Bilan</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-edit"></i>
+          <p>Forms<i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-            Forms
-                <i class="fas fa-angle-left right "></i>
-              </p>
+            <a href="{{ route('users.create') }}" class="nav-link">
+              <i class="fas fa-user-plus"></i>
+              <p>Ajouter utilisateur</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('users.create') }}" class="nav-link">
-                 <i class="fas fa-user-plus"></i>
-                  <p class="ml-2">Ajouter utilsateur</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a  href="{{ route('cotisations.create') }}"  class="nav-link">
-                    <i class="fas fa-plus"></i>
-                  <p class="ml-2">Ajouter cotisation</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('charges.create') }}" class="nav-link">
-                    <i class="fas fa-plus"></i>
-                  <p class="ml-2">Ajouter charge</p>
-                </a>
-              </li>
-
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-cog"></i>
-              <p class="ml-2">
-                parametres
-                <i class="fas fa-angle-left right"></i>
-              </p>
+            <a href="{{ route('cotisations.create') }}" class="nav-link">
+              <i class="fas fa-plus"></i>
+              <p>Ajouter cotisation</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('annees.create') }}" class="nav-link">
-                    <i class="fas fa-plus"></i>
-                  <p class="ml-2">Ajouter une montant</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('annees.index') }}" class="nav-link">
-                    <i class="fas fa-list"></i>
-                  <p class="ml-2">Listes des montants</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          <!--=================================Exemples========================================-->
+          <li class="nav-item">
+            <a href="{{ route('charges.create') }}" class="nav-link">
+              <i class="fas fa-plus"></i>
+              <p>Ajouter charge</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-cog"></i>
+          <p>Paramètres<i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="{{ route('annees.create') }}" class="nav-link">
+              <i class="fas fa-plus"></i>
+              <p>Ajouter un montant</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('annees.index') }}" class="nav-link">
+              <i class="fas fa-list"></i>
+              <p>Liste des montants</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.sidebar-menu -->
 
-      </nav>
-      <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
   </aside>

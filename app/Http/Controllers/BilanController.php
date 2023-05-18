@@ -30,6 +30,11 @@ class BilanController extends Controller
 $anneePrecedente = Carbon::now()->subYear()->format('Y');
 // Obtenez l'année minimale à partir des enregistrements de la table Cotisation
 $anneeMin = Cotisation::min(DB::raw('YEAR(date)'));
+
+if(!$anneeMin) {
+    $anneeMin = now()->formaat('Y');
+}
+
 // Tableau pour stocker les montants non payés par année
 $montantsNonPayesParAnnee = [];
 // Calcul du montant non payé pour chaque année précédente
