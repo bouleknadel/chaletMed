@@ -38,21 +38,25 @@ body {
 	line-height: 0.3;
 	background: #fff;
 }
+.decon {
+    margin-left: 8px ;
+}
 
 
 /*main*/
 .carousel-inner h3 {
    color: #ffc107;
-   font-size: 38px;
+   font-size: 4em;
    font-weight: 600;
+   opacity: 0.9;
+   text-shadow: 1px 2px 5px rgba(0,0,0,0.6);
 }
-
 
 .section-padding {
 	padding: 100px 0;
 }
 .carousel-item {
-	height: 100vh;
+	
 	min-height: 300px;
 }
 .carousel-caption {
@@ -79,8 +83,6 @@ body {
 	height: 100%;
 	top: 0;
 	left: 0;
-	/*background: rgba(0, 0, 0, 0.6);*/
-    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6));
 	z-index: 1;
 }
 
@@ -139,7 +141,7 @@ body {
 /*video*/
 .video-container{
 	background-color: white;
-	height: 94vh ;
+	padding: 20px;
 }
 .video-title {
 	font-size: 30px;
@@ -148,15 +150,18 @@ body {
 }
 video {
 	margin-top: 20px;
+    width: 100vw ;
+    height: auto;
 }
 
 /*contact */
 .contact {
-	height: 60vh;
 	background-color:#ffc107 ;
+    padding: 15px;
+
 }
 .contact h2 {
-	margin-top: -22px;
+	margin-top: 30px;
 }
 .contact h2 span {
 	border-bottom: 2px solid white;
@@ -183,6 +188,7 @@ video {
 	.carousel-caption p {
 		width: 100%;
 	}
+
 	.card {
 		margin-bottom: 30px;
 	}
@@ -204,6 +210,7 @@ video {
 	.carousel-caption {
 		bottom: 125px;
 	}
+
 	.carousel-caption h5 {
 		font-size: 17px;
 	}
@@ -230,4 +237,25 @@ video {
 		transition: 0.7s ease;
 		min-height: 220px;
 	}
+
+    .video-container {
+        height: 480px;
+    }
+    h2.text-center.video-title {
+        margin-top: 35px;
+        width: 100%;
+        font-size: 30px;
+    }
+    section#contact {
+        height: 16vh;
+    }
+    footer.bg-dark.p-2.text-center {
+        height: 70px;
+    }
+    footer .p.text-white {
+        margin-top: 12px;
+    }
+
+
 }
+

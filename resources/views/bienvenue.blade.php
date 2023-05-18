@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,6 +15,31 @@
     />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
 
+    <style>
+       
+  
+
+ 
+
+  div#carouselExampleIndicators {
+    max-height: 600px;
+  }
+
+  .carousel-inner {
+    max-height: 600px;
+  }
+
+  img.d-block.w-100 {
+    width: auto;
+    height: 600px;
+  }
+  .about-img img{
+     width : 100vh ;
+     height: auto;
+  }
+
+
+    </style>
 
 
     </head>
@@ -54,8 +78,8 @@
 
             @if (Route::has('login'))
             @auth
-                <li class="nav-item"> <a href="{{ url('/home') }}" class="text-black btn btn-warning connexion">Dashboard</a></li>
-                <li class="nav-item"> <form action="{{ route('logout') }}" method="POST">@csrf<button type="submit" class="text-black btn btn-outline-warning">Déconnexion</button></form></li>
+                <li class="nav-item"> <a href="{{ url('/dashboard') }}" class="text-black btn btn-warning connexion">Dashboard</a></li>
+                <li class="nav-item"> <form action="{{ route('logout') }}" method="POST">@csrf<button type="submit" class="text-black btn btn-outline-warning decon">Déconnexion</button></form></li>
             @else
                 <li class="nav-item"> <a href="{{ route('login') }}" class="text-black btn btn-warning connexion">Connexion</a></li>
             @endauth
@@ -96,37 +120,20 @@
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img alt="..." class="d-block w-100" src="images/image1.jpg" />
-      <div class="carousel-caption">
-        <h5> Votre villa de rêve !!</h5>
-        <h3>CHALET MED,</h3>
-        <p>
-            la résidence qui répond à tous vos besoins .
-        </p>
-
+      <div class="carousel-caption mt-4">    
+        <h3>Syndic <br> <span >CHALET MED</span></h3>
       </div>
     </div>
     <div class="carousel-item">
       <img alt="..." class="d-block w-100" src="images/image2.jpg" />
-      <div class="carousel-caption">
-        <h5> Votre villa de rêve !!</h5>
-        <h3>CHALET MED,</h3>
-        <p>
-            la résidence qui répond à tous vos besoins.
-        </p>
-
-
+      <div class="carousel-caption mt-4">    
+        <h3>Syndic <br> <span>CHALET MED</span></h3>
       </div>
     </div>
     <div class="carousel-item">
       <img alt="..." class="d-block w-100" src="images/img3.jpg" />
-      <div class="carousel-caption">
-        <h5> Votre villa de rêve !!</h5>
-        <h3>CHALET MED,</h3>
-        <p>
-            la résidence qui répond à tous vos besoins.
-        </p>
-
-
+      <div class="carousel-caption mt-4">    
+        <h3>Syndic <br> <span>CHALET MED</span></h3>
       </div>
     </div>
   </div>
@@ -189,16 +196,14 @@
   <!--video
   -->
   <div class="video-container">
-    <div class="container">
       <div class="row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-12 mx-auto">
           <div class="embed-responsive embed-responsive-16by9">
             <h2 class="text-center video-title">Plongez dans l'ambiance paisible de notre résidence</h2>
             <video class="embed-responsive-item" src="images/video1.mp4" controls style="height: auto; width: 100%"></video>
           </div>
         </div>
       </div>
-    </div>
   </div>
 
 <!--------------------------------- services ---------------------------------->
