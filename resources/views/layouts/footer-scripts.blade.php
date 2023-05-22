@@ -32,5 +32,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ URL::asset('assets/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+
 @yield('scripts')
 

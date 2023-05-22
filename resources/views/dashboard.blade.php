@@ -25,6 +25,8 @@ Dashboard
 
 
 @section('content2')
+
+
  <!-- Main content -->
  <section class="content">
     <div class="container-fluid">
@@ -126,37 +128,201 @@ Dashboard
         <!-- ./col -->
       </div>
       <!-- /.row -->
-      <!-- Main row -->
       <div class="row">
-        <!-- Left col -->
-        <section class="col-lg-7 connectedSortable">
-          <!-- Custom tabs (Charts with tabs)-->
+        <div class="col-12">
+            <h4 class="text-center mb-4 mt-3 text-bold">Liste des membres du bureau exécutif</h4>
+        </div>
+    </div>
+    <div class="row">
+        @php
+        $membres = $membres->sortBy(function ($membre) {
+            switch ($membre->fonction) {
+                case 'Président':
+                    return 1;
+                case 'Premier vice président exécutif':
+                    return 2;
+                case 'Trésorier':
+                    return 3;
+                case 'Responsable juridique':
+                    return 4;
+                default:
+                    return 5;
+            }
+        });
+        @endphp
 
-          <!-- /.card -->
+        @foreach($membres as $membre)
+            <div class="col-md-2 col-sm-6 col-lg-3 mb-4">
+                <div class="card" style="width: 200px; height: 300px;">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center p-2">
+                        @if($membre->photo)
+                            <div>
+                                <a href="{{ asset('uploads/photos/'.$membre->photo) }}" download>
+                                    <img src="{{ asset('uploads/photos/'.$membre->photo) }}" class="img-fluid square-img mb-3" alt="Photo du membre">
+                                </a>
+                            </div>
+                        @else
+                            <div>
+                                <span class="text-muted">Pas de photo</span>
+                            </div>
+                        @endif
+                        <h5 class="card-title font-weight-bold text-center" style="font-size: 14px; margin: 0;">{{ $membre->nom }}</h5>
+                        <p class="card-text text-center" style="font-size: 12px;">{{ $membre->fonction }}</p>
 
-          <!-- DIRECT CHAT -->
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="mr-3" data-toggle="modal" data-target="#modal-{{ $membre->id }}">
+                                <i class="fas fa-edit"></i> <!-- Icône pour modifier -->
+                            </a>
 
-          <!--/.direct-chat -->
+                            <form action="{{ route('parametre.destroyBureau', $membre->id) }}" method="post" style="display: inline-block" class="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" style="font-size : 9px ;"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </div>
 
-          <!-- TO DO List -->
+                    </div>
+                </div>
+            </div>
 
-          <!-- /.card -->
-        </section>
-        <!-- /.Left col -->
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-lg-5 connectedSortable">
+            <!-- Modal -->
+            <div class="modal fade" id="modal-{{ $membre->id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel-{{ $membre->id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{ $membre->id }}">Modifier les informations</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ route('parametre.updateBureau', $membre->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="form-group">
+                                    <label for="photo">Photo :</label>
+                                    <input type="file" class="form-control" id="photo" name="photo">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nom">Nom :</label>
+                                    <input type="text" class="form-control" id="nom" name="nom" value="{{ $membre->nom }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fonction">Fonction :</label>
+                                    <select class="form-control" id="fonction" name="fonction">
+                                        <option value="Président" {{ $membre->fonction == 'Président' ? 'selected' : '' }}>Président</option>
+                                        <option value="Premier vice président exécutif" {{ $membre->fonction == 'Premier vice président exécutif' ? 'selected' : '' }}>Premier vice président exécutif</option>
+                                        <option value="Trésorier" {{ $membre->fonction == 'Trésorier' ? 'selected' : '' }}>Trésorier</option>
+                                        <option value="Responsable juridique" {{ $membre->fonction == 'Responsable juridique' ? 'selected' : '' }}>Responsable juridique</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-center mb-4 mt-3 text-bold">Liste des agents de sécurité</h4>
+        </div>
+    </div>
+    <div class="row">
+        @foreach($agentsSecurite as $agent)
+            <div class="col-md-2 col-sm-6 col-lg-3 mb-4">
+                <div class="card" style="width: 200px; height: 300px;">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center p-2">
+                        @if($agent->photo)
+                            <div>
+                                <a href="{{ asset('uploads/photos/'.$agent->photo) }}" download>
+                                    <img src="{{ asset('uploads/photos/'.$agent->photo) }}" class="img-fluid square-img mb-3" alt="Photo de l'agent de sécurité">
+                                </a>
+                            </div>
+                        @else
+                            <div>
+                                <span class="text-muted">Pas de photo</span>
+                            </div>
+                        @endif
+                        <h5 class="card-title font-weight-bold text-center" style="font-size: 14px; margin: 0;">{{ $agent->nom }}</h5>
+                        <p class="card-text text-center" style="font-size: 12px;">{{ $agent->fonction }}</p>
+
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="mr-3" data-toggle="modal" data-target="#modal-{{ $agent->id }}">
+                                <i class="fas fa-edit"></i> <!-- Icône pour modifier -->
+                            </a>
+
+                            <form action="{{ route('parametre.destroyBureau', $agent->id) }}" method="post" style="display: inline-block" class="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" style="font-size : 9px ;"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal-{{ $agent->id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel-{{ $agent->id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{ $agent->id }}">Modifier les informations</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ route('parametre.updateBureau', $agent->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="form-group">
+                                    <label for="photo">Photo :</label>
+                                    <input type="file" class="form-control" id="photo" name="photo">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nom">Nom :</label>
+                                    <input type="text" class="form-control" id="nom" name="nom" value="{{ $agent->nom }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fonction">Fonction :</label>
+                                    <select class="form-control" id="fonction" name="fonction">
+                                        <option value="Chef de sécurité" {{ $agent->fonction == 'Chef de sécurité' ? 'selected' : '' }}>Chef de sécurité</option>
+                                        <option value="Agent jardinier" {{ $agent->fonction == 'Agent jardinier' ? 'selected' : '' }}>Agent jardinier</option>
+                                        <option value="Agent de sécurité" {{ $agent->fonction == 'Agent de sécurité' ? 'selected' : '' }}>Agent de sécurité</option>
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
 
-          <!-- /.card -->
 
+      <!-- Main row -->
 
-          <!-- /.card -->
-
-
-          <!-- /.card -->
-        </section>
-        <!-- right col -->
-      </div>
       <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
   </section>

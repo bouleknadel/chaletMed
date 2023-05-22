@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cotisation;
 use App\Models\User;
 use App\Models\Annee;
+use App\Models\Bureau;
 
 
 use Illuminate\Http\Request;
@@ -45,8 +46,13 @@ $pourcentage_paye = $total_cotisations > 0 ? round(($cotisations_payees / $total
 $pourcentage_partiellement_paye = $total_cotisations > 0 ? round(($cotisations_partiellement_payees / $total_cotisations) * 100, 2) : 0;
 $pourcentage_non_paye = 100 - $pourcentage_paye - $pourcentage_partiellement_paye;
 
+$membres = Bureau::whereIn('fonction', ['Président', 'Premier vice président exécutif', 'Trésorier', 'Responsable juridique'])->get();
+$agentsSecurite = Bureau::whereIn('fonction', ['Chef de sécurité', 'Agent jadinier', 'Agent de sécurité'])->get();
+
+
     // Passage des variables à la vue
-    return view('dashboard', compact('total_users', 'total_adherents' , 'pourcentage_paye', 'pourcentage_non_paye','pourcentage_partiellement_paye','chiffre_affaire_payé','chiffre_affaire_non_payé'));
+    return view('dashboard', compact('total_users', 'total_adherents' , 'pourcentage_paye', 'pourcentage_non_paye',
+    'pourcentage_partiellement_paye','chiffre_affaire_payé','chiffre_affaire_non_payé','membres','agentsSecurite'));
 }
 }
 

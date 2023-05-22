@@ -36,8 +36,9 @@ Recouvrement
               <h3 class="card-title">Table des cotisations</h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped" >
+            <div class="card-body ">
+                <div class="table-responsive">
+              <table id="example1" class="table table-bordered table-striped " >
                 <thead >
                 <tr>
                     <th>N° du chalet</th>
@@ -107,6 +108,7 @@ Recouvrement
         @endforeach
                 </tbody>
               </table>
+                </div>
             </div>
             <!-- /.card-body -->
           </div>

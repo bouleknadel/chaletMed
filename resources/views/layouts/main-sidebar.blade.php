@@ -101,6 +101,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ route('parametre.bureau') }}" class="nav-link">
+              <i class="fas fa-plus"></i>
+              <p>Ajouter membre bureau</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ route('annees.index') }}" class="nav-link">
               <i class="fas fa-list"></i>
               <p>Liste des montants</p>

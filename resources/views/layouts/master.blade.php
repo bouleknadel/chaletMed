@@ -115,8 +115,19 @@ table {
   .modal-footer .btn {
     font-size: 12px;
   }
-
-
+  .table-responsive {
+  overflow-x: auto;
+}
+.square-img {
+    width : 130px ;
+    height: auto ;
+}
+.card-body {
+    padding: 30px ;
+}
+.card {
+    padding: 0 ;
+}
 
 
   </style>
