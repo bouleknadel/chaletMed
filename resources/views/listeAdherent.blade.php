@@ -56,6 +56,7 @@ Uitlisateurs
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                    <th>Rôle</th>
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>N° du chalet</th>
@@ -69,6 +70,7 @@ Uitlisateurs
                 <tbody>
                     @foreach ($users as $user)
                     <tr>
+                        <td>{{ $user->role }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->lastname }}</td>
                         <td>{{ $user->numero_devilla }}</td>
@@ -115,6 +117,17 @@ Uitlisateurs
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="role{{ $user->role}}">Rôle</label>
+                        <select class="form-control" id="role{{ $user->role }}" name="role" value="{{ $user->role }}">
+                            <option value="admin">Admin</option>
+                            <option value="user">Utilisateur</option>
+                            <option value="syndic">Syndic</option>
+                            <!-- Ajoutez les autres options de rôle ici -->
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="name{{ $user->id }}">Nom</label>
                         <input type="text" name="name" class="form-control" id="name{{ $user->id }}" value="{{ $user->name }}" placeholder="Nom">

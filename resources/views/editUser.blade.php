@@ -49,6 +49,15 @@ Modifier Utilisateur
                     @method('PUT')
                     <div class="card-body">
                         <div class="form-group">
+                            <label for="role">Rôle</label>
+                            <select class="form-control" id="role" name="role" value="{{ $user->role }}">
+                                <option value="admin">Admin</option>
+                                <option value="user">Utilisateur</option>
+                                <option value="syndic">Syndic</option>
+                                <!-- Ajoutez les autres options de rôle ici -->
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="name">Nom</label>
                             <input type="text" name="name" class="form-control" id="name" value="{{ $user->name }}" placeholder="Nom">
                         </div>

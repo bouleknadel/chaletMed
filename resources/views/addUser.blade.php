@@ -50,6 +50,16 @@ Ajouter Utilisateur
           <form method="post" action="{{ route('users.store') }}">
             @csrf
             <div class="card-body">
+
+              <div class="form-group">
+                <label for="role">Rôle</label>
+                <select class="form-control" id="role" name="role">
+                    <option value="admin">Admin</option>
+                    <option value="user">Utilisateur</option>
+                    <option value="syndic">Syndic</option>
+                    <!-- Ajoutez les autres options de rôle ici -->
+                </select>
+              </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Nom</label>
                 <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter email">

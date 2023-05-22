@@ -49,6 +49,7 @@ class UserController extends Controller
         'numero_de_telephone2' => 'nullable|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8',
+        'role' => 'string',
     ]);
 
     // Création d'un nouvel utilisateur avec les données du formulaire
@@ -59,7 +60,9 @@ class UserController extends Controller
         'numero_de_telephone' => $validatedData['numero_de_telephone'],
         'numero_de_telephone2' => $validatedData['numero_de_telephone2'],
         'email' => $validatedData['email'],
+        'role' => $validatedData['role'],
         'password' => Hash::make($validatedData['password']),
+
     ]);
 
     // Redirection vers la page de l'utilisateur nouvellement créé
@@ -106,6 +109,7 @@ class UserController extends Controller
         'numero_de_telephone2' => 'max:255',
         'email' => 'required|email|max:255|unique:users,email,'.$id,
         'password' => 'nullable|min:8|max:255',
+        'role' => 'string',
     ]);
 
     $user = User::findOrFail($id);
@@ -116,6 +120,10 @@ class UserController extends Controller
     $user->numero_de_telephone = $validatedData['numero_de_telephone'];
     $user->numero_de_telephone2 = $validatedData['numero_de_telephone2'];
     $user->email = $validatedData['email'];
+    $user->role = $validatedData['role'];
+
+
+
 
     if (!empty($validatedData['password'])) {
         $user->password = Hash::make($validatedData['password']);
