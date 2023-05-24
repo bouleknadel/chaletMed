@@ -6,6 +6,7 @@ use App\Models\Cotisation;
 use App\Models\User;
 use App\Models\Annee;
 use App\Models\Bureau;
+use App\Models\Charge;
 
 
 use Illuminate\Http\Request;
@@ -40,6 +41,11 @@ public function index()
     $somme_cotisations_impayees = Cotisation::where('status', 'partiellement payé')->whereYear('date', $current_year)->sum('montant');
     $chiffre_affaire_non_payé = ($prix_location * Cotisation::where('status', 'partiellement payé')->whereYear('date', $current_year)->count()) - $somme_cotisations_impayees;
 
+ // Calcul des montants de chaque rubrique de charge dans l'année actuelle
+ $rubriques_charges = Charge::whereYear('date', $current_year)->get()->groupBy('rubrique')->map(function ($charges) {
+    return $charges->sum('montant');
+});
+
 
    // Calculs pourcentage payé, partiellement payé et non payé
 $pourcentage_paye = $total_cotisations > 0 ? round(($cotisations_payees / $total_cotisations) * 100, 2) : 0;
@@ -52,7 +58,7 @@ $agentsSecurite = Bureau::whereIn('fonction', ['Chef de sécurité', 'Agent jadi
 
     // Passage des variables à la vue
     return view('dashboard', compact('total_users', 'total_adherents' , 'pourcentage_paye', 'pourcentage_non_paye',
-    'pourcentage_partiellement_paye','chiffre_affaire_payé','chiffre_affaire_non_payé','membres','agentsSecurite'));
+    'pourcentage_partiellement_paye','chiffre_affaire_payé','chiffre_affaire_non_payé','membres','agentsSecurite','rubriques_charges'));
 }
 }
 

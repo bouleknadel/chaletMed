@@ -51,6 +51,9 @@ Cotisations
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                         <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addCotisationModal" style="margin-bottom : 10px ;">
+                    Ajouter cotisation
+                  </button>
                         <!--filter les annes-->
 
                         <div class="col-md-12 ">
@@ -67,7 +70,7 @@ Cotisations
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="select-letter">N° du chalet :</label>
@@ -78,7 +81,7 @@ Cotisations
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="select-status">Statut de paiement :</label>
@@ -90,7 +93,7 @@ Cotisations
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="select-validation-status">Statut de validation :</label>
@@ -102,16 +105,16 @@ Cotisations
                                         </div>
                                     </div>
                                 </div>
-                        
+
                                 <div class="row justify-content-center mt-2 ff">
                                     <div class="col-md-2">
                                         <button type="submit" class="btn btn-primary btn-block" style="font-size: 17px; font-weight : 600 ;">Filtrer</button>
                                     </div>
                                 </div>
-                                
+
                             </form>
                         </div>
-                        
+
 
 
 
@@ -279,6 +282,62 @@ Cotisations
 
                                                         </section>
 
+<!-- Modal -->
+<div class="modal fade" id="addCotisationModal" tabindex="-1" role="dialog" aria-labelledby="addCotisationLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCotisationLabel">Ajouter cotisation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" action="{{ route('cotisations.store') }}" enctype="multipart/form-data">
+            <div class="modal-body">
+
+                @csrf
+
+                    <div class="form-group">
+                        <label for="user_id">Utilisateur</label>
+                        <select name="user_id" id="user_id" class="form-control" required>
+                            <option value="">Sélectionner un utilisateur</option>
+                            @foreach($users as $user)
+                                @if($user->role == 'user')
+                                    <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+        <div class="form-group">
+            <label for="montant">Montant <span style="font-size: 14px ; "> (en DH)</span></label>
+            <input type="number" name="montant" id="montant" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="recu_paiement">Reçu de paiement</label>
+            <input type="file" name="recu_paiement" id="recu_paiement" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="status">Statut</label>
+            <select name="status" id="status" class="form-control" required>
+                <option value="non payé">Non payé</option>
+                <option value="partiellement payé">Partiellement payé</option>
+                <option value="payé">Payé</option>
+            </select>
+        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+              </div>
+            </form>
+          </div>
+
+      </div>
+</div>
 @endsection
 
 

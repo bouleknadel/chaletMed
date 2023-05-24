@@ -47,12 +47,16 @@ Uitlisateurs
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
+
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Table des adherent</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addUserModal" style="margin-bottom: 10px;">
+                    <i class="fas fa-user-plus"></i> Ajouter Utilisateur
+                  </button>
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -103,6 +107,72 @@ Uitlisateurs
   </section>
   <!-- /.content -->
   <!-- Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addUserModalLabel">Ajouter Utilisateur</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" action="{{ route('users.store') }}">
+          <div class="modal-body">
+            <!-- Contenu du formulaire d'ajout d'utilisateur -->
+            @csrf
+
+
+              <div class="form-group">
+                <label for="role">Rôle</label>
+                <select class="form-control" id="role" name="role">
+                    <option value="admin">Admin</option>
+                    <option value="user">Utilisateur</option>
+                    <option value="syndic">Syndic</option>
+                    <!-- Ajoutez les autres options de rôle ici -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nom</label>
+                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">lastname</label>
+                <input type="text" class="form-control" name="lastname" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Numero chalet</label>
+                <input type="text"  name="numero_devilla" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">numero_de_telephone</label>
+                <input type="text" class="form-control" name="numero_de_telephone" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">numero_de_telephone2</label>
+                <input type="text" class="form-control" name="numero_de_telephone2" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control"name="email" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+
+            <!-- /.card-body -->
+            <!-- ... -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 @foreach ($users as $user)
 <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">

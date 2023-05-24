@@ -51,6 +51,9 @@ Charges
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addChargeModal" style="margin-bottom : 10px ;">
+                    Ajouter charge
+                  </button>
               <table id="example1" class="table table-bordered table-striped" >
                 <thead >
                   <tr>
@@ -93,7 +96,7 @@ Charges
                       </td>
 
                       <td>
-                        <a href="{{ route('charges.edit', $charge->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editChargeModal{{ $charge->id }}"><i class="fas fa-edit"></i></button>
                         <form action="{{ route('charges.destroy', $charge->id) }}" method="post" style="display: inline-block" class="mt-1">
                           @csrf
                           @method('DELETE')
@@ -116,6 +119,149 @@ Charges
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+  <!-- Modal de modification -->
+@foreach ($charges as $charge)
+<div class="modal fade" id="editChargeModal{{ $charge->id }}" tabindex="-1" role="dialog" aria-labelledby="editChargeLabel{{ $charge->id }}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editChargeLabel{{ $charge->id }}">Modifier la charge</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{{ route('charges.update', $charge->id) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="modal-body">
+          <!-- Insérez les champs du formulaire de modification ici -->
+          <div class="form-group">
+            <label for="rubrique">Rubrique</label>
+            <select name="rubrique" id="rubrique" class="form-control" required>
+                <option value="">Sélectionner une rubrique</option>
+                <option value="Sécurité" {{ $charge->rubrique == "Sécurité" ? "selected" : "" }}>Sécurité</option>
+                <option value="Jardinage" {{ $charge->rubrique == "Jardinage" ? "selected" : "" }}>Jardinage</option>
+                <option value="Charges annexes" {{ $charge->rubrique == "Charges annexes" ? "selected" : "" }}>Charges annexes</option>
+                <option value="Divers" {{ $charge->rubrique == "Divers" ? "selected" : "" }}>Divers</option>
+                <option value="Salaire" {{ $charge->rubrique == "Salaire" ? "selected" : "" }}>Salaire</option>
+                <option value="Plomberie" {{ $charge->rubrique == "Plomberie" ? "selected" : "" }}>Plomberie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name="description" id="description" class="form-control" value="{{ $charge->description }}" required>
+        </div>
+        <div class="form-group">
+            <label for="montant">Montant</label>
+            <input type="number" name="montant" id="montant" class="form-control" value="{{ $charge->montant }}" required>
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select name="type" id="type" class="form-control" required>
+                <option value="">Sélectionner un type</option>
+                <option value="charge_fixe_mensuelle" {{ $charge->type == "charge_fixe_mensuelle" ? "selected" : "" }}>Charge fixe mensuelle</option>
+                <option value="charge_occasionnelle" {{ $charge->type == "charge_occasionnelle" ? "selected" : "" }}>Charge occasionnelle</option>
+                <option value="charge_annuelle" {{ $charge->type == "charge_annuelle" ? "selected" : "" }}>Charge annuelle</option> <!-- Nouvelle option -->
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date" class="form-control" value="{{ $charge->date }}" required>
+        </div>
+        <div class="form-group">
+            <label for="recus">Reçus</label>
+            <input type="file" name="recus" id="recus" class="form-control-file">
+        </div>
+        <div class="form-group">
+            <label for="status">Statut</label>
+            <select name="status" id="status" class="form-control" required>
+                <option value="non paye" {{ $charge->status == "non paye" ? "selected" : "" }}>Non payé</option>
+                <option value="paye" {{ $charge->status == "paye" ? "selected" : "" }}>Payé</option>
+                    </select>
+                    </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary">Modifier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endforeach
+
+  <!-- Modal -->
+<div class="modal fade" id="addChargeModal" tabindex="-1" role="dialog" aria-labelledby="addChargeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addChargeLabel">Ajouter charge</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" action="{{ route('charges.store') }}" enctype="multipart/form-data">
+            <div class="modal-body">
+
+                @csrf
+
+                        <div class="form-group">
+                            <label for="rubrique">Rubrique</label>
+                            <select name="rubrique" id="rubrique" class="form-control" required>
+                                <option value="">Sélectionner une rubrique</option>
+                                <option value="Sécurité">Sécurité</option>
+                                <option value="Jardinage">Jardinage</option>
+                                <option value="Charges annexes">Charges annexes</option>
+                                <option value="Divers">Divers</option>
+                                <option value="Salaire">Salaire</option>
+                                <option value="Plomberie">Plomberie</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" name="description" id="description" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="montant">Montant</label>
+                            <input type="number" name="montant" id="montant" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select name="type" id="type" class="form-control" required>
+                                <option value="">Sélectionner un type</option>
+                                <option value="charge_fixe_mensuelle">Charge fixe mensuelle</option>
+                                <option value="charge_occasionnelle">Charge occasionnelle</option>
+                                <option value="charge_annuelle">Charge annuelle</option> <!-- Nouvelle option -->
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" name="date" id="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="recus">Reçus</label>
+                            <input type="file" name="recus" id="recus" class="form-control-file">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Statut</label>
+                            <select name="status" id="status" class="form-control" required>
+                                <option value="non paye">Non payé</option>
+                                <option value="paye">Payé</option>
+                            </select>
+                        </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+              </div>
+            </form>
+          </div>
+
+      </div>
+</div>
 
 @endsection
 

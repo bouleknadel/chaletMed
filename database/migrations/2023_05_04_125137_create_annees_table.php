@@ -20,7 +20,6 @@ class CreateAnneesTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

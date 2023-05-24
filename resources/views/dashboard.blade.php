@@ -128,6 +128,68 @@ Dashboard
         <!-- ./col -->
       </div>
       <!-- /.row -->
+
+      <div class="row">
+        <div class="col-12">
+            <h4 class="text-center mb-4 mt-3 text-bold">Chiffre d'affaires des charges par catégorie</h4>
+        </div>
+    </div>
+    <!-- Affichage des chiffres d'affaires des charges par catégorie -->
+
+
+<!-- Affichage des chiffres d'affaires des charges par catégorie -->
+<div class="row">
+    @php
+ $total_charges = 0 ;
+    @endphp
+    @foreach ($rubriques_charges as $rubrique => $montant)
+        <div class="col-lg-4 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $montant }} DH</h3>
+                    <p>{{ $rubrique }}</p>
+                </div>
+                <div class="icon">
+                    @if ($rubrique === 'Sécurité')
+                        <i class="fas fa-shield-alt"></i>
+                    @elseif ($rubrique === 'Jardinage')
+                        <i class="fas fa-tree"></i>
+                    @elseif ($rubrique === 'Charges annexes')
+                        <i class="fas fa-cogs"></i>
+                    @elseif ($rubrique === 'Divers')
+                        <i class="fas fa-ellipsis-h"></i>
+                    @elseif ($rubrique === 'Salaire')
+                        <i class="fas fa-money-bill"></i>
+                    @elseif ($rubrique === 'Plomberie')
+                        <i class="fas fa-faucet"></i>
+                    @else
+                        <i class="fas fa-question-circle"></i>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @php
+        $total_charges +=  $montant ;
+           @endphp
+    @endforeach
+
+    <!-- Card pour afficher le total avec une icône -->
+    <div class="col-lg-4 col-6">
+        <div class="small-box  total-card" style="background-color: #f39c12;">
+            <div class="inner">
+                <h3>{{ $total_charges }} DH</h3>
+                <p>Total des charges</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calculator"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
       <div class="row">
         <div class="col-12">
             <h4 class="text-center mb-4 mt-3 text-bold">Liste des membres du bureau exécutif</h4>

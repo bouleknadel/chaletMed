@@ -64,32 +64,6 @@
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-edit"></i>
-          <p>Forms<i class="fas fa-angle-left right"></i></p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{ route('users.create') }}" class="nav-link">
-              <i class="fas fa-user-plus"></i>
-              <p>Ajouter utilisateur</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('cotisations.create') }}" class="nav-link">
-              <i class="fas fa-plus"></i>
-              <p>Ajouter cotisation</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('charges.create') }}" class="nav-link">
-              <i class="fas fa-plus"></i>
-              <p>Ajouter charge</p>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
           <i class="fas fa-cog"></i>
           <p>Paramètres<i class="fas fa-angle-left right"></i></p>
         </a>
