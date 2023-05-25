@@ -75,7 +75,7 @@ cree cotisation
         <input type="number" name="montant" id="montant" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="date">Date</label>
+        <label for="date">Date de paiement</label>
         <input type="date" name="date" id="date" class="form-control" required>
     </div>
     <div class="form-group">

@@ -38,19 +38,20 @@ class AnneeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'annee' => 'required|digits:4|unique:annees,annee',
-            'prix_location' => 'required|numeric|min:0',
-        ]);
+{
+    $request->validate([
+        'annee' => 'required|digits:4|unique:annees,annee',
+        'prix_location' => 'required|numeric|min:0',
+    ]);
 
-        $annee = new Annee();
-        $annee->annee = $request->annee;
-        $annee->prix_location = $request->prix_location;
-        $annee->save();
+    $annee = new Annee();
+    $annee->annee = substr($request->annee, 0, 4); // Récupère uniquement les 4 premiers chiffres de l'année
+    $annee->prix_location = $request->prix_location;
+    $annee->save();
 
-        return redirect()->route('annees.index')->with('success', 'Année ajoutée avec succès.');
-    }
+    return redirect()->route('annees.index')->with('success', 'Année ajoutée avec succès.');
+}
+
 
 
     /**

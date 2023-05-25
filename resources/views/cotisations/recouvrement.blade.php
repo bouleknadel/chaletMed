@@ -46,7 +46,10 @@ Recouvrement
                     <th>Prénom</th>
 
                     @foreach ($annees as $annee)
-                        <th>{{ $annee }}</th>
+                    @php
+                    $anneeplus = $annee + 1 ;
+                 @endphp
+                        <th>{{ $annee }}/{{$anneeplus}}</th>
                     @endforeach
 
 

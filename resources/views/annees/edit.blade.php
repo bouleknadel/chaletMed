@@ -55,13 +55,25 @@ Modifier prix_location
                     <div class="card-body">
                         <div class="form-group">
                             <label for="annee">Année (AAAA)</label>
-                            <input type="number" class="form-control" id="annee" name="annee" placeholder="Entrez l'année" value="{{ $annee->annee }}">
-                            <script>
-                                document.querySelector("input[type=number]")
-                                    .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
-                            </script>
-
+                            <select class="form-control" id="annee" name="annee">
+                                @php
+                                $currentYear = date('Y');
+                                $nextYear = $currentYear + 1;
+                                @endphp
+                                @for ($year = 2018; $year <= $currentYear; $year++)
+                                @php
+                                $yearRange = $year . '/' . ($year + 1);
+                                @endphp
+                                <option value="{{ $yearRange }}" {{ $annee->annee == $yearRange ? 'selected' : '' }}>
+                                    {{ $yearRange }}
+                                </option>
+                                @endfor
+                                <option value="{{ $currentYear }}/{{ $nextYear }}" {{ $annee->annee == $currentYear.'/'.$nextYear ? 'selected' : '' }}>
+                                    {{ $currentYear }}/{{ $nextYear }}
+                                </option>
+                            </select>
                         </div>
+
                         <div class="form-group">
                             <label for="prix_location">prix_location (DH)</label>
                             <input type="text" class="form-control" id="prix_location" name="prix_location" placeholder="Entrez le prix_location" value="{{ $annee->prix_location }}">

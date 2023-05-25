@@ -36,39 +36,46 @@ class ChargeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // Valider les données soumises par le formulaire
-        $validatedData = $request->validate([
-            'rubrique' => 'required',
-            'description' => 'required',
-            'montant' => 'required|numeric',
-            'type' => 'required',
-            'date' => 'required|date',
-            'status' => 'required',
-        ]);
+{
+    // Valider les données soumises par le formulaire
+    $validatedData = $request->validate([
+        'rubrique' => 'required',
+        'description' => 'required',
+        'montant' => 'required|numeric',
+        'type' => 'required',
+        'date' => 'required|date',
+        'status' => 'required',
+        'annee' => 'required',
+    ]);
 
-        // Stocker les données dans la base de données
-        $charge = new Charge();
-        $charge->rubrique = $validatedData['rubrique'];
-        $charge->description = $validatedData['description'];
-        $charge->montant = $validatedData['montant'];
-        $charge->type = $validatedData['type'];
-        $charge->date = $validatedData['date'];
-        $charge->status = $validatedData['status'];
+    // Stocker les données dans la base de données
+    $charge = new Charge();
+    $charge->rubrique = $validatedData['rubrique'];
+    $charge->description = $validatedData['description'];
+    $charge->montant = $validatedData['montant'];
+    $charge->type = $validatedData['type'];
+    $charge->date = $validatedData['date'];
+    $charge->status = $validatedData['status'];
 
-        if ($request->hasFile('recus')) {
-            $file = $request->file('recus');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            // Enregistrer le fichier dans le stockage public
-            $file->move('uploads/charges/',$fileName) ;
-            // Enregistrer le chemin d'accès au fichier dans la base de données
-            $charge->recus = $fileName;
-        }
+    // Obtenir la première année à partir de la valeur de l'input "annee"
+    $annee = $validatedData['annee'];
+    $premiereAnnee = substr($annee, 0, 4);
+    $charge->annee = $premiereAnnee;
 
-        $charge->save();
-
-        return back()->with('success', '  La charge a été ajoutée avec succès.');
+    if ($request->hasFile('recus')) {
+        $file = $request->file('recus');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        // Enregistrer le fichier dans le stockage public
+        $file->move('uploads/charges/', $fileName);
+        // Enregistrer le chemin d'accès au fichier dans la base de données
+        $charge->recus = $fileName;
     }
+
+    $charge->save();
+
+    return back()->with('success', 'La charge a été ajoutée avec succès.');
+}
+
 
 
     /**
@@ -103,41 +110,48 @@ class ChargeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-{
-    // Valider les données soumises par le formulaire
-    $validatedData = $request->validate([
-        'rubrique' => 'required',
-        'description' => 'required',
-        'montant' => 'required|numeric',
-        'type' => 'required',
-        'date' => 'required|date',
-        'status' => 'required',
-    ]);
+    {
+        // Valider les données soumises par le formulaire
+        $validatedData = $request->validate([
+            'rubrique' => 'required',
+            'description' => 'required',
+            'montant' => 'required|numeric',
+            'type' => 'required',
+            'date' => 'required|date',
+            'status' => 'required',
+            'annee' => 'required',
+        ]);
 
-    // Récupérer la charge à mettre à jour depuis la base de données
-    $charge = Charge::findOrFail($id);
+        // Récupérer la charge à mettre à jour depuis la base de données
+        $charge = Charge::findOrFail($id);
 
-    // Mettre à jour les données de la charge
-    $charge->rubrique = $validatedData['rubrique'];
-    $charge->description = $validatedData['description'];
-    $charge->montant = $validatedData['montant'];
-    $charge->type = $validatedData['type'];
-    $charge->date = $validatedData['date'];
-    $charge->status = $validatedData['status'];
+        // Mettre à jour les données de la charge
+        $charge->rubrique = $validatedData['rubrique'];
+        $charge->description = $validatedData['description'];
+        $charge->montant = $validatedData['montant'];
+        $charge->type = $validatedData['type'];
+        $charge->date = $validatedData['date'];
+        $charge->status = $validatedData['status'];
 
-    if ($request->hasFile('recus')) {
-        $file = $request->file('recus');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        // Enregistrer le fichier dans le stockage public
-        $file->move('uploads/charges/',$fileName) ;
-        // Enregistrer le chemin d'accès au fichier dans la base de données
-        $charge->recus = $fileName;
+        // Obtenir la première année à partir de la valeur de l'input "annee"
+        $annee = $validatedData['annee'];
+        $premiereAnnee = substr($annee, 0, 4);
+        $charge->annee = $premiereAnnee;
+
+        if ($request->hasFile('recus')) {
+            $file = $request->file('recus');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            // Enregistrer le fichier dans le stockage public
+            $file->move('uploads/charges/', $fileName);
+            // Enregistrer le chemin d'accès au fichier dans la base de données
+            $charge->recus = $fileName;
+        }
+
+        $charge->save();
+
+        return redirect()->route('charges.index')->with('successedit', 'La charge a été mise à jour avec succès.');
     }
 
-    $charge->save();
-
-    return redirect()->route('charges.index')->with('successedit', '  La charge a été mise à jour avec succès.');
-}
 
 
     /**

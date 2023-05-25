@@ -54,13 +54,20 @@ cree prix_location
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="annee">Année (AAAA)</label>
-                    <input type="number" class="form-control" id="annee" name="annee" placeholder="Entrez l'année">
-                <script>
-                 document.querySelector("input[type=number]")
-              .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
-             </script>
-
+                    <label for="annee">Année</label>
+                    <select name="annee" id="annee" class="form-control" required>
+                        @php
+                            $currentYear = date('Y');
+                            $nextYear = $currentYear + 1;
+                        @endphp
+                        @for ($year = 2018; $year < $currentYear; $year++)
+                            @php
+                                $yearRange = $year . '/' . ($year + 1);
+                            @endphp
+                            <option value="{{ $yearRange }}">{{ $yearRange }}</option>
+                        @endfor
+                        <option value="{{ $currentYear }}/{{ $nextYear }}" selected>{{ $currentYear }}/{{ $nextYear }}</option>
+                    </select>
                 </div>
             <div class="form-group">
                 <label for="prix_location">prix_location (DH)</label>

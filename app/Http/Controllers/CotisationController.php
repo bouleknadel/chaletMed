@@ -24,52 +24,62 @@ class CotisationController extends Controller
 
      public function index(Request $request)
      {
+
+       
+        $current_year = date('Y'); // Année en cours
+        $current_month = date('n'); // Mois actuel (1-12)
+        $current_day = date('j'); // Jour actuel (1-31)
+    
+    if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
+        $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
+    }
+
          $users = User::where('role', 'user')->get();
          $cotisations = Cotisation::with('user');
-     
+
          // Récupérer les valeurs des filtres
          $selectedYear = $request->input('year');
          $selectedLetter = $request->input('letter');
          $selectedStatus = $request->input('status');
          $selectedValidationStatus = $request->input('validation_status');
-     
+
          // Appliquer les conditions de filtrage
          if ($selectedYear) {
-             $cotisations->whereYear('date', $selectedYear);
-         }
-     
+            $cotisations->where('annee', $selectedYear);
+        }
+
          if ($selectedLetter) {
              $cotisations->whereHas('user', function ($query) use ($selectedLetter) {
                  $query->where('numero_devilla', 'like', $selectedLetter . '%');
              });
          }
-     
+
          if ($selectedStatus) {
              $cotisations->where('status', $selectedStatus);
          }
-         
+
          if ($selectedValidationStatus) {
              $cotisations->where('statuValidation', $selectedValidationStatus);
          }
-     
+
          $cotisations = $cotisations->get();
-     
+
          // Récupérer toutes les années disponibles pour le filtre par année
-         $years = Cotisation::distinct()->selectRaw('YEAR(date) AS year')->pluck('year');
-     
-         return view('cotisations.index', compact('users', 'cotisations', 'years', 'selectedYear', 'selectedLetter', 'selectedStatus', 'selectedValidationStatus'));
+         //$years = Cotisation::distinct()->pluck('annee');
+
+         return view('cotisations.index', compact('users', 'cotisations', 'selectedYear', 'selectedLetter', 'selectedStatus', 'selectedValidationStatus','current_year'));
      }
-     
 
 
- 
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------
 //recouvrement------------------------------------------------------------------------------------------------------------------------
 public function recouvrement()
 {
-    $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, YEAR(cotisations.date) AS annee, cotisations.status, SUM(annees.prix_location - cotisations.montant) AS total_impaye, SUM(CASE WHEN cotisations.status = "non payé" THEN annees.prix_location ELSE 0 END) AS total_prix_location, SUM(CASE WHEN cotisations.status = "payé" THEN cotisations.montant ELSE 0 END) AS total_paye')
+    $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, cotisations.annee AS annee, cotisations.status, SUM(annees.prix_location - cotisations.montant) AS total_impaye, SUM(CASE WHEN cotisations.status = "non payé" THEN annees.prix_location ELSE 0 END) AS total_prix_location, SUM(CASE WHEN cotisations.status = "payé" THEN cotisations.montant ELSE 0 END) AS total_paye')
         ->join('users', 'cotisations.user_id', '=', 'users.id')
-        ->join('annees', 'annees.annee', '=', DB::raw('YEAR(cotisations.date)'))
+        ->join('annees', 'annees.annee', '=', 'cotisations.annee')
         ->groupBy('cotisations.user_id', 'annee', 'status', 'numero_devilla', 'users.name', 'users.lastname', 'cotisations.date')
         ->get();
 
@@ -113,6 +123,7 @@ public function recouvrement()
         'date' => 'required|date',
         'recu_paiement' => 'nullable|file',
         'status' => 'required|in:payé,non payé,partiellement payé',
+        'annee' => 'required',
     ]);
 
 
@@ -135,6 +146,10 @@ public function recouvrement()
     $cotisation->montant = $validatedData['montant'];
     $cotisation->date = $validatedData['date'];
     $cotisation->status = $validatedData['status'];
+    $annee = $request->input('annee');
+$annee = substr($annee, 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
+
+$cotisation->annee = $annee;
 
     if ($request->hasFile('recu_paiement')) {
         $file = $request->file('recu_paiement');
@@ -192,6 +207,10 @@ public function recouvrement()
         $cotisation->date = $request->input('date');
         $cotisation->status = $request->input('status');
         $cotisation->statuValidation = $request->input('statuValidation');
+        $annee = $request->input('annee');
+$annee = substr($annee, 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
+
+$cotisation->annee = $annee;
 
         if ($request->hasFile('recu_paiement')) {
             $file = $request->file('recu_paiement');

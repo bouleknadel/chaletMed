@@ -71,7 +71,7 @@ Liste prix_location
                 <tbody>
                     @foreach($annees as $annee)
                     <tr>
-                        <td>{{ $annee->annee }}</td>
+                        <td>{{ $annee->annee }}/{{ intval($annee->annee) + 1 }}</td>
                         <td>{{ $annee->prix_location }}</td>
                         <td>{{ $annee->created_at }}</td>
                         <td>{{ $annee->updated_at }}</td>

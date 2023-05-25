@@ -5,7 +5,9 @@
 Bilan
 @endsection
 
-
+@php
+$selectedYear = isset($_GET['annee']) ? $_GET['annee'] : date('Y');
+@endphp
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -14,7 +16,7 @@ Bilan
 @endsection
 
 @section('titre')
-<h3 class="card-title font-weight-bold" style="font-size: 24px;">BILAN ANNUEL DE L'ANNÉE {{ date('Y') }}</h3>
+<h3 class="card-title font-weight-bold" style="font-size: 24px;">BILAN ANNUEL DE L'ANNÉE {{ $selectedYear }}/{{$selectedYear +1 }}</h3>
 @endsection
 
 
@@ -32,6 +34,22 @@ Bilan
 
 @section('content2')
   <section class="content">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <form action="" method="GET">
+                <div class="input-group">
+                    <select class="form-control" name="annee">
+                        @for ($year = 2018; $year <=  $current_year ; $year++)
+                            <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>{{ $year }}/{{ $year+1 }}</option>
+                        @endfor
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>        
+    </div>    
     <div class="container-fluid ">
       <div class="row">
 
@@ -118,6 +136,7 @@ Bilan
       <div class="col-md-12 mt-0 ">
         <div class="card">
           <div class="card-body">
+           
             <table id="table-passifs" class="table table-bordered table-striped tablebilan">
               <thead>
                 <tr>
@@ -140,8 +159,6 @@ Bilan
 
     </div>
   </section>
-
-
 @endsection
 
 

@@ -61,7 +61,8 @@ Charges
                     <th>Description</th>
                     <th>Montant</th>
                     <th>Type</th>
-                    <th>Date</th>
+                    <th>Date de paiement</th>
+                    <th>Année</th>
                     <th>Recus</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -75,6 +76,17 @@ Charges
                       <td>{{ $charge->montant }}</td>
                       <td>{{ $charge->type }}</td>
                       <td>{{ $charge->date }}</td>
+
+                                     @php
+                                    $annee =  $charge->annee ;
+                                    $anneeplus =  $charge->annee+1 ;
+                                 @endphp
+                                     @if ($annee)
+                                        <td class="text-bold">{{$annee}}/{{$anneeplus}}</td>
+                                    @else
+                                    <td>pas d'année </td>
+                                     @endif
+
                       <td>
                         @if($charge->recus)
                           <a href="{{ asset('uploads/charges/'.$charge->recus) }}"  download>
@@ -166,8 +178,28 @@ Charges
 
         </div>
         <div class="form-group">
-            <label for="date">Date</label>
+            <label for="date">Date de paiement</label>
             <input type="date" name="date" id="date" class="form-control" value="{{ $charge->date }}" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Année</label>
+            <select name="annee" id="annee" class="form-control" required>
+                @php
+                    $currentYear = date('Y');
+                    $nextYear = $currentYear + 1;
+                @endphp
+                @for ($year = 2018; $year < $currentYear; $year++)
+                    @php
+                        $yearRange = $year . '/' . ($year + 1);
+                    @endphp
+                    <option value="{{ $yearRange }}" {{ $charge->annee == $yearRange ? 'selected' : '' }}>
+                        {{ $yearRange }}
+                    </option>
+                @endfor
+                <option value="{{ $currentYear }}/{{ $nextYear }}" {{ $charge->annee == $currentYear.'/'.$nextYear ? 'selected' : '' }}>
+                    {{ $currentYear }}/{{ $nextYear }}
+                </option>
+            </select>
         </div>
         <div class="form-group">
             <label for="recus">Reçus</label>
@@ -238,8 +270,24 @@ Charges
 
                         </div>
                         <div class="form-group">
-                            <label for="date">Date</label>
+                            <label for="date">Date de paiement</label>
                             <input type="date" name="date" id="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Année</label>
+                            <select name="annee" id="annee" class="form-control" required>
+                                @php
+                                    $currentYear = date('Y');
+                                    $nextYear = $currentYear + 1;
+                                @endphp
+                                @for ($year = 2018; $year < $currentYear; $year++)
+                                    @php
+                                        $yearRange = $year . '/' . ($year + 1);
+                                    @endphp
+                                    <option value="{{ $yearRange }}">{{ $yearRange }}</option>
+                                @endfor
+                                <option value="{{ $currentYear }}/{{ $nextYear }}" selected>{{ $currentYear }}/{{ $nextYear }}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="recus">Reçus</label>

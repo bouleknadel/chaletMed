@@ -19,13 +19,27 @@ Route::get('/cotisations/current-year/{status}', [App\Http\Controllers\Cotisatio
 Route::resource('cotisations', App\Http\Controllers\CotisationController::class)->middleware(['auth', 'admin']);
 Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
 Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
+
 Route::get('/parametre/bureau', [App\Http\Controllers\ParametreController::class, 'bureau'])->name('parametre.bureau')->middleware(['auth', 'admin']);
+
+
+Route::get('/parametre/listeMembres', [App\Http\Controllers\ParametreController::class, 'listeMembres'])
+    ->name('parametre.listeMembres')
+    ->middleware(['auth', 'admin']);
+
+
 Route::post('/parametre/bureau', [App\Http\Controllers\ParametreController::class, 'storeBureau'])
     ->name('parametre.storeBureau')
     ->middleware(['auth', 'admin']);
+
+
+
 Route::put('/bureau/{id}', [App\Http\Controllers\ParametreController::class, 'updateBureau'])
 ->name('parametre.updateBureau')
 ->middleware(['auth', 'admin']);
+
+
+
 Route::delete('/bureau/{id}', [App\Http\Controllers\ParametreController::class, 'destroyBureau'])->name('parametre.destroyBureau');
 
 

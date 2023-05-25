@@ -7,6 +7,7 @@ use App\Models\Bureau;
 
 
 
+
 class ParametreController extends Controller
 {
     /**
@@ -22,6 +23,17 @@ class ParametreController extends Controller
 {
     return view('parametre.bureau');
 }
+
+public function listeMembres()
+{
+    // Récupérer la liste des membres du bureau exécutif depuis une source de données (par exemple, une base de données)
+    $membres = Bureau::all();
+    
+    // Retourner la vue avec la liste des membres
+    return view('parametre.listeMembres', compact('membres'));
+}
+
+
 
 
 public function storeBureau(Request $request)

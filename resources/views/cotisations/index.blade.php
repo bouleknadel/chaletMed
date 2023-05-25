@@ -60,15 +60,21 @@ Cotisations
                             <form action="{{ route('cotisations.index') }}" method="GET" class="filter-form">
                                 <div class="row">
                                     <div class="col-md-3">
+
                                         <div class="form-group">
                                             <label for="select-year">Année :</label>
                                             <select id="select-year" class="form-control" name="year">
                                                 <option value="" disabled {{ empty($selectedYear) ? 'selected' : '' }}>Toutes les années</option>
-                                                @foreach ($years as $year)
-                                                    <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
-                                                @endforeach
+                                                @for ($year = 2018; $year <= $current_year; $year++)
+                                                    <?php $yearNext = $year + 1; ?>
+                                                    <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                                        {{ $year.'/'.$yearNext }}
+                                                    </option>
+                                                @endfor
                                             </select>
                                         </div>
+                                        
+                                    
                                     </div>
 
                                     <div class="col-md-3">
@@ -132,7 +138,8 @@ Cotisations
                                    <th>Nom et Prénom</th>
                                     <!-- <th>Prénom</th> -->
                                     <th>Montant</th>
-                                    <th>Date</th>
+                                    <th>Date de paiement </th>
+                                    <th>Année </th>
                                     <th>Recu Paiement</th>
                                     <th>Status</th>
                                     <th>Status validation</th>
@@ -160,6 +167,18 @@ Cotisations
                                  <!--   <td> $cotisation->user->lastname </td> -->
                                     <td>{{ $cotisation->montant }} DH</td>
                                     <td>{{ $cotisation->date }}</td>
+
+                                    @php
+                                    $annee =  $cotisation->annee ;
+                                    $anneeplus =  $cotisation->annee+1 ;
+                                 @endphp
+                                     @if ($annee)
+                                        <td class="text-bold">{{$annee}}/{{$anneeplus}}</td>
+                                    @else
+                                    <td>pas d'année </td>
+                                     @endif
+
+
                                     <td>
                                         @if($cotisation->recu_paiement)
                                         <a href="{{ asset('uploads/recus/'.$cotisation->recu_paiement) }}" download>
@@ -220,9 +239,30 @@ Cotisations
                                                         <input type="number" name="montant" id="montant" class="form-control" value="{{ $cotisation->montant }}" required>
                                                         </div>
                                                         <div class="form-group">
-                                                        <label for="date">Date</label>
+                                                        <label for="date">Date de paiement</label>
                                                         <input type="date" name="date" id="date" class="form-control" value="{{ $cotisation->date }}" required>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label for="date">Année</label>
+                                                            <select name="annee" id="annee" class="form-control" required>
+                                                                @php
+                                                                    $currentYear = date('Y');
+                                                                    $nextYear = $currentYear + 1;
+                                                                @endphp
+                                                                @for ($year = 2018; $year < $currentYear; $year++)
+                                                                    @php
+                                                                        $yearRange = $year . '/' . ($year + 1);
+                                                                    @endphp
+                                                                    <option value="{{ $yearRange }}" {{ $cotisation->annee == $yearRange ? 'selected' : '' }}>
+                                                                        {{ $yearRange }}
+                                                                    </option>
+                                                                @endfor
+                                                                <option value="{{ $currentYear }}/{{ $nextYear }}" {{ $cotisation->annee == $currentYear.'/'.$nextYear ? 'selected' : '' }}>
+                                                                    {{ $currentYear }}/{{ $nextYear }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
                                                         <div classm="form-group">
                                                         <label for="recu_paiement">Reçu de paiement</label>
                                                         <input type="file" name="recu_paiement" id="recu_paiement" class="form-control-file">
@@ -313,8 +353,24 @@ Cotisations
             <input type="number" name="montant" id="montant" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="date">Date</label>
+            <label for="date">Date de paiement</label>
             <input type="date" name="date" id="date" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Année</label>
+            <select name="annee" id="annee" class="form-control" required>
+                @php
+                    $currentYear = date('Y');
+                    $nextYear = $currentYear + 1;
+                @endphp
+                @for ($year = 2018; $year < $currentYear; $year++)
+                    @php
+                        $yearRange = $year . '/' . ($year + 1);
+                    @endphp
+                    <option value="{{ $yearRange }}">{{ $yearRange }}</option>
+                @endfor
+                <option value="{{ $currentYear }}/{{ $nextYear }}" selected>{{ $currentYear }}/{{ $nextYear }}</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="recu_paiement">Reçu de paiement</label>

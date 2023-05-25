@@ -67,7 +67,7 @@ Modifier cotisation
                             <input type="number" name="montant" id="montant" class="form-control" value="{{ $cotisation->montant }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="date">Date</label>
+                            <label for="date">Date de paiement</label>
                             <input type="date" name="date" id="date" class="form-control" value="{{ $cotisation->date }}" required>
                         </div>
                         <div class="form-group">
