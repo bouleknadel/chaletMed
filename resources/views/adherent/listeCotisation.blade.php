@@ -71,6 +71,7 @@ Listes de mes cotisations
                                     <th>Prénom</th>
                                     <th>Montant</th>
                                     <th>Date</th>
+                                    <th>Année</th>
                                     <th>Recu Paiement</th>
                                     <th>Status</th>
                                     <th>Status validation</th>
@@ -84,6 +85,15 @@ Listes de mes cotisations
                                     <td>{{ $cotisation->user->lastname }}</td>
                                     <td>{{ $cotisation->montant }} DH</td>
                                     <td>{{ $cotisation->date }}</td>
+                                    @php
+                                    $annee =  $cotisation->annee ;
+                                    $anneeplus =  $cotisation->annee+1 ;
+                                 @endphp
+                                     @if ($annee)
+                                        <td class="text-bold">{{$annee}}/{{$anneeplus}}</td>
+                                    @else
+                                    <td>pas d'année </td>
+                                     @endif
                                     <td>
                                         @if($cotisation->recu_paiement)
                                         <a href="{{ asset('uploads/recus/'.$cotisation->recu_paiement) }}" download>

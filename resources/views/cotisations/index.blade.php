@@ -51,9 +51,11 @@ Cotisations
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @if(Auth::user()->role != 'syndic')
                          <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addCotisationModal" style="margin-bottom : 10px ;">
                     Ajouter cotisation
                   </button>
+                  @endif
                         <!--filter les annes-->
 
                         <div class="col-md-12 ">
@@ -73,8 +75,8 @@ Cotisations
                                                 @endfor
                                             </select>
                                         </div>
-                                        
-                                    
+
+
                                     </div>
 
                                     <div class="col-md-3">
@@ -125,7 +127,7 @@ Cotisations
 
 
 
-                            </form>
+
 
                         </div>
 
@@ -136,14 +138,17 @@ Cotisations
                                 <tr>
                                     <th>N° du chalet</th>
                                    <th>Nom et Prénom</th>
+                                   <th>Contact</th>
                                     <!-- <th>Prénom</th> -->
                                     <th>Montant</th>
                                     <th>Date de paiement </th>
-                                    <th>Année </th>
+                                    <th>Année</th>
                                     <th>Recu Paiement</th>
                                     <th>Status</th>
                                     <th>Status validation</th>
+                                    @if(Auth::user()->role != 'syndic')
                                     <th>Action</th>
+                                    @endif
 
                                 </tr>
                             </thead>
@@ -164,6 +169,7 @@ Cotisations
                                 <tr class="{{ $cotisation->statuValidation === 'validé' ? 'validé' : '' }}">
                                     <td>{{ $cotisation->user->numero_devilla }}</td>
                                  <td> {{$cotisation->user->name}} {{$cotisation->user->lastname}} </td>
+                                 <td> {{$cotisation->user->numero_de_telephone}} </td>
                                  <!--   <td> $cotisation->user->lastname </td> -->
                                     <td>{{ $cotisation->montant }} DH</td>
                                     <td>{{ $cotisation->date }}</td>
@@ -207,11 +213,13 @@ Cotisations
                                         @endif
                                         {{ $cotisation->statuValidation }}
                                       </td>
+                                      @if(Auth::user()->role != 'syndic')
                                     <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal{{ $cotisation->id }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
+
                                         <!-- Modal -->
                                         <div class="modal fade" id="editModal{{ $cotisation->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $cotisation->id }}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -251,7 +259,7 @@ Cotisations
                                                                 @endphp
                                                                 @for ($year = 2018; $year < $currentYear; $year++)
                                                                     @php
-                                                                        $yearRange = $year . '/' . ($year + 1);
+                                                                    $yearRange = $year . '/' . ($year + 1);
                                                                     @endphp
                                                                     <option value="{{ $yearRange }}" {{ $cotisation->annee == $yearRange ? 'selected' : '' }}>
                                                                         {{ $yearRange }}
@@ -307,6 +315,7 @@ Cotisations
                                                         </button>
                                                         </form>
                                                         </td>
+                                                        @endif
                                                         </tr>
                                                         @endforeach
                                                         </tbody>

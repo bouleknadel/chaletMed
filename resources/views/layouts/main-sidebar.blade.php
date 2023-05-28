@@ -2,8 +2,12 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="{{ asset('assets/img/admin2.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">{{ auth()->user()->name }}  {{ auth()->user()->lastname }}</span>
+        <?php if (auth()->user()->role === 'admin' || auth()->check()): ?>
+            <img src="{{ asset('assets/img/admin logo.png') }}" alt="Admin Logo" class="brand-image rounded-circle elevation-3" style="opacity: .8">
+        <?php elseif (auth()->user()->role === 'syndic'): ?>
+            <img src="{{ asset('assets/img/syndic logo.png') }}" alt="Syndic Logo" class="brand-image rounded-circle elevation-3" style="opacity: .8">
+        <?php endif; ?>
+        <span class="brand-text font-weight-light">{{ auth()->user()->name }} {{ auth()->user()->lastname }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -62,6 +66,7 @@
           <p>Bilan</p>
         </a>
       </li>
+      @if(Auth::user()->role != 'syndic')
       <li class="nav-item">
         <a href="#" class="nav-link">
           <i class="fas fa-cog"></i>
@@ -92,8 +97,15 @@
               <p>Liste des montants</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('parametre.autre') }}" class="nav-link">
+              <i class="fas fa-coins"></i>
+              <p>Autre</p>
+            </a>
+          </li>
         </ul>
       </li>
+      @endif
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

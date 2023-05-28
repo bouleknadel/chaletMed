@@ -6,7 +6,7 @@ Bilan
 @endsection
 
 @php
-$selectedYear = isset($_GET['annee']) ? $_GET['annee'] : date('Y');
+$selectedYear = isset($_GET['annee']) ? $_GET['annee'] : $current_year;
 @endphp
 
 @section('css')
@@ -22,7 +22,7 @@ $selectedYear = isset($_GET['annee']) ? $_GET['annee'] : date('Y');
 
 
 @section('title_page')
-
+Bilan
 @endsection
 
 
@@ -48,8 +48,8 @@ $selectedYear = isset($_GET['annee']) ? $_GET['annee'] : date('Y');
                     </div>
                 </div>
             </form>
-        </div>        
-    </div>    
+        </div>
+    </div>
     <div class="container-fluid ">
       <div class="row">
 
@@ -136,7 +136,7 @@ $selectedYear = isset($_GET['annee']) ? $_GET['annee'] : date('Y');
       <div class="col-md-12 mt-0 ">
         <div class="card">
           <div class="card-body">
-           
+
             <table id="table-passifs" class="table table-bordered table-striped tablebilan">
               <thead>
                 <tr>

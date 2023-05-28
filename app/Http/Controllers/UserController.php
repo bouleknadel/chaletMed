@@ -38,8 +38,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-
+{
     // Validation des champs du formulaire
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
@@ -62,12 +61,17 @@ class UserController extends Controller
         'email' => $validatedData['email'],
         'role' => $validatedData['role'],
         'password' => Hash::make($validatedData['password']),
-
     ]);
+
+    // Si la création de l'utilisateur a échoué, afficher un message d'erreur
+    if (!$user) {
+        return back()->with('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur');
+    }
 
     // Redirection vers la page de l'utilisateur nouvellement créé
     return back()->with('success', 'Utilisateur ajouté avec succès');
-    }
+}
+
 
     /**
      * Display the specified resource.

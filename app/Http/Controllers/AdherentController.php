@@ -18,6 +18,7 @@ class AdherentController extends Controller
      */
     public function index()
     {
+
         // Récupérer l'utilisateur connecté
         $user = Auth::user();
 
@@ -29,16 +30,47 @@ class AdherentController extends Controller
     }
 
 
-public function dashboard()
+    public function dashboard()
 {
-       // Récupérer tous les utilisateurs qui ont le rôle "user"
-       $users = User::where('role', 'user')->get();
+    $current_year = date('Y'); // Année en cours
+    $current_month = date('n'); // Mois actuel (1-12)
+    $current_day = date('j'); // Jour actuel (1-31)
 
-       // Récupérer toutes les cotisations avec les informations utilisateur correspondantes
-       $cotisations = Cotisation::with('user')->get();
+    if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
+        $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
+    }
 
-       return view('adherent.dashboard', compact('users', 'cotisations'));
+    // Récupérer tous les utilisateurs qui ont le rôle "user"
+    $users = User::where('role', 'user')->get();
+
+    // Récupérer toutes les cotisations avec les informations utilisateur correspondantes
+    $cotisations = Cotisation::with('user');
+
+    // Appliquer les filtres si des valeurs sont présentes dans la requête
+    $selectedYear = request('year');
+    $selectedLetter = request('letter');
+    $selectedStatus = request('status');
+
+    if ($selectedYear) {
+        $cotisations->where('annee', $selectedYear);
+    }
+
+    if ($selectedLetter) {
+        $cotisations->whereHas('user', function ($query) use ($selectedLetter) {
+            $query->where('numero_devilla', 'like', $selectedLetter . '%');
+        });
+    }
+
+    if ($selectedStatus) {
+        $cotisations->where('status', $selectedStatus);
+    }
+
+    $cotisations = $cotisations->get();
+
+    return view('adherent.dashboard', compact('users', 'cotisations', 'current_year', 'selectedYear', 'selectedLetter', 'selectedStatus'));
 }
+
+
 
 
 

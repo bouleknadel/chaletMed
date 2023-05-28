@@ -51,9 +51,63 @@ Charges
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                @if(Auth::user()->role != 'syndic')
                 <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addChargeModal" style="margin-bottom : 10px ;">
                     Ajouter charge
                   </button>
+                  @endif
+                  <div class="col-md-12">
+                    <form action="{{ route('charges.index') }}" method="GET" class="filter-form">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="select-type">Type :</label>
+                                    <select id="select-type" class="form-control" name="type">
+                                        <option value="" selected disabled>Tous les types</option>
+                                        <option value="Charge_fixe_mensuelle" {{ $selectedType == 'Charge_fixe_mensuelle' ? 'selected' : '' }}>Charge fixe mensuelle</option>
+                                        <option value="Charge_occasionnelle" {{ $selectedType == 'Charge_occasionnelle' ? 'selected' : '' }}>Charge occasionnelle</option>
+                                        <option value="Charge_annuelle" {{ $selectedType == 'Charge_annuelle' ? 'selected' : '' }}>Charge annuelle</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="select-rubrique">Rubrique :</label>
+                                    <select id="select-rubrique" class="form-control" name="rubrique">
+                                        <option value="" selected disabled>Toutes les rubriques</option>
+                                        <option value="Sécurité" {{ $selectedRubrique == 'Sécurité' ? 'selected' : '' }}>Sécurité</option>
+                                        <option value="Jardinage" {{ $selectedRubrique == 'Jardinage' ? 'selected' : '' }}>Jardinage</option>
+                                        <option value="Charges annexes" {{ $selectedRubrique == 'Charges annexes' ? 'selected' : '' }}>Charges annexes</option>
+                                        <option value="Divers" {{ $selectedRubrique == 'Divers' ? 'selected' : '' }}>Divers</option>
+                                        <option value="Salaire" {{ $selectedRubrique == 'Salaire' ? 'selected' : '' }}>Salaire</option>
+                                        <option value="Plomberie" {{ $selectedRubrique == 'Plomberie' ? 'selected' : '' }}>Plomberie</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="select-year">Année :</label>
+                                <select id="select-year" class="form-control" name="year">
+                                    <option value="" disabled {{ empty($selectedYear) ? 'selected' : '' }}>Toutes les années</option>
+                                    @for ($year = 2018; $year <= $current_year; $year++)
+                                        <?php $yearNext = $year + 1; ?>
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                            {{ $year.'/'.$yearNext }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary btn-block">Filtrer</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
               <table id="example1" class="table table-bordered table-striped" >
                 <thead >
                   <tr>
@@ -65,7 +119,9 @@ Charges
                     <th>Année</th>
                     <th>Recus</th>
                     <th>Status</th>
+                    @if(Auth::user()->role != 'syndic')
                     <th>Action</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -107,6 +163,7 @@ Charges
                         </strong>
                       </td>
 
+                      @if(Auth::user()->role != 'syndic')
                       <td>
                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editChargeModal{{ $charge->id }}"><i class="fas fa-edit"></i></button>
                         <form action="{{ route('charges.destroy', $charge->id) }}" method="post" style="display: inline-block" class="mt-1">
@@ -115,6 +172,7 @@ Charges
                           <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                         </form>
                       </td>
+                      @endif
                     </tr>
                   @endforeach
                 </tfoot>
@@ -131,6 +189,15 @@ Charges
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+  @php
+          $currentYear = date('Y'); // Année en cours
+    $current_month = date('n'); // Mois actuel (1-12)
+    $current_day = date('j'); // Jour actuel (1-31)
+
+if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
+    $currentYear--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
+}
+  @endphp
   <!-- Modal de modification -->
 @foreach ($charges as $charge)
 <div class="modal fade" id="editChargeModal{{ $charge->id }}" tabindex="-1" role="dialog" aria-labelledby="editChargeLabel{{ $charge->id }}" aria-hidden="true">
@@ -185,7 +252,7 @@ Charges
             <label for="date">Année</label>
             <select name="annee" id="annee" class="form-control" required>
                 @php
-                    $currentYear = date('Y');
+
                     $nextYear = $currentYear + 1;
                 @endphp
                 @for ($year = 2018; $year < $currentYear; $year++)
@@ -277,7 +344,7 @@ Charges
                             <label for="date">Année</label>
                             <select name="annee" id="annee" class="form-control" required>
                                 @php
-                                    $currentYear = date('Y');
+
                                     $nextYear = $currentYear + 1;
                                 @endphp
                                 @for ($year = 2018; $year < $currentYear; $year++)
@@ -360,17 +427,37 @@ $(function () {
         extend: 'pdfHtml5',
         text: '<i class="fas fa-file-pdf"></i> PDF',
         className: 'btn btn-primary',
-        titleAttr: 'Exporter en PDF'
-      },
-      {
-        extend: 'print',
-        text: '<i class="fas fa-print"></i> Imprimer',
-        className: 'btn btn-primary',
-        titleAttr: 'Imprimer le tableau',
-        messageTop: ' '
+        titleAttr: 'Exporter en PDF',
+        customize: function(doc) {
+          // Personnalisez ici les styles du document PDF
+          doc.content.splice(0, 0, {
+            text: new Date().toLocaleDateString(), // Date de téléchargement
+            style: 'date'
+          });
+
+          doc.content.splice(1, 0, {
+            text: 'ChaletMed',
+            style: 'title'
+          });
+
+          // Définir les styles personnalisés
+          doc.styles.title = {
+            fontSize: 20,
+            bold: true,
+            alignment: 'center',
+            color: '#FFA500' // Orange
+          };
+
+          doc.styles.date = {
+            fontSize: 14,
+            alignment: 'left',
+            color: '#000000' // Noir
+          };
+        }
       }
     ]
   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
   $('#example2').DataTable({
     "paging": true,
     "lengthChange": false,
@@ -381,5 +468,7 @@ $(function () {
     "responsive": true,
   });
 });
+
+
 </script>
 @endsection

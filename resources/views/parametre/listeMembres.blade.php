@@ -113,9 +113,11 @@ liste membres
                                                             <option value="Premier vice président exécutif" {{ $membre->fonction == 'Premier vice président exécutif' ? 'selected' : '' }}>Premier vice président exécutif</option>
                                                             <option value="Trésorier" {{ $membre->fonction == 'Trésorier' ? 'selected' : '' }}>Trésorier</option>
                                                             <option value="Responsable juridique" {{ $membre->fonction == 'Responsable juridique' ? 'selected' : '' }}>Responsable juridique</option>
+                                                            <option value="Chef de sécurité" {{ $membre->fonction == 'Chef de sécurité' ? 'selected' : '' }}>Chef de sécurité</option>
+                                                            <option value="Agent jadinier" {{ $membre->fonction == 'Agent jadinier' ? 'selected' : '' }}>Agent jadinier</option>
+                                                            <option value="Agent de sécurité" {{ $membre->fonction == 'Agent de sécurité' ? 'selected' : '' }}>Agent de sécurité</option>
                                                         </select>
                                                     </div>
-
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>

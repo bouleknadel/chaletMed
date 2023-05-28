@@ -19,15 +19,12 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
 {
     if (Auth::check()) {
-        if (Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'syndic') {
             return $next($request);
-        } else if (Auth::user()->role == 'syndic') {
-            return redirect('/syndicPage');
         }
     }
 
     return redirect()->route('adherent.dashboard');
-
-
 }
+
 }

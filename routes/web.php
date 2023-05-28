@@ -33,6 +33,16 @@ Route::post('/parametre/bureau', [App\Http\Controllers\ParametreController::clas
     ->middleware(['auth', 'admin']);
 
 
+Route::get('/parametre/autre', [App\Http\Controllers\ParametreController::class, 'autre'])
+    ->name('parametre.autre')
+    ->middleware(['auth', 'admin']);
+
+Route::post('/parametre/storeCoordonee', [App\Http\Controllers\ParametreController::class, 'storeCoordonee'])
+    ->name('parametre.storeCoordonee')
+    ->middleware(['auth', 'admin']);
+
+
+
 
 Route::put('/bureau/{id}', [App\Http\Controllers\ParametreController::class, 'updateBureau'])
 ->name('parametre.updateBureau')

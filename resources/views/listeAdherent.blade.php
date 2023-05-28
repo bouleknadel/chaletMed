@@ -42,6 +42,19 @@ Uitlisateurs
         {{ session('successdelete') }}
     </div>
 @endif
+@if (session('success'))
+    <div class="alert alert-success w-75">
+        <i class="fas fa-check-circle mr-2"></i>
+        {{ session('success') }}
+    </div>
+@endif
+@if (session('error'))
+    <div class="alert alert-danger w-75">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        {{ session('error') }}
+    </div>
+@endif
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -54,9 +67,11 @@ Uitlisateurs
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                @if(Auth::user()->role != 'syndic')
                 <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addUserModal" style="margin-bottom: 10px;">
                     <i class="fas fa-user-plus"></i> Ajouter Utilisateur
                   </button>
+                @endif
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -67,7 +82,9 @@ Uitlisateurs
                     <th>Numéro de téléphone</th>
                     <th>Numéro de téléphone 2</th>
                     <th>Email</th>
+                    @if(Auth::user()->role != 'syndic')
                     <th>Action</th>
+                    @endif
 
                 </tr>
                 </thead>
@@ -81,6 +98,7 @@ Uitlisateurs
                         <td>{{ $user->numero_de_telephone }}</td>
                         <td>{{ $user->numero_de_telephone2 }}</td>
                         <td>{{ $user->email }}</td>
+                        @if(Auth::user()->role != 'syndic')
                         <td>
                             <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal{{ $user->id }}"><i class="fas fa-edit"></i></button>
                             <form action="{{ route('users.destroy', $user->id) }}" method="post" style="display: inline-block" class="mt-1">
@@ -89,7 +107,7 @@ Uitlisateurs
                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
-
+                      @endif
                     </tr>
                 @endforeach
                 </tfoot>
@@ -189,11 +207,11 @@ Uitlisateurs
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="role{{ $user->role}}">Rôle</label>
-                        <select class="form-control" id="role{{ $user->role }}" name="role" value="{{ $user->role }}">
-                            <option value="admin">Admin</option>
-                            <option value="user">Utilisateur</option>
-                            <option value="syndic">Syndic</option>
+                        <label for="role{{ $user->role }}">Rôle</label>
+                        <select class="form-control" id="role{{ $user->role }}" name="role">
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>Utilisateur</option>
+                            <option value="syndic" {{ $user->role == 'syndic' ? 'selected' : '' }}>Syndic</option>
                             <!-- Ajoutez les autres options de rôle ici -->
                         </select>
                     </div>

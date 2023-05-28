@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bureau;
+use App\Models\CoordoneeBanque;
 
 
 
@@ -28,10 +29,39 @@ public function listeMembres()
 {
     // Récupérer la liste des membres du bureau exécutif depuis une source de données (par exemple, une base de données)
     $membres = Bureau::all();
-    
+
     // Retourner la vue avec la liste des membres
     return view('parametre.listeMembres', compact('membres'));
 }
+
+
+
+public function autre()
+{
+    return view('parametre.Autre');
+}
+
+
+
+
+public function storeCoordonee(Request $request)
+{
+    $validatedData = $request->validate([
+        'numero_compte' => 'required',
+        'raison_sociale' => 'required',
+        'ville' => 'required',
+        'banque' => 'required',
+        'cle' => 'required',
+    ]);
+
+    $coordoneeBanque = CoordoneeBanque::create($validatedData);
+
+    // Effectuez d'autres opérations si nécessaire
+
+    return redirect()->back()->with('success', 'Coordonnées bancaires enregistrées avec succès.');
+}
+
+
 
 
 

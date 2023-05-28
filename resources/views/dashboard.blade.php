@@ -27,6 +27,43 @@ Dashboard
 @section('content2')
 
 
+@foreach($coordoneeBanque as $coordonee)
+    <div class="card " style="width : 50% ;">
+        <div class="card-body">
+            <h4 class="card-title">Relevé d'identité bancaire (RIB)</h4>
+            <div class="bank-info">
+                              <br>
+                <div class="bank-info-row">
+                    <span class="icon"><i class="fas fa-credit-card"></i></span>
+                    <span class="label">Numéro de compte:</span>
+                    <span class="value">{{ $coordonee->numero_compte }}</span>
+                </div>
+                <div class="bank-info-row">
+                    <span class="icon"><i class="fas fa-building"></i></span>
+                    <span class="label">Raison sociale:</span>
+                    <span class="value">{{ $coordonee->raison_sociale }}</span>
+                </div>
+                <div class="bank-info-row">
+                    <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="label">Ville:</span>
+                    <span class="value">{{ $coordonee->ville }}</span>
+                </div>
+                <div class="bank-info-row">
+                    <span class="icon"><i class="fas fa-university"></i></span>
+                    <span class="label">Banque:</span>
+                    <span class="value">{{ $coordonee->banque }}</span>
+                </div>
+                <div class="bank-info-row">
+                    <span class="icon"><i class="fas fa-key"></i></span>
+                    <span class="label">Clé:</span>
+                    <span class="value">{{ $coordonee->cle }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
  <!-- Main content -->
  <section class="content">
     <div class="container-fluid">

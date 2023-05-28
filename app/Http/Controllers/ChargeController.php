@@ -12,11 +12,42 @@ class ChargeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
 {
-    $charges = Charge::all();
-    return view('charges.index', compact('charges'));
+    $query = Charge::query();
+    $current_year = date('Y'); // Année en cours
+    $current_month = date('n'); // Mois actuel (1-12)
+    $current_day = date('j'); // Jour actuel (1-31)
+
+    if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
+        $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
+    }
+
+    // Récupérer les valeurs sélectionnées depuis la requête
+    $selectedType = $request->input('type');
+    $selectedRubrique = $request->input('rubrique');
+    $selectedYear = $request->input('year');
+
+    // Faire les opérations de filtrage en fonction des valeurs sélectionnées
+    if ($selectedType) {
+        $query->where('type', $selectedType);
+    }
+
+    if ($selectedRubrique) {
+        $query->where('rubrique', $selectedRubrique);
+    }
+
+    if ($selectedYear) {
+        $query->where('annee', $selectedYear);
+    }
+
+    // Exécuter la requête
+    $charges = $query->get();
+
+    // Passer les variables à la vue
+    return view('charges.index', compact('charges', 'selectedType', 'selectedRubrique', 'selectedYear', 'current_year'));
 }
+
 
 
     /**

@@ -6,7 +6,7 @@
         <div class="col-md-8 ">
             <div class="card logi">
                 <div class="card-header">{{ __('connexion') }}</div>
-
+   
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

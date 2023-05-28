@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Annee;
 use App\Models\Bureau;
 use App\Models\Charge;
+use App\Models\CoordoneeBanque;
 
 
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
 
 // Reste du code inchangé...
 
+$coordoneeBanque = CoordoneeBanque::all();
 
     $total_users = User::count();
     $total_adherents = User::where('role', 'user')->count();
@@ -85,7 +87,7 @@ foreach ($charges_disponibles as $charge) {
 
     // Passage des variables à la vue
     return view('dashboard', compact('total_users', 'total_adherents', 'pourcentage_paye', 'pourcentage_non_paye',
-    'pourcentage_partiellement_paye', 'chiffre_affaire_payé', 'chiffre_affaire_non_payé', 'membres', 'agentsSecurite', 'rubriques_charges'));
+    'pourcentage_partiellement_paye', 'chiffre_affaire_payé', 'chiffre_affaire_non_payé', 'membres', 'agentsSecurite', 'rubriques_charges','coordoneeBanque'));
 }
 
 }
