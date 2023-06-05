@@ -80,7 +80,7 @@ public function recouvrement()
     $cotisations = Cotisation::selectRaw('cotisations.user_id, users.numero_devilla, users.name, users.lastname, cotisations.annee AS annee, cotisations.status, SUM(annees.prix_location - cotisations.montant) AS total_impaye, SUM(CASE WHEN cotisations.status = "non payé" THEN annees.prix_location ELSE 0 END) AS total_prix_location, SUM(CASE WHEN cotisations.status = "payé" THEN cotisations.montant ELSE 0 END) AS total_paye')
         ->join('users', 'cotisations.user_id', '=', 'users.id')
         ->join('annees', 'annees.annee', '=', 'cotisations.annee')
-        ->groupBy('cotisations.user_id', 'annee', 'status', 'numero_devilla', 'users.name', 'users.lastname', 'cotisations.date')
+        ->groupBy('cotisations.user_id', 'annee', 'status', 'numero_devilla', 'users.name', 'users.lastname', 'cotisations.annee')
         ->get();
 
     // Récupérer la liste des utilisateurs pour lesquels des cotisations ont été effectuées
@@ -166,16 +166,19 @@ if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
     ]);
 
 
+    $numeroDevilla = $user->numero_devilla;
+    $annee = substr($validatedData['annee'], 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
 
-     // Vérifier si une cotisation a déjà été créée pour l'utilisateur dans cette année
-     $cotisationExistante = Cotisation::where('user_id', $user->id)
-         ->whereYear('date', $annee)
-         ->exists();
+    // Vérifier si une cotisation existe déjà pour le numéro de chalet dans cette année
+    $cotisationExistante = Cotisation::whereHas('user', function ($query) use ($numeroDevilla) {
+        $query->where('numero_devilla', $numeroDevilla);
+    })
+    ->whereYear('date', $annee)
+    ->exists();
 
-         if ($cotisationExistante) {
-            return back()->with('error', '  Une cotisation pour cet utilisateur a déjà été créée pour l\'année ' . $annee);
-        }
-
+    if ($cotisationExistante) {
+        return back()->with('error', 'Une cotisation pour ce numéro de chalet a déjà été créée pour l\'année ' . $annee);
+    }
 
     $cotisation = new Cotisation;
     $cotisation->user_id = $validatedData['user_id'];
