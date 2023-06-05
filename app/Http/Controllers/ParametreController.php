@@ -70,14 +70,15 @@ public function storeBureau(Request $request)
 {
     // Valider les données du formulaire
     $validatedData = $request->validate([
+        'photo' => 'image|max:2048',
         'nom' => 'required|string',
         'fonction' => 'required|string',
     ]);
 
-     // Création d'un nouveau membre du bureau exécutif
-     $membre = new Bureau();
-     $membre->nom = $validatedData['nom'];
-     $membre->fonction = $validatedData['fonction'];
+    // Création d'un nouveau membre du bureau exécutif
+    $membre = new Bureau();
+    $membre->nom = $validatedData['nom'];
+    $membre->fonction = $validatedData['fonction'];
 
     // Traitement du fichier photo
     if ($request->hasFile('photo')) {
@@ -89,6 +90,15 @@ public function storeBureau(Request $request)
         $membre->photo = $photoName;
     }
 
+    // Traitement du fichier carte d'identité
+    if ($request->hasFile('carte_identite')) {
+        $carteIdentite = $request->file('carte_identite');
+        $carteIdentiteName = time() . '_' . $carteIdentite->getClientOriginalName();
+        // Enregistrer le fichier dans le stockage public
+        $carteIdentite->move('uploads/carte_identite', $carteIdentiteName);
+        // Enregistrer le chemin d'accès au fichier dans la base de données
+        $membre->carte_identite = $carteIdentiteName;
+    }
 
     $membre->save();
 
@@ -120,6 +130,15 @@ public function updateBureau(Request $request, $id)
         }
         $membre->photo = $photoName;
     }
+    if ($request->hasFile('carte_identite')) {
+        $carteIdentite = $request->file('carte_identite');
+        $carteIdentiteName = time() . '_' . $carteIdentite->getClientOriginalName();
+        // Enregistrer le fichier dans le stockage public
+        $carteIdentite->move('uploads/carte_identite', $carteIdentiteName);
+        // Enregistrer le chemin d'accès au fichier dans la base de données
+        $membre->carte_identite = $carteIdentiteName;
+    }
+
     $membre->nom = $request->input('nom');
     $membre->fonction = $request->input('fonction');
     // Sauvegarder les modifications du membre du bureau

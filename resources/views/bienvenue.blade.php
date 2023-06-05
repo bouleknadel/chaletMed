@@ -16,10 +16,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
 
     <style>
-       
-  
 
- 
+
+
+
 
   div#carouselExampleIndicators {
     max-height: 600px;
@@ -120,19 +120,19 @@
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img alt="..." class="d-block w-100" src="images/image1.jpg" />
-      <div class="carousel-caption mt-4">    
+      <div class="carousel-caption mt-4">
         <h3>Syndic <br> <span >CHALET MED</span></h3>
       </div>
     </div>
     <div class="carousel-item">
       <img alt="..." class="d-block w-100" src="images/image2.jpg" />
-      <div class="carousel-caption mt-4">    
+      <div class="carousel-caption mt-4">
         <h3>Syndic <br> <span>CHALET MED</span></h3>
       </div>
     </div>
     <div class="carousel-item">
       <img alt="..." class="d-block w-100" src="images/img3.jpg" />
-      <div class="carousel-caption mt-4">    
+      <div class="carousel-caption mt-4">
         <h3>Syndic <br> <span>CHALET MED</span></h3>
       </div>
     </div>
@@ -157,23 +157,61 @@
   </button>
 </div>
 
+<!--infos bancaire --->
+@php
+    use App\Models\CoordoneeBanque;
+$coordonee = CoordoneeBanque::all();
+@endphp
+<!-- Ajoutez ce code avant la partie "à propos" -->
+
+<section class="rib section-padding">
+    <div class="container mt-0">
+        <h1 class="text-center"><span class="apropos-title"> Relevé d'identité bancaire (RIB)</span></h1>
+      <div class="rib-info">
+        <div class="row mt-6 mt-4">
+          @foreach($coordonee as $coord)
+            <div class="col-md-6">
+                <p><i class="fas fa-credit-card"></i> <span>Numéro de compte:
+                </span> <span class="value">{{ $coord->numero_compte }}</span></p>
+            </div>
+            <div class="col-md-6">
+                <p><i class="fas fa-building"></i> <span>Raison sociale:
+                </span> <span class="value">{{ $coord->raison_sociale }}</span></p>
+            </div>
+            <div class="col-md-6">
+                <p><i class="fas fa-map-marker-alt"></i> <span>Ville:
+                </span> <span class="value">{{ $coord->ville }}</span></p>
+            </div>
+            <div class="col-md-6">
+                <p><i class="fas fa-university"></i> <span>Banque:
+                </span> <span class="value">{{ $coord->banque }}</span></p>
+            </div>
+            <div class="col-md-6">
+                <p><i class="fas fa-key"></i> <span>Clé:
+                </span> <span class="value">{{ $coord->cle }}</span></p>
+            </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </section>
 
 <!------------------------------------ à propos ------------------------------------------>
 <section class="about section-padding" id="à propos">
     <h1 class="text-center"><span class="apropos-title"> À Propos</span></h1>
-    
+
       <div class="row">
         <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
           <div class="about-text">
             <h2>
-                Le syndic chalet Med, est une entité à but non lucratif, géré par des 
+                Le syndic chalet Med, est une entité à but non lucratif, géré par des
                 <br />bénévoles, qui sont à la source des propriétaires, des 41 chalets.
             </h2>
             <p>
                 Ils ont pour mission principale, le maintien, de la sécurité sur les quatre coins de la résidence, jour et nuit, par le biais d’une équipe de sécurité composée principalement d’ancien soldats de l’armée.
                 Les défis de tous les jours, en matière de jardinage, d’espace vert et de sécurité font partie du quotidien du bureau exécutif du syndic CHALET MED.
                 Cet espace, vient renforcer notre détermination, à veiller sur la valeur ajouter des chalets, par la gestion efficace, des cotisations des adhérents, sur tous les plans.
-                
+
             </p>
             <p><i class="fa-solid fa-location-dot"></i> <span>CHALET MED ROUTE DE SEBTA
             </span></p>
@@ -190,10 +228,10 @@
             <img alt="" class="img-fluid img2apropos" src="images/img3.jpg" />
           </div>
         </div>
-      
+
     </div>
   </section>
-  
+
 
   <!--video
   -->

@@ -65,7 +65,12 @@
                                     <option value="Agent de sécurité">Agent de sécurité</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="carte_identite">Carte d'identité :</label>
+                                <input type="file" class="form-control" id="carte_identite" name="carte_identite">
+                            </div>
                         </div>
+
 
                         <!-- /.card-body -->
 

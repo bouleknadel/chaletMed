@@ -60,6 +60,7 @@ liste membres
                                 <tr>
                                     <th>Nom</th>
                                     <th>Fonction</th>
+                                    <th>Carte d'identité</th> <!-- Nouvelle colonne -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -68,6 +69,13 @@ liste membres
                                 <tr>
                                     <td>{{ $membre->nom }}</td>
                                     <td>{{ $membre->fonction }}</td>
+                                    <td  height="20" width="40" class="img-responsive"> @if($membre->carte_identite)
+                                        <a href="{{ asset('uploads/carte_identite/'.$membre->carte_identite) }}" download>
+                                            <img src="{{ asset('uploads/carte_identite/'.$membre->carte_identite) }}" height="20" width="40" class="img-responsive" alt="carte_identite">
+                                        </a>
+                                        @else
+                                        Pas de carte d'identité
+                                        @endif</td> <!-- Affichage de la carte d'identité -->
                                     <td>
                                         <a href="#" class="mr-3" data-toggle="modal" data-target="#modal-{{ $membre->id }}">
                                             <i class="fas fa-edit"></i> <!-- Icône pour modifier -->
@@ -76,7 +84,7 @@ liste membres
                                         <form action="{{ route('parametre.destroyBureau', $membre->id) }}" method="post" style="display: inline-block" class="">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" style="font-size : 9px ;"><i class="fas fa-trash-alt"></i></button>
+                                            <button type="submit" class="btn btn-sm btn-danger" style="font-size: 9px;"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -117,6 +125,10 @@ liste membres
                                                             <option value="Agent jadinier" {{ $membre->fonction == 'Agent jadinier' ? 'selected' : '' }}>Agent jadinier</option>
                                                             <option value="Agent de sécurité" {{ $membre->fonction == 'Agent de sécurité' ? 'selected' : '' }}>Agent de sécurité</option>
                                                         </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="carte_identite">Carte d'identité :</label>
+                                                        <input type="file" class="form-control" id="carte_identite" name="carte_identite">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
