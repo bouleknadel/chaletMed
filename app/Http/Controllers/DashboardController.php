@@ -8,6 +8,7 @@ use App\Models\Annee;
 use App\Models\Bureau;
 use App\Models\Charge;
 use App\Models\CoordoneeBanque;
+use App\Models\Notification;
 
 
 use Illuminate\Http\Request;
@@ -84,6 +85,9 @@ foreach ($charges_disponibles as $charge) {
 
     $membres = Bureau::whereIn('fonction', ['Président', 'Premier vice président exécutif', 'Trésorier', 'Responsable juridique'])->get();
     $agentsSecurite = Bureau::whereIn('fonction', ['Chef de sécurité', 'Agent jadinier', 'Agent de sécurité'])->get();
+
+
+    // notifications 
 
     // Passage des variables à la vue
     return view('dashboard', compact('total_users', 'total_adherents', 'pourcentage_paye', 'pourcentage_non_paye',

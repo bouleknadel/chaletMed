@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-
+use App\Models\NotificationMsj;
 
 
 
@@ -25,11 +25,11 @@ class CotisationController extends Controller
      public function index(Request $request)
      {
 
-       
+
         $current_year = date('Y'); // Année en cours
         $current_month = date('n'); // Mois actuel (1-12)
         $current_day = date('j'); // Jour actuel (1-31)
-    
+
     if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
         $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
     }
@@ -94,6 +94,45 @@ public function recouvrement()
 
 
 //_---------------
+//dashboard-----------------------------------------------------------------------------------------------------------------------------
+public function showCurrentYearCotisations(Request $request)
+{
+    $current_year = date('Y'); // Année en cours
+    $current_month = date('n'); // Mois actuel (1-12)
+    $current_day = date('j'); // Jour actuel (1-31)
+
+if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
+    $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
+}
+
+    // Récupérer les cotisations en fonction du statut
+    if ($request->status == 'paid') {
+        $cotisations = Cotisation::where('annee', $current_year)
+            ->where('status', 'payé')
+            ->with('user')
+            ->get();
+    } else if ($request->status == 'unpaid') {
+        $cotisations = Cotisation::where('annee', $current_year)
+            ->where('status', 'non payé')
+            ->with('user')
+            ->get();
+    } else if ($request->status == 'partially_paid') {
+        $cotisations = Cotisation::where('annee', $current_year)
+            ->where('status', 'partiellement payé')
+            ->with('user')
+            ->get();
+    } else {
+        // Si aucun statut n'est précisé, récupérer toutes les cotisations de l'année en cours
+        $cotisations = Cotisation::where('date', $current_year)
+            ->with('user')
+            ->get();
+    }
+
+    // Retourner la vue avec les cotisations filtrées et le statut sélectionné
+    return view('cotisations.showCurrentYearCotisations', compact('cotisations', 'request'));
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Show the form for creating a new resource.
@@ -128,9 +167,6 @@ public function recouvrement()
 
 
 
-     // Extraire l'année de la date entrée par l'utilisateur
-     $annee = \Carbon\Carbon::parse($validatedData['date'])->year;
-
      // Vérifier si une cotisation a déjà été créée pour l'utilisateur dans cette année
      $cotisationExistante = Cotisation::where('user_id', $user->id)
          ->whereYear('date', $annee)
@@ -159,6 +195,7 @@ $cotisation->annee = $annee;
         // Enregistrer le chemin d'accès au fichier dans la base de données
         $cotisation->recu_paiement = $fileName;
     }
+
 
 
     $cotisation->save();

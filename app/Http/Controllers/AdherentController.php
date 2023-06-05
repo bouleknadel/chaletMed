@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Cotisation;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\NotificationMsj;
+
 
 
 class AdherentController extends Controller
@@ -94,36 +96,45 @@ class AdherentController extends Controller
     {
         $validatedData = $request->validate([
             'montant' => 'required|numeric',
+            'annee' => 'required',
             'date' => 'nullable|date',
             'recu_paiement' => 'nullable|file',
         ]);
 
+        $annee = substr($validatedData['annee'], 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
 
         // Vérifier si une cotisation pour cette année existe déjà
-    $year = Carbon::parse($validatedData['date'])->year;
-    if (Cotisation::where('user_id', Auth::user()->id)->whereYear('date', $year)->exists()) {
-        return redirect()->back()->with('error', 'Une cotisation pour cette année existe déjà.');
-    }
+        if (Cotisation::where('user_id', Auth::user()->id)->where('annee', $annee)->exists()) {
+            return redirect()->back()->with('error', 'Une cotisation pour cette année existe déjà.');
+        }
 
         $cotisation = new Cotisation;
-
         $cotisation->montant = $validatedData['montant'];
         $cotisation->date = $validatedData['date'];
+        $cotisation->annee = $annee;
         $cotisation->user_id = Auth::user()->id;
+
         if ($request->hasFile('recu_paiement')) {
             $file = $request->file('recu_paiement');
             $fileName = time() . '_' . $file->getClientOriginalName();
             // Enregistrer le fichier dans le stockage public
-            $file->move('uploads/recus/',$fileName) ;
+            $file->move('uploads/recus/', $fileName);
             // Enregistrer le chemin d'accès au fichier dans la base de données
             $cotisation->recu_paiement = $fileName;
         }
 
         // Enregistrement de la cotisation dans la base de données
-       $cotisation->save();
+        $cotisation->save();
 
-       return redirect()->back()->with('success', 'La cotisation a été ajoutée avec succès.');
 
+            $notification = new NotificationMsj;
+            $notification->cotisation_id = $cotisation->id;
+            $notification->user_id = Auth::user()->id;
+            $notification->content = 'Nouvelle cotisation ajoutée par ' . Auth::user()->lastname . ' ' . Auth::user()->name;
+            $notification->save();
+
+
+        return redirect()->back()->with('success', 'La cotisation a été ajoutée avec succès.');
     }
 
     /**
@@ -155,42 +166,61 @@ class AdherentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request, $id)
+    {
+        $cotisation = Cotisation::findOrFail($id);
+
+        // Vérifier si la cotisation est en attente de validation
+        if ($cotisation->statuValidation !== 'en attente') {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas modifier une cotisation validée.');
+        }
+
+        $validatedData = $request->validate([
+            'montant' => 'required|numeric',
+            'annee' => 'required',
+            'recu_paiement' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:2048',
+        ]);
+
+        // Vérifier si une cotisation pour cette année existe déjà
+        $annee = substr($validatedData['annee'], 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
+        if (Cotisation::where('user_id', Auth::user()->id)->where('annee', $annee)->exists()) {
+            return redirect()->back()->with('error', 'Une cotisation pour cette année existe déjà.');
+        }
+
+        $cotisation->montant = $validatedData['montant'];
+        $cotisation->annee = $annee;
+
+        if ($request->hasFile('recu_paiement')) {
+            $file = $request->file('recu_paiement');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            // Enregistrer le fichier dans le stockage public
+            $file->move('uploads/recus/', $fileName);
+            // Enregistrer le chemin d'accès au fichier dans la base de données
+            $cotisation->recu_paiement = $fileName;
+        }
+
+        $cotisation->save();
 
 
-public function update(Request $request, $id)
+
+
+        return redirect()->back()->with('successedit', 'Cotisation mise à jour avec succès.');
+    }
+
+
+public function markAsRead(Request $request, $id)
 {
-    $cotisation = Cotisation::findOrFail($id);
+    // Récupérer la notification correspondante
+    $notification = NotificationMsj::findOrFail($id);
 
-    // Vérifier si la cotisation est en attente de validation
-    if ($cotisation->statuValidation !== 'en attente') {
-        return redirect()->back()->with('error', 'Vous ne pouvez pas modifier une cotisation validée.');
-    }
-
-
-    $validatedData = $request->validate([
-        'montant' => 'required|numeric',
-        'date' => 'nullable|date',
-        'recu_paiement' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:2048',
-    ]);
-    // Vérifier si une cotisation pour cette année existe déjà
-
-
-    $cotisation->montant = $validatedData['montant'];
-    $cotisation->date = $validatedData['date'];
-
-    if ($request->hasFile('recu_paiement')) {
-        $file = $request->file('recu_paiement');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        // Enregistrer le fichier dans le stockage public
-        $file->move('uploads/recus/',$fileName) ;
-        // Enregistrer le chemin d'accès au fichier dans la base de données
-        $cotisation->recu_paiement = $fileName;
-    }
-
-    $cotisation->save();
-
-    return redirect()->back()->with('successedit', 'Cotisation mise à jour avec succès.');
+    // Mettre à jour la colonne "read" de la notification à true
+    $notification->read = true;
+    $notification->save();
+    return redirect()->back() ;
 }
+
+
+
 
 
 

@@ -5,26 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cotisation extends Model
+class NotificationMsj extends Model
 {
-    use HasFactory;
+    protected $table = 'notification_msjs';
 
     protected $fillable = [
+        'cotisation_id',
         'user_id',
-        'montant',
-        'date',
-        'recu_paiement',
-        'status',
-        'statuValidation',
+        'content',
+        'read',
     ];
+
+    public function cotisation()
+    {
+        return $this->belongsTo(Cotisation::class);
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function notifications()
-{
-    return $this->hasMany(NotificationMsj::class);
-}
 
+    use HasFactory;
 }

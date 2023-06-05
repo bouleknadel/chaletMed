@@ -162,6 +162,26 @@ Listes de mes cotisations
                                             <input type="date" class="form-control" id="date" name="date" value="{{ $cotisation->date }}">
                                         </div>
                                         <div class="form-group">
+                                            <label for="date">Année</label>
+                                            <select name="annee" id="annee" class="form-control" required>
+                                                @php
+                                                    $currentYear = date('Y');
+                                                    $nextYear = $currentYear + 1;
+                                                @endphp
+                                                @for ($year = 2018; $year < $currentYear; $year++)
+                                                    @php
+                                                    $yearRange = $year . '/' . ($year + 1);
+                                                    @endphp
+                                                    <option value="{{ $yearRange }}" {{ $cotisation->annee == $yearRange ? 'selected' : '' }}>
+                                                        {{ $yearRange }}
+                                                    </option>
+                                                @endfor
+                                                <option value="{{ $currentYear }}/{{ $nextYear }}" {{ $cotisation->annee == $currentYear.'/'.$nextYear ? 'selected' : '' }}>
+                                                    {{ $currentYear }}/{{ $nextYear }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="recu_paiement">Recu de paiement:</label>
                                             <input type="file" class="form-control" id="recu_paiement" name="recu_paiement">
                                         </div>
@@ -207,6 +227,22 @@ Listes de mes cotisations
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" class="form-control" id="date" name="date" placeholder="Entrer la date">
+                    </div>
+                    <div class="form-group">
+                        <label for="annee">Année</label>
+                        <select name="annee" id="annee" class="form-control" required>
+                            @php
+                                $currentYear = date('Y');
+                                $nextYear = $currentYear + 1;
+                            @endphp
+                            @for ($year = 2018; $year < $currentYear; $year++)
+                                @php
+                                    $yearRange = $year . '/' . ($year + 1);
+                                @endphp
+                                <option value="{{ $yearRange }}">{{ $yearRange }}</option>
+                            @endfor
+                            <option value="{{ $currentYear }}/{{ $nextYear }}" selected>{{ $currentYear }}/{{ $nextYear }}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="recu_paiement">Recu de paiement</label>

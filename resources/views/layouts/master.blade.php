@@ -128,6 +128,12 @@ table {
 .card {
     padding: 0 ;
 }
+.notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 
 

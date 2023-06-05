@@ -22,6 +22,8 @@ Route::resource('annees', App\Http\Controllers\AnneeController::class)->middlewa
 
 Route::get('/parametre/bureau', [App\Http\Controllers\ParametreController::class, 'bureau'])->name('parametre.bureau')->middleware(['auth', 'admin']);
 
+Route::post('/mark-as-read/{id}', [App\Http\Controllers\AdherentController::class, 'markAsRead'])->name('mark-as-read')->middleware(['auth', 'admin']);
+
 
 Route::get('/parametre/listeMembres', [App\Http\Controllers\ParametreController::class, 'listeMembres'])
     ->name('parametre.listeMembres')

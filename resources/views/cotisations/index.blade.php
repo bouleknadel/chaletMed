@@ -67,7 +67,7 @@ Cotisations
                                             <label for="select-year">Année :</label>
                                             <select id="select-year" class="form-control" name="year">
                                                 <option value="" disabled {{ empty($selectedYear) ? 'selected' : '' }}>Toutes les années</option>
-                                                @for ($year = 2018; $year <= $current_year; $year++)
+                                                @for ($year = 2018; $year < $current_year; $year++)
                                                     <?php $yearNext = $year + 1; ?>
                                                     <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
                                                         {{ $year.'/'.$yearNext }}
