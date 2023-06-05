@@ -284,6 +284,21 @@ Dashboard
         </div>
     </div>
     <div class="row">
+        @php
+    $agentsSecurite = $agentsSecurite->sortBy(function ($agent) {
+        switch ($agent->fonction) {
+            case 'Chef de sécurité':
+                return 1;
+            case 'Agent jardiner':
+                return 2;
+            case 'Agent de sécurité':
+                return 3;
+            default:
+                return 4;
+        }
+    });
+@endphp
+
         @foreach($agentsSecurite as $agent)
             <div class="col-md-2 col-sm-6 col-lg-3 mb-4">
                 <div class="card" style="">
