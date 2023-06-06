@@ -46,20 +46,83 @@ public function autre()
 
 public function storeCoordonee(Request $request)
 {
+   // Valider les données du formulaire
+   $validatedData = $request->validate([
+    'numero_compte' => 'required',
+    'raison_sociale' => 'required',
+    'ville' => 'required',
+    'banque' => 'required',
+    'status' => 'boolean',
+]);
+
+// Création d'une nouvelle coordonnée bancaire
+$coordoneeBanque = new CoordoneeBanque();
+$coordoneeBanque->numero_compte = $validatedData['numero_compte'];
+$coordoneeBanque->raison_sociale = $validatedData['raison_sociale'];
+$coordoneeBanque->ville = $validatedData['ville'];
+$coordoneeBanque->banque = $validatedData['banque'];
+$coordoneeBanque->status = $validatedData['status'];
+
+// Traitement du fichier logo
+if ($request->hasFile('logo')) {
+    $logo = $request->file('logo');
+    $logoName = time() . '_' . $logo->getClientOriginalName();
+    // Enregistrer le fichier dans le stockage public
+    $logo->move('uploads/photos', $logoName);
+    // Enregistrer le chemin d'accès au fichier dans la base de données
+    $coordoneeBanque->logo = $logoName;
+}
+$coordoneeBanque->save();
+
+    // Effectuez d'autres opérations si nécessaire
+    return redirect()->back()->with('success', 'Coordonnées bancaires enregistrées avec succès.');
+}
+public function coordoneeBanqueUpdate(Request $request, $id)
+{
+    // Validation des données du formulaire
     $validatedData = $request->validate([
         'numero_compte' => 'required',
         'raison_sociale' => 'required',
         'ville' => 'required',
         'banque' => 'required',
-        'cle' => 'required',
+        'status' => 'boolean',
     ]);
 
-    $coordoneeBanque = CoordoneeBanque::create($validatedData);
+    // Recherche de la coordonnée bancaire à mettre à jour
+    $coordoneeBanque = CoordoneeBanque::findOrFail($id);
 
-    // Effectuez d'autres opérations si nécessaire
+    // Mise à jour des champs de la coordonnée bancaire
+    $coordoneeBanque->numero_compte = $validatedData['numero_compte'];
+    $coordoneeBanque->raison_sociale = $validatedData['raison_sociale'];
+    $coordoneeBanque->ville = $validatedData['ville'];
+    $coordoneeBanque->banque = $validatedData['banque'];
+    $coordoneeBanque->status = $validatedData['status'];
 
-    return redirect()->back()->with('success', 'Coordonnées bancaires enregistrées avec succès.');
+    if ($request->hasFile('logo')) {
+        $logo = $request->file('logo');
+        $logoName = time() . '_' . $logo->getClientOriginalName();
+        // Enregistrer le fichier dans le stockage public
+        $logo->move('uploads/photos', $logoName);
+        // Enregistrer le chemin d'accès au fichier dans la base de données
+        $coordoneeBanque->logo = $logoName;
+    }
+
+    // Enregistrement des modifications
+    $coordoneeBanque->save();
+
+    // Redirection vers la page appropriée avec un message de succès
+    return redirect()->route('parametre.autre')->with('successedit', 'Coordonnée bancaire mise à jour avec succès.');
 }
+
+
+public function coordoneeBanqueDestroy($id)
+{
+    $coordoneeBanque = CoordoneeBanque::findOrFail($id);
+    $coordoneeBanque->delete();
+
+    return redirect()->route('parametre.autre')->with('success', 'Coordonnée bancaire supprimée avec succès');
+}
+
 
 
 

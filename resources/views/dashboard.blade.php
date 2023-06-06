@@ -28,6 +28,7 @@ Dashboard
 
 
 @foreach($coordoneeBanque as $coordonee)
+@if ($coordonee->status == 1)
     <div class="card " style="width : 50% ;">
         <div class="card-body">
             <h4 class="card-title">Relevé d'identité bancaire (RIB)</h4>
@@ -53,16 +54,30 @@ Dashboard
                     <span class="label">Banque:</span>
                     <span class="value">{{ $coordonee->banque }}</span>
                 </div>
-                <div class="bank-info-row">
-                    <span class="icon"><i class="fas fa-key"></i></span>
-                    <span class="label">Clé:</span>
-                    <span class="value">{{ $coordonee->cle }}</span>
-                </div>
             </div>
         </div>
     </div>
+    @endif
 @endforeach
 
+
+<form action="{{ route('dashboard') }}" method="GET" class="form-inline">
+    <div class="row p-3">
+
+            <div class="form-group">
+                <select id="select-year" class="form-control" name="year" style="width: 400px ;">
+                    <option value="" disabled {{ empty($selected_year) ? 'selected' : '' }}>Toutes les années</option>
+                    @for ($year = 2018; $year <= $current_year; $year++)
+                        <?php $yearNext = $year + 1; ?>
+                        <option value="{{ $year }}" {{ ($selected_year == $year || ($selected_year == null && $year == $current_year)) ? 'selected' : '' }}>
+                            {{ $year.'/'.$yearNext }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary ml-4" style="width : 300px ;">Filtrer</button>
+    </div>
+</form>
 
  <!-- Main content -->
  <section class="content">

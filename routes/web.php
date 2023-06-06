@@ -34,6 +34,14 @@ Route::post('/parametre/bureau', [App\Http\Controllers\ParametreController::clas
     ->name('parametre.storeBureau')
     ->middleware(['auth', 'admin']);
 
+    Route::put('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueUpdate'])
+    ->name('coordonee_banques.update')
+    ->middleware(['auth', 'admin']);
+
+    Route::delete('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueDestroy'])
+    ->name('coordonee_banques.destroy')
+    ->middleware(['auth', 'admin']);
+
 
 Route::get('/parametre/autre', [App\Http\Controllers\ParametreController::class, 'autre'])
     ->name('parametre.autre')

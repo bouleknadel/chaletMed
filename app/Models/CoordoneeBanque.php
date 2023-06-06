@@ -9,12 +9,7 @@ class CoordoneeBanque extends Model
 {
     protected $table = 'coordonee_banques';
 
-    protected $fillable = [
-        'numero_compte',
-        'raison_sociale',
-        'ville',
-        'banque',
-        'cle',
-    ];
+    protected $fillable = ['numero_compte', 'raison_sociale', 'ville', 'banque', 'status'];
+
     use HasFactory;
 }

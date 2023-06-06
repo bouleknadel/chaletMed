@@ -123,7 +123,7 @@ if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
             ->get();
     } else {
         // Si aucun statut n'est précisé, récupérer toutes les cotisations de l'année en cours
-        $cotisations = Cotisation::where('date', $current_year)
+        $cotisations = Cotisation::where('annee', $current_year)
             ->with('user')
             ->get();
     }
