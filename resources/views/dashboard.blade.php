@@ -30,8 +30,11 @@ Dashboard
 @foreach($coordoneeBanque as $coordonee)
 @if ($coordonee->status == 1)
     <div class="card " style="width : 50% ;">
-        <div class="card-body">
-            <h4 class="card-title">Relevé d'identité bancaire (RIB)</h4>
+        <div class="card-body" style="display: flex ; justify-content : space-between">
+
+
+            <div>
+                <h4 class="card-title">Relevé d'identité bancaire (RIB)</h4>
             <div class="bank-info">
                               <br>
                 <div class="bank-info-row">
@@ -55,6 +58,14 @@ Dashboard
                     <span class="value">{{ $coordonee->banque }}</span>
                 </div>
             </div>
+            </div>
+
+            @if ($coordonee->logo)
+            <div class="logo-container">
+                <img src="{{ asset('uploads/photos/'.$coordonee->logo) }}" alt="Logo de la banque" style="height: 70px; width: 70px;" class="logo">
+            </div>
+        @endif
+
         </div>
     </div>
     @endif

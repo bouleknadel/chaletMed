@@ -170,7 +170,7 @@ $coordonee = CoordoneeBanque::all();
       <div class="rib-info">
         <div class="row mt-6 mt-4">
           @foreach($coordonee as $coord)
-          @if ($coordonee->status == 1)
+          @if ($coord->status == 1)
             <div class="col-md-6">
                 <p><i class="fas fa-credit-card"></i> <span>Numéro de compte:
                 </span> <span class="value">{{ $coord->numero_compte }}</span></p>
@@ -187,7 +187,15 @@ $coordonee = CoordoneeBanque::all();
                 <p><i class="fas fa-university"></i> <span>Banque:
                 </span> <span class="value">{{ $coord->banque }}</span></p>
             </div>
+            <div class="col-md-6">
+                @if ($coord->logo)
+                    <div class="logo-container">
+                        <img src="{{ asset('uploads/photos/'.$coord->logo) }}" alt="Logo de la banque" style="height: 50px; width: 50px;" class="logo">
+                    </div>
+                @endif
+            </div>
             @endif
+            <hr>
           @endforeach
         </div>
       </div>
