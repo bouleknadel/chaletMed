@@ -76,6 +76,12 @@
                         <p>Relevé bancaire</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('document_divers.index') }}" class="nav-link">
+                        <i class="fas fa-file"></i>
+                        <p>Document divers</p>
+                    </a>
+                </li>
                 @if (Auth::user()->role != 'syndic')
                     <li class="nav-item">
                         <a href="#" class="nav-link">

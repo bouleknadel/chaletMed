@@ -10,6 +10,7 @@ Route::get('/', function () {
 
 //Releve Bnks
 Route::resource('releve_bnks', App\Http\Controllers\ReleveBnkController::class)->middleware(['auth']);
+Route::resource('document_divers', App\Http\Controllers\DocumentDiverController::class)->middleware(['auth']);
 
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'admin']);
