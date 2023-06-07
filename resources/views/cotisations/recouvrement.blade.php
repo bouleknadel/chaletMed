@@ -195,6 +195,9 @@
         $(function() {
             $("#example1").DataTable({
                 "lengthChange": false,
+                order: [
+                    [11, 'desc']
+                ],
                 "autoWidth": false,
                 "buttons": [{
                         extend: 'copyHtml5',
@@ -229,14 +232,7 @@
                     }
                 ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-            });
+
         });
     </script>
 @endsection
