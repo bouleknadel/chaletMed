@@ -16,7 +16,5 @@ class Annee extends Model
         'prix_location',
     ];
 
-    protected $casts = [
-        'annee' => 'decimal',
-    ];
+    
 }
