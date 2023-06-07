@@ -77,7 +77,8 @@
 
                                                     @foreach ($annees as $year)
                                                         @php
-                                                            $yearRange = $year->annee . '/' . intval($year->annee) + 1;
+                                                            $next_a = intval($year->annee) + 1;
+                                                            $yearRange = $year->annee . '/' . $next_a;
                                                         @endphp
                                                         <option value="{{ $year }}"
                                                             {{ $selectedYear == $year->annee ? 'selected' : '' }}>
