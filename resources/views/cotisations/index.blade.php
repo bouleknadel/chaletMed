@@ -91,18 +91,7 @@
 
                                         </div>
 
-                                        {{-- <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="select-letter">N° du chalet :</label>
-                                                <select id="select-letter" class="form-control" name="letter">
-                                                    <option value="" selected disabled>Toutes les lettres</option>
-                                                    <option value="A" {{ $selectedLetter == 'A' ? 'selected' : '' }}>A
-                                                    </option>
-                                                    <option value="B" {{ $selectedLetter == 'B' ? 'selected' : '' }}>B
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div> --}}
+                                        
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="select-letter">Utilisateur :</label>
@@ -311,21 +300,7 @@
                                                                             <label for="date">Année</label>
                                                                             <select name="annee" id="annee"
                                                                                 class="form-control" required>
-                                                                                {{--  @php
-                                                                                    $currentYear = date('Y');
-                                                                                    $nextYear = $currentYear + 1;
-                                                                                @endphp
-                                                                                @for ($year = 2018; $year < $currentYear; $year++)
-                                                                                    <option value="{{ $yearRange }}"
-                                                                                        {{ $cotisation->annee == $yearRange ? 'selected' : '' }}>
-                                                                                        {{ $yearRange }}
-                                                                                    </option>
-                                                                                @endfor
-                                                                                <option
-                                                                                    value="{{ $currentYear }}/{{ $nextYear }}"
-                                                                                    {{ $cotisation->annee == $currentYear . '/' . $nextYear ? 'selected' : '' }}>
-                                                                                    {{ $currentYear }}/{{ $nextYear }}
-                                                                                </option> --}}
+
                                                                                 @foreach ($annees as $year)
                                                                                     @php
                                                                                         $yearRange = $year->annee . '/' . intval($year->annee) + 1;
@@ -470,18 +445,6 @@
                         <div class="form-group">
                             <label for="date">Année</label>
                             <select name="annee" id="annee" class="form-control" required>
-                                {{--  @php
-                                    $currentYear = date('Y');
-                                    $nextYear = $currentYear + 1;
-                                @endphp
-                                @for ($year = 2018; $year < $currentYear; $year++)
-                                    @php
-                                        $yearRange = $year . '/' . ($year + 1);
-                                    @endphp
-                                    <option value="{{ $yearRange }}">{{ $yearRange }}</option>
-                                @endfor
-                                <option value="{{ $currentYear }}/{{ $nextYear }}" selected>
-                                    {{ $currentYear }}/{{ $nextYear }}</option> --}}
                                 @foreach ($annees as $year)
                                     @php
                                         $yearRange = $year->annee . '/' . intval($year->annee) + 1;
