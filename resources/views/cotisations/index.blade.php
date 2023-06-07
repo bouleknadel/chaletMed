@@ -84,7 +84,7 @@
                                                     @foreach ($annees as $year)
                                                         <option value="{{ $year }}"
                                                             {{ $selectedYear == $year->annee ? 'selected' : '' }}>
-                                                            {{ $year->annee . '/' . floatval($year->annee) + 1 }}
+                                                            {{ $year->annee . '/' . intval($year->annee) + 1 }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -211,7 +211,7 @@
 
                                             @php
                                                 $annee = $cotisation->annee;
-                                                $anneeplus = floatval($cotisation->anne) + 1;
+                                                $anneeplus = intval($cotisation->annee) + 1;
                                             @endphp
                                             @if ($annee)
                                                 <td class="text-bold">{{ $annee }}/{{ $anneeplus }}</td>
@@ -330,7 +330,7 @@
                                                                                 </option> --}}
                                                                                 @foreach ($annees as $year)
                                                                                     @php
-                                                                                        $yearRange = $year->annee . '/' . floatval($year->annee) + 1;
+                                                                                        $yearRange = $year->annee . '/' . intval($year->annee) + 1;
                                                                                     @endphp
                                                                                     <option value="{{ $year->annee }}"
                                                                                         {{ $cotisation->annee == $year->annee ? 'selected' : '' }}>
@@ -486,7 +486,7 @@
                                     {{ $currentYear }}/{{ $nextYear }}</option> --}}
                                 @foreach ($annees as $year)
                                     @php
-                                        $yearRange = $year->annee . '/' . floatval($year->annee) + 1;
+                                        $yearRange = $year->annee . '/' . intval($year->annee) + 1;
                                     @endphp
                                     <option value="{{ $year->annee }}">
                                         {{ $yearRange }}
