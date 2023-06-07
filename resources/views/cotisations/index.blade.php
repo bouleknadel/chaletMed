@@ -302,8 +302,12 @@
                                                                                 class="form-control" required>
 
                                                                                 @foreach ($annees as $year)
-                                                                                    <option value="{{ $year->annee }}">
-                                                                                        {{ $year->annee }}
+                                                                                    @php
+                                                                                        $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
+                                                                                    @endphp
+                                                                                    <option value="{{ $year->annee }}"
+                                                                                        @if (intval($cotisation->annee) == intval($year->annee)) selected @endif>
+                                                                                        {{ $yearRange }}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>
@@ -443,7 +447,7 @@
                             <select name="annee" id="annee" class="form-control" required>
                                 @foreach ($annees as $year)
                                     @php
-                                        $yearRange = $year->annee . '/' . intval($year->annee) + 1;
+                                        $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
                                     @endphp
                                     <option value="{{ $year->annee }}">
                                         {{ $yearRange }}
