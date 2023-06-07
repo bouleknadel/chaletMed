@@ -74,13 +74,7 @@
                                                     <option value="" {{ empty($selectedYear) ? 'selected' : '' }}>
                                                         Toutes les années
                                                     </option>
-                                                    {{-- @for ($year = 2018; $year <= $current_year; $year++)
 
-                                                        <option value="{{ $year }}"
-                                                            {{ $selectedYear == $year ? 'selected' : '' }}>
-                                                            {{ $year . '/' . ($year + 1) }}
-                                                        </option>
-                                                    @endfor --}}
                                                     @foreach ($annees as $year)
                                                         @php
                                                             $yearRange = $year->annee . '/' . intval($year->annee) + 1;
