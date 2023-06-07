@@ -13,6 +13,10 @@ class Annee extends Model
 
     protected $fillable = [
         'annee',
-        'prix_location', ];
+        'prix_location',
+    ];
 
+    protected $cast = [
+        'annee' => 'decimal',
+    ];
 }
