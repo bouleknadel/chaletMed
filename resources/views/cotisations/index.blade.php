@@ -80,9 +80,9 @@
                                                             $next_a = intval($year->annee) + 1;
                                                             $yearRange = $year->annee . '/' . $next_a;
                                                         @endphp
-                                                        <option value="{{ $year }}"
+                                                        <option value="{{ $year->annee }}"
                                                             {{ $selectedYear == $year->annee ? 'selected' : '' }}>
-                                                            {{ $year->annee . '/' . $yearRange }}
+                                                            {{ $yearRange }}
                                                         </option>
                                                     @endforeach
                                                 </select>
