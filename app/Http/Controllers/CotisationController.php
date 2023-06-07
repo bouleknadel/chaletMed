@@ -26,10 +26,10 @@ class CotisationController extends Controller
     public function index(Request $request)
     {
 
-
-        $current_year = date('Y'); // Année en cours
-        $current_month = date('n'); // Mois actuel (1-12)
-        $current_day = date('j'); // Jour actuel (1-31)
+        $now = now();
+        $current_year = intval($now->format('Y')); // Année en cours
+        $current_month = intval($now->format('m')); // Mois actuel (1-12)
+        $current_day = intval($now->format('d')); // Jour actuel (1-31)
 
         if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
             $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
@@ -86,9 +86,10 @@ class CotisationController extends Controller
     //recouvrement------------------------------------------------------------------------------------------------------------------------
     public function recouvrement(Request $request)
     {
-        $current_year = date('Y'); // Année en cours
-        $current_month = date('n'); // Mois actuel (1-12)
-        $current_day = date('j'); // Jour actuel (1-31)
+        $now = now();
+        $current_year = intval($now->format('Y')); // Année en cours
+        $current_month = intval($now->format('m')); // Mois actuel (1-12)
+        $current_day = intval($now->format('d')); // Jour actuel (1-31)
 
         if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
             $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
@@ -176,9 +177,10 @@ class CotisationController extends Controller
     //dashboard-----------------------------------------------------------------------------------------------------------------------------
     public function showCurrentYearCotisations(Request $request)
     {
-        $current_year = date('Y'); // Année en cours
-        $current_month = date('n'); // Mois actuel (1-12)
-        $current_day = date('j'); // Jour actuel (1-31)
+        $now = now();
+        $current_year = intval($now->format('Y')); // Année en cours
+        $current_month = intval($now->format('m')); // Mois actuel (1-12)
+        $current_day = intval($now->format('d')); // Jour actuel (1-31)
 
         if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
             $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
