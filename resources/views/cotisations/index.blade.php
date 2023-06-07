@@ -302,11 +302,8 @@
                                                                                 class="form-control" required>
 
                                                                                 @foreach ($annees as $year)
-                                                                                    @php
-                                                                                        $yearRange = $year->annee . '/' . intval($year->annee) + 1;
-                                                                                    @endphp
                                                                                     <option value="{{ $year->annee }}">
-                                                                                        {{ $yearRange }}
+                                                                                        {{ $year->annee . '/' . intval($year->annee) + 1 }}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>
