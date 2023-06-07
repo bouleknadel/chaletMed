@@ -303,7 +303,7 @@
 
                                                                                 @foreach ($annees as $year)
                                                                                     <option value="{{ $year->annee }}">
-                                                                                        {{ $year->annee . '/' . intval($year->annee) + 1 }}
+                                                                                        {{ $year->annee }}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>
