@@ -51,13 +51,13 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-        'lastname' => ['required', 'string', 'max:255'],
-        'numero_devilla' => ['required', 'string', 'max:255', 'unique:users'],
-        'numero_de_telephone' => ['required', 'string', 'max:255', 'unique:users'],
-        'numero_de_telephone2' => ['required','nullable', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ] , [
+            'lastname' => ['required', 'string', 'max:255'],
+            'numero_devilla' => ['required', 'string', 'max:255', 'unique:users'],
+            'numero_de_telephone' => ['required', 'string', 'max:255', 'unique:users'],
+            'numero_de_telephone2' => ['required', 'nullable', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
             'name.required' => 'Le champ Prenom est obligatoire.',
             'name.string' => 'Le champ Prenom doit contenir des caractères valides.',
             'name.max' => 'Le champ Prenom ne doit pas dépasser 255 caractères.',
@@ -103,12 +103,12 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-        'lastname' => $data['lastname'],
-        'numero_devilla' => $data['numero_devilla'],
-        'numero_de_telephone' => $data['numero_de_telephone'],
-        'numero_de_telephone2' => $data['numero_de_telephone2'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
+            'lastname' => $data['lastname'],
+            'numero_devilla' => $data['numero_devilla'],
+            'numero_de_telephone' => $data['numero_de_telephone'],
+            'numero_de_telephone2' => $data['numero_de_telephone2'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
     }
 }

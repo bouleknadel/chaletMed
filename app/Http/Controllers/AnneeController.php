@@ -38,19 +38,19 @@ class AnneeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'annee' => 'required|digits:4|unique:annees,annee',
-        'prix_location' => 'required|numeric|min:0',
-    ]);
+    {
+        $request->validate([
+            'annee' => 'required|unique:annees,annee',
+            'prix_location' => 'required|numeric|min:0',
+        ]);
 
-    $annee = new Annee();
-    $annee->annee = substr($request->annee, 0, 4); // Récupère uniquement les 4 premiers chiffres de l'année
-    $annee->prix_location = $request->prix_location;
-    $annee->save();
+        $annee = new Annee();
+        $annee->annee = substr($request->annee, 0, 4); // Récupère uniquement les 4 premiers chiffres de l'année
+        $annee->prix_location = $request->prix_location;
+        $annee->save();
 
-    return redirect()->route('annees.index')->with('success', 'Année ajoutée avec succès.');
-}
+        return redirect()->route('annees.index')->with('success', 'Année ajoutée avec succès.');
+    }
 
 
 
@@ -84,15 +84,15 @@ class AnneeController extends Controller
      * @param  \App\Models\Annee  $annee
      * @return \Illuminate\Http\Response
      */
-   public function update(Request $request, $id)
-{
-    $annee = Annee::findOrFail($id);
-    $annee->annee = $request->input('annee');
-    $annee->prix_location = $request->input('prix_location');
-    $annee->save();
+    public function update(Request $request, $id)
+    {
+        $annee = Annee::findOrFail($id);
+        $annee->annee = $request->input('annee');
+        $annee->prix_location = $request->input('prix_location');
+        $annee->save();
 
-    return redirect()->route('annees.index')->with('success', 'Année modifiée avec succès');
-}
+        return redirect()->route('annees.index')->with('success', 'Année modifiée avec succès');
+    }
 
 
     /**
@@ -102,11 +102,10 @@ class AnneeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-{
-    $annee = Annee::findOrFail($id);
-    $annee->delete();
+    {
+        $annee = Annee::findOrFail($id);
+        $annee->delete();
 
-    return redirect()->route('annees.index')->with('successdelete', 'Année supprimée avec succès');
-}
-
+        return redirect()->route('annees.index')->with('successdelete', 'Année supprimée avec succès');
+    }
 }
