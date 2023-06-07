@@ -151,7 +151,7 @@
                                                 </td>
 
                                                 <td class="font-weight-bold text-success">
-                                                    {{ $user['total_impaye'] }} DH
+                                                    {{ $user['total_paye'] }} DH
                                                 </td>
 
 
