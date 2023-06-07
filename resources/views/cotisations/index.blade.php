@@ -305,8 +305,7 @@
                                                                                     @php
                                                                                         $yearRange = $year->annee . '/' . intval($year->annee) + 1;
                                                                                     @endphp
-                                                                                    <option value="{{ $year->annee }}"
-                                                                                        @if (intval($cotisation->annee) == intval($year->annee)) selected @endif>
+                                                                                    <option value="{{ $year->annee }}">
                                                                                         {{ $yearRange }}
                                                                                     </option>
                                                                                 @endforeach
