@@ -91,7 +91,7 @@
 
                                         </div>
 
-                                        
+
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="select-letter">Utilisateur :</label>
@@ -306,7 +306,7 @@
                                                                                         $yearRange = $year->annee . '/' . intval($year->annee) + 1;
                                                                                     @endphp
                                                                                     <option value="{{ $year->annee }}"
-                                                                                        {{ $cotisation->annee == $year->annee ? 'selected' : '' }}>
+                                                                                        @if ($cotisation->annee == $year->annee) selected @endif>
                                                                                         {{ $yearRange }}
                                                                                     </option>
                                                                                 @endforeach
