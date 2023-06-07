@@ -130,7 +130,7 @@ class CotisationController extends Controller
         // Récupérer la liste des années pour lesquelles des cotisations ont été effectuées
         $annees = $cotisations->pluck('annee')->unique()->sort(); */
 
-        $users = User::where('status', 'ACTIVE')->where('role', 'user')->all();
+        $users = User::where('status', 'ACTIVE')->where('role', 'user')->get();
         $users = $users->map(function ($user) use ($annee_colunms, $annees) {
             // get cotisation by month;
             $total_paye = 0;
