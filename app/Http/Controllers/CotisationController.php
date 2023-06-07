@@ -35,7 +35,7 @@ class CotisationController extends Controller
             $current_year--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
         }
 
-        $users = User::where('role', 'user')->get();
+        $users = User::where('status', 'ACTIVE')->where('role', 'user')->get();
         $cotisations = Cotisation::with('user');
         $annees = Annee::orderBy('annee')->get();
 
@@ -130,7 +130,7 @@ class CotisationController extends Controller
         // Récupérer la liste des années pour lesquelles des cotisations ont été effectuées
         $annees = $cotisations->pluck('annee')->unique()->sort(); */
 
-        $users = User::all();
+        $users = User::where('status', 'ACTIVE')->where('role', 'user')->all();
         $users = $users->map(function ($user) use ($annee_colunms, $annees) {
             // get cotisation by month;
             $total_paye = 0;
@@ -222,7 +222,7 @@ class CotisationController extends Controller
      */
     public function create()
     {
-        $users = User::where('role', 'user')->get();
+        $users = User::where('status', 'ACTIVE')->where('role', 'user')->get();
         return view('cotisations.create', compact('users'));
     }
 
@@ -307,7 +307,7 @@ class CotisationController extends Controller
      */
     public function edit(Cotisation $cotisation)
     {
-        $users = User::where('role', 'user')->get();
+        $users = User::where('status', 'ACTIVE')->where('role', 'user')->get();
         return view('cotisations.edit', compact('cotisation', 'users'));
     }
 
