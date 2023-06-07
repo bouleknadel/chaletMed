@@ -8,7 +8,8 @@ Route::get('/', function () {
 });
 
 
-
+//Releve Bnks
+Route::resource('releve_bnks', App\Http\Controllers\ReleveBnkController::class)->middleware(['auth']);
 
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'admin']);
@@ -17,7 +18,7 @@ Route::get('cotisations/download/{id}', [App\Http\Controllers\CotisationControll
 Route::get('/cotisations/recouvrement', [App\Http\Controllers\CotisationController::class, 'recouvrement'])->name('cotisations.recouvrement');
 Route::get('/cotisations/current-year/{status}', [App\Http\Controllers\CotisationController::class, 'showCurrentYearCotisations'])->name('cotisations.showCurrentYearCotisations');
 Route::resource('cotisations', App\Http\Controllers\CotisationController::class)->middleware(['auth', 'admin']);
-Route::resource('charges',App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
+Route::resource('charges', App\Http\Controllers\ChargeController::class)->middleware(['auth', 'admin']);
 Route::resource('annees', App\Http\Controllers\AnneeController::class)->middleware(['auth', 'admin']);
 
 Route::get('/parametre/bureau', [App\Http\Controllers\ParametreController::class, 'bureau'])->name('parametre.bureau')->middleware(['auth', 'admin']);
@@ -34,11 +35,11 @@ Route::post('/parametre/bureau', [App\Http\Controllers\ParametreController::clas
     ->name('parametre.storeBureau')
     ->middleware(['auth', 'admin']);
 
-    Route::put('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueUpdate'])
+Route::put('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueUpdate'])
     ->name('coordonee_banques.update')
     ->middleware(['auth', 'admin']);
 
-    Route::delete('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueDestroy'])
+Route::delete('/parametre/coordonee-banque/{id}', [App\Http\Controllers\ParametreController::class, 'coordoneeBanqueDestroy'])
     ->name('coordonee_banques.destroy')
     ->middleware(['auth', 'admin']);
 
@@ -55,8 +56,8 @@ Route::post('/parametre/storeCoordonee', [App\Http\Controllers\ParametreControll
 
 
 Route::put('/bureau/{id}', [App\Http\Controllers\ParametreController::class, 'updateBureau'])
-->name('parametre.updateBureau')
-->middleware(['auth', 'admin']);
+    ->name('parametre.updateBureau')
+    ->middleware(['auth', 'admin']);
 
 
 

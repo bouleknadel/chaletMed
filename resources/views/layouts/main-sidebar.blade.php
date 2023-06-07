@@ -70,6 +70,12 @@
                         <p>Bilan</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('releve_bnks.index') }}" class="nav-link">
+                        <i class="fas fa-file"></i>
+                        <p>Relevé bancaire</p>
+                    </a>
+                </li>
                 @if (Auth::user()->role != 'syndic')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
