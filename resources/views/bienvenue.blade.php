@@ -23,6 +23,22 @@
             height: auto;
         }
 
+        .hero-title-con {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vmin;
+            height: 80vmin;
+            background: rgba(244,189,20, 0.1);
+            border-radius: 100%;
+            box-shadow: inset 0px 0px 30px 30px rgba(200, 200, 200, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .hero-title {
             filter: drop-shadow(calc(-1 * 1.2rem) 1.2rem calc(1.2rem * 2) black);
             text-shadow: 1px 2px 5px rgb(0 0 0) !important;
@@ -30,7 +46,49 @@
 
             display: inline;
             font-variation-settings: "wght"900;
-            
+
+        }
+
+        .circle_container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 10px;
+            transform-origin: left center;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateX(0px);
+                opacity: 0;
+            }
+
+            1% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateX(70vmin);
+                opacity: 0;
+            }
+        }
+
+        .circle_container .circle {
+            position: absolute;
+            border-radius: 100%;
+            background: rgb(231 176 9);
+            left: 0;
+            opacity: 0;
+            -webkit-animation-name: move;
+            animation-name: move;
+            -webkit-animation-duration: 20s;
+            animation-duration: 20s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
         }
     </style>
 
@@ -100,7 +158,7 @@
             background-size: cover;
             height: 100vh;">
 
-                <div class="carousel-caption mt-4" style="bottom: 35%;">
+                <div class="hero-title-con  carousel-caption mt-4" style="bottom: 35%;">
                     <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
@@ -112,7 +170,7 @@
             background-size: cover;
             height: 100vh;">
 
-                <div class="carousel-caption  mt-4" style="bottom: 35%;">
+                <div class="hero-title-con carousel-caption  mt-4" style="bottom: 35%;">
                     <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
@@ -124,7 +182,7 @@
             background-size: cover;
             height: 100vh;">
 
-                <div class="carousel-caption mt-4" style="bottom: 35%;">
+                <div class=" hero-title-con carousel-caption mt-4" style="bottom: 35%;">
                     <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
@@ -363,6 +421,49 @@
             <p class="text-white">© 2023 CHLETMED. Tous droits réservés</p>
         </div>
     </footer>
+
+    <script>
+        var bubbleLifeTime = 20;
+        var noOfBubbles = 100;
+
+        var wrapper = document.querySelector('.carousel-inner');
+
+        var bubbles = [];
+
+        init();
+
+        function init() {
+            var bubble;
+            for (var i = 0; i < noOfBubbles; i++) {
+                bubble = createBubble();
+                wrapper.appendChild(bubble);
+            }
+
+        }
+
+        function createBubble() {
+            var circleContainer = document.createElement('div');
+            circleContainer.classList.add('circle_container');
+            circleContainer.style.transform = "rotate(" + Math.floor(Math.random() * 360) + "deg)";
+
+            var circle = createCircle();
+            circleContainer.appendChild(circle);
+
+            return circleContainer;
+        }
+
+        function createCircle() {
+            var circle = document.createElement('div');
+            circle.classList.add('circle');
+            circle.style.animationDelay = (Math.random() * bubbleLifeTime) + 's';
+
+            var side = (5 + Math.floor(Math.random() * 5)) + 'px';
+            circle.style.width = side;
+            circle.style.height = side;
+
+            return circle;
+        }
+    </script>
 
 
     <!--Js -->
