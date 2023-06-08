@@ -8,9 +8,9 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 
@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-center mt-2 ff">
+                                    <div class="row justify-content-center my-2 ff">
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary btn-block"
                                                 style="font-size: 17px; font-weight : 600 ;">Filtrer</button>

@@ -55,7 +55,7 @@
                 <li class="nav-item">
                     <a href="{{ route('charges.index') }}" class="nav-link">
                         <i class="fas fa-file-invoice-dollar"></i>
-                        <p>Charges</p>
+                        <p> Charges</p>
                     </a>
                 </li>
                 <li class="nav-item">

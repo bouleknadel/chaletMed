@@ -8,9 +8,9 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 
@@ -69,52 +69,55 @@
                                     <i class="fas fa-user-plus"></i> Ajouter Utilisateur
                                 </button>
                             @endif
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Rôle</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>N° du chalet</th>
-                                        <th>Numéro de téléphone</th>
-                                        <th>Numéro de téléphone 2</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        @if (Auth::user()->role != 'syndic')
-                                            <th>Action</th>
-                                        @endif
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $user->role }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->lastname }}</td>
-                                            <td>{{ $user->numero_devilla }}</td>
-                                            <td>{{ $user->numero_de_telephone }}</td>
-                                            <td>{{ $user->numero_de_telephone2 }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->status }}</td>
+                                            <th>Rôle</th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>N° du chalet</th>
+                                            <th>Numéro de téléphone</th>
+                                            <th>Numéro de téléphone 2</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
                                             @if (Auth::user()->role != 'syndic')
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#editModal{{ $user->id }}"><i
-                                                            class="fas fa-edit"></i></button>
-                                                    <form action="{{ route('users.destroy', $user->id) }}" method="post"
-                                                        style="display: inline-block" class="mt-1">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                                class="fas fa-trash-alt"></i></button>
-                                                    </form>
-                                                </td>
+                                                <th>Action</th>
                                             @endif
+
                                         </tr>
-                                    @endforeach
-                                    </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $user)
+                                            <tr>
+                                                <td>{{ $user->role }}</td>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->lastname }}</td>
+                                                <td>{{ $user->numero_devilla }}</td>
+                                                <td>{{ $user->numero_de_telephone }}</td>
+                                                <td>{{ $user->numero_de_telephone2 }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->status }}</td>
+                                                @if (Auth::user()->role != 'syndic')
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#editModal{{ $user->id }}"><i
+                                                                class="fas fa-edit"></i></button>
+                                                        <form action="{{ route('users.destroy', $user->id) }}"
+                                                            method="post" style="display: inline-block" class="mt-1">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                                    class="fas fa-trash-alt"></i></button>
+                                                        </form>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        </tfoot>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

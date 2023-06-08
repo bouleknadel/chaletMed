@@ -8,9 +8,9 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 
@@ -105,7 +105,8 @@
                                                 <td>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#editModal{{ $document_diver->id }}">
+                                                        data-toggle="modal"
+                                                        data-target="#editModal{{ $document_diver->id }}">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
 
@@ -244,10 +245,8 @@
 
 @section('scripts')
     <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script> F
     <script src="{{ URL::asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ URL::asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
     <script src="{{ URL::asset('plugins/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('plugins/pdfmake/pdfmake.min.js') }}"></script>

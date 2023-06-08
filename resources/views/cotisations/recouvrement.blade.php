@@ -8,9 +8,9 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 
@@ -53,7 +53,7 @@
                     </form>
                 </div>
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card mt-2">
                         <div class="card-header">
                             <h3 class="card-title">Recouvrement cotisation</h3>
                         </div>
@@ -63,9 +63,7 @@
                                 <table id="example1" class="table table-bordered table-striped ">
                                     <thead>
                                         <tr>
-                                            <th>N° du chalet</th>
                                             <th>Nom</th>
-                                            <th>Prénom</th>
 
                                             @foreach ($annee_colunms as $annee)
                                                 @php
@@ -90,9 +88,9 @@
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
-                                                <td>{{ $user->numero_devilla }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->lastname }}</td>
+                                                <td>{{ $user->name }} {{ $user->lastname }}
+                                                    ({{ $user->numero_devilla }})</td>
+
                                                 {{-- @php
                                                     $total = 0;
                                                     $totalPrixLocation = 0;
@@ -196,9 +194,10 @@
             $("#example1").DataTable({
                 "lengthChange": false,
                 order: [
-                    [11, 'desc']
+                    [9, 'desc']
                 ],
                 "autoWidth": false,
+                "responsive": true,
                 "buttons": [{
                         extend: 'copyHtml5',
                         text: '<i class="fas fa-copy"></i> Copier',
