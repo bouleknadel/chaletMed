@@ -13,14 +13,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
 
     <style>
-        div#carouselExampleIndicators {
-            max-height: 600px;
-        }
-
-        .carousel-inner {
-            max-height: 600px;
-        }
-
         img.d-block.w-100 {
             width: auto;
             height: 500px;
@@ -29,6 +21,16 @@
         .about-img img {
             width: 100vh;
             height: auto;
+        }
+
+        .hero-title {
+            filter: drop-shadow(calc(-1 * 1.2rem) 1.2rem calc(1.2rem * 2) black);
+            text-shadow: 1px 2px 5px rgb(0 0 0) !important;
+
+
+            display: inline;
+            font-variation-settings: "wght"900;
+            
         }
     </style>
 
@@ -90,22 +92,40 @@
                 type="button"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img alt="..." class="d-block w-100" src="images/image1.jpg" />
-                <div class="carousel-caption mt-4">
-                    <h3>Syndic <br> <span>CHALET MED</span></h3>
+            <div class="carousel-item active"
+                style="background: #f1fbff;
+            background-image: url(images/image1.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 100vh;">
+
+                <div class="carousel-caption mt-4" style="bottom: 35%;">
+                    <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
-            <div class="carousel-item">
-                <img alt="..." class="d-block w-100" src="images/image2.jpg" />
-                <div class="carousel-caption mt-4">
-                    <h3>Syndic <br> <span>CHALET MED</span></h3>
+            <div class="carousel-item"
+                style="background: #f1fbff;
+            background-image: url(images/image2.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 100vh;">
+
+                <div class="carousel-caption  mt-4" style="bottom: 35%;">
+                    <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
-            <div class="carousel-item">
-                <img alt="..." class="d-block w-100" src="images/img3.jpg" />
-                <div class="carousel-caption mt-4">
-                    <h3>Syndic <br> <span>CHALET MED</span></h3>
+            <div class="carousel-item"
+                style="background: #f1fbff;
+            background-image: url(images/img3.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 100vh;">
+
+                <div class="carousel-caption mt-4" style="bottom: 35%;">
+                    <h3 class="hero-title">Syndic <br> <span>CHALET MED</span></h3>
                 </div>
             </div>
         </div>
@@ -155,8 +175,9 @@
                             <div class="col-md-6">
                                 @if ($coord->logo)
                                     <div class="logo-container">
-                                        <img src="{{ asset('uploads/photos/' . $coord->logo) }}" alt="Logo de la banque"
-                                            style="height: 50px; width: 50px;" class="logo">
+                                        <img src="{{ asset('uploads/photos/' . $coord->logo) }}"
+                                            alt="Logo de la banque" style="height: 50px; width: 50px;"
+                                            class="logo">
                                     </div>
                                 @endif
                             </div>
