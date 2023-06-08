@@ -23,6 +23,17 @@
             height: auto;
         }
 
+        .carousel-inner:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: #0000003b;
+        }
+
         .hero-title-con {
             position: absolute;
             left: 50%;
@@ -30,7 +41,7 @@
             transform: translate(-50%, -50%);
             width: 80vmin;
             height: 80vmin;
-            background: rgba(244,189,20, 0.1);
+            background: rgba(244, 189, 20, 0.1);
             border-radius: 100%;
             box-shadow: inset 0px 0px 30px 30px rgba(200, 200, 200, 0.05);
             display: flex;
