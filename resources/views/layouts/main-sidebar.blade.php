@@ -90,6 +90,12 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="{{ route('balances.index') }}" class="nav-link">
+                                    <i class="fas fa-file"></i>
+                                    <p>Balances</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('annees.index') }}" class="nav-link">
                                     <i class="fas fa-plus"></i>
                                     <p>Montant de cotisation</p>

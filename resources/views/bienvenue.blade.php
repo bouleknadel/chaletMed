@@ -468,7 +468,7 @@
             circle.classList.add('circle');
             circle.style.animationDelay = (Math.random() * bubbleLifeTime) + 's';
 
-            var side = (5 + Math.floor(Math.random() * 5)) + 'px';
+            var side = (8 + Math.floor(Math.random() * 8)) + 'px';
             circle.style.width = side;
             circle.style.height = side;
 

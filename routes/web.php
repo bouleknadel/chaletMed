@@ -13,6 +13,9 @@ Route::resource('releve_bnks', App\Http\Controllers\ReleveBnkController::class)-
 Route::resource('document_divers', App\Http\Controllers\DocumentDiverController::class)->middleware(['auth']);
 
 
+Route::resource('balances', App\Http\Controllers\BalanceController::class)->middleware(['auth', 'admin']);
+
+
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'admin']);
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth', 'admin']);
 Route::get('cotisations/download/{id}', [App\Http\Controllers\CotisationController::class, 'downloadReceipt'])->name('cotisations.download')->middleware(['auth', 'admin']);
