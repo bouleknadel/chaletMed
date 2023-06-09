@@ -143,7 +143,7 @@
                                                             @endif
                                                         @endif
                                                         <span
-                                                            class="badge @if ($user["valide_$annee"]) badge-success @else badge-danger @endif">{{ $user["mi_$annee"] }}
+                                                            class="badge @if ($user["valide_$annee"] == 1) badge-success @else badge-danger @endif">{{ $user["mi_$annee"] }}
                                                             DH</span>
                                                     </td>
                                                 @endforeach

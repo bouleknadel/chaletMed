@@ -143,11 +143,10 @@ class CotisationController extends Controller
                 $cotisation = Cotisation::where('annee', $annee)->where('user_id', $user->id)->first();
                 $cotisation_montant = $cotisation ? $cotisation->montant : 0;
                 $cotisation_status = $cotisation ? $cotisation->status : "non payé";
-                $cotisation_status_valide = $cotisation ? $cotisation->status : "en attente";
+                $cotisation_status_valide = $cotisation ? $cotisation->statuValidation : "en attente";
                 $total_cotisation += $cotisation_montant;
-                $impaye = 0;
+
                 $montant_impaye = $cotisation_montant;
-                $total_paye += $cotisation_montant;
 
                 if ($cotisation_status_valide == 'validé') {
                     $user["valide_$annee"] =  1;
@@ -155,12 +154,22 @@ class CotisationController extends Controller
                     $user["valide_$annee"] =  0;
                 }
 
+
+                if ($cotisation_status == 'payé') {
+                    $total_paye += $cotisation_montant;
+                } elseif ($cotisation_status == 'partiellement payé') {
+                    $total_paye += $cotisation_montant;
+                } else {
+                    $total_impaye +=  $montant_impaye;
+                }
+
+
                 $user["cos_$annee"] =  $cotisation_montant;
                 $user["status_$annee"] =  $cotisation_status;
 
                 //montant imapye
                 $user["mi_$annee"] =  $montant_impaye;
-                $user["impaye_$annee"] =  $impaye;
+                $user["impaye_$annee"] =  $montant_impaye;
             }
             $user["total_paye"] =  $total_paye;
             $user["total_impaye"] =  $total_impaye;
