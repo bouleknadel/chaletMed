@@ -50,56 +50,59 @@
                         <!-- /.card-header -->
                         <div class="card-body">
 
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>N° du chalet</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Montant</th>
-                                        <th>Date</th>
-                                        <th>Recu Paiement</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($cotisations as $cotisation)
+                            <div class="table-responsive">
+
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $cotisation->user->numero_devilla }}</td>
-                                            <td>{{ $cotisation->user->name }}</td>
-                                            <td>{{ $cotisation->user->lastname }}</td>
-                                            <td>{{ $cotisation->montant }} DH</td>
-                                            <td>{{ $cotisation->date }}</td>
-                                            <td>
-                                                @if ($cotisation->recu_paiement)
-                                                    <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
-                                                        download>
-                                                        <img src="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
-                                                            height="40" width="40" class="img-responsive"
-                                                            alt="recu">
-                                                    </a>
-                                                @else
-                                                    Pas de recus
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="@if ($cotisation->status == 'payé') text-success @elseif($cotisation->status == 'partiellement payé') text-info @else text-danger @endif">
-                                                <strong>
-                                                    @if ($cotisation->status == 'payé')
-                                                        <i class="fas fa-check-circle"></i> Payé
-                                                    @elseif($cotisation->status == 'partiellement payé')
-                                                        <i class="fas fa-exclamation-triangle"></i> Partiellement payé
-                                                    @else
-                                                        <i class="fas fa-times-circle"></i> Non payé
-                                                    @endif
-                                                </strong>
-                                            </td>
-
+                                            <th>N° du chalet</th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Montant</th>
+                                            <th>Date</th>
+                                            <th>Recu Paiement</th>
+                                            <th>Status</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($cotisations as $cotisation)
+                                            <tr>
+                                                <td>{{ $cotisation->user->numero_devilla }}</td>
+                                                <td>{{ $cotisation->user->name }}</td>
+                                                <td>{{ $cotisation->user->lastname }}</td>
+                                                <td>{{ $cotisation->montant }} DH</td>
+                                                <td>{{ $cotisation->date }}</td>
+                                                <td>
+                                                    @if ($cotisation->recu_paiement)
+                                                        <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
+                                                            download>
+                                                            <img src="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
+                                                                height="40" width="40" class="img-responsive"
+                                                                alt="recu">
+                                                        </a>
+                                                    @else
+                                                        Pas de recus
+                                                    @endif
+                                                </td>
+                                                <td
+                                                    class="@if ($cotisation->status == 'payé') text-success @elseif($cotisation->status == 'partiellement payé') text-info @else text-danger @endif">
+                                                    <strong>
+                                                        @if ($cotisation->status == 'payé')
+                                                            <i class="fas fa-check-circle"></i> Payé
+                                                        @elseif($cotisation->status == 'partiellement payé')
+                                                            <i class="fas fa-exclamation-triangle"></i> Partiellement payé
+                                                        @else
+                                                            <i class="fas fa-times-circle"></i> Non payé
+                                                        @endif
+                                                    </strong>
+                                                </td>
 
-                            </table>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

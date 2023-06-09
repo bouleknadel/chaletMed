@@ -127,84 +127,86 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Rubrique</th>
-                                        <th>Description</th>
-                                        <th>Montant</th>
-                                        <th>Type</th>
-                                        <th>Date de paiement</th>
-                                        <th>Année</th>
-                                        <th>Recus</th>
-                                        <th>Status</th>
-                                        @if (Auth::user()->role != 'syndic')
-                                            <th>Action</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($charges as $charge)
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $charge->rubrique }}</td>
-                                            <td>{{ $charge->description }}</td>
-                                            <td>{{ $charge->montant }}</td>
-                                            <td>{{ $charge->type }}</td>
-                                            <td>{{ $charge->date }}</td>
-
-                                            @php
-                                                $annee = $charge->annee;
-                                                $anneeplus = $charge->annee + 1;
-                                            @endphp
-                                            @if ($annee)
-                                                <td class="text-bold">{{ $annee }}/{{ $anneeplus }}</td>
-                                            @else
-                                                <td>pas d'année </td>
-                                            @endif
-
-                                            <td>
-                                                @if ($charge->recus)
-                                                    <a href="{{ asset('uploads/charges/' . $charge->recus) }}" download>
-                                                        <img src="{{ asset('uploads/charges/' . $charge->recus) }}"
-                                                            height="40" width="40" class="img-responsive"
-                                                            alt="recu">
-                                                    </a>
-                                                @else
-                                                    Pas de recus
-                                                @endif
-                                            </td>
-
-                                            <td
-                                                class="@if ($charge->status == 'paye') text-success @else text-danger @endif">
-                                                <strong>
-                                                    @if ($charge->status == 'paye')
-                                                        <i class="fas fa-check-circle"></i> Paye
-                                                    @else
-                                                        <i class="fas fa-times-circle"></i> Non paye
-                                                    @endif
-                                                </strong>
-                                            </td>
-
+                                            <th>Rubrique</th>
+                                            <th>Description</th>
+                                            <th>Montant</th>
+                                            <th>Type</th>
+                                            <th>Date de paiement</th>
+                                            <th>Année</th>
+                                            <th>Recus</th>
+                                            <th>Status</th>
                                             @if (Auth::user()->role != 'syndic')
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                        data-toggle="modal"
-                                                        data-target="#editChargeModal{{ $charge->id }}"><i
-                                                            class="fas fa-edit"></i></button>
-                                                    <form action="{{ route('charges.destroy', $charge->id) }}"
-                                                        method="post" style="display: inline-block" class="mt-1">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                                class="fas fa-trash-alt"></i></button>
-                                                    </form>
-                                                </td>
+                                                <th>Action</th>
                                             @endif
                                         </tr>
-                                    @endforeach
-                                    </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($charges as $charge)
+                                            <tr>
+                                                <td>{{ $charge->rubrique }}</td>
+                                                <td>{{ $charge->description }}</td>
+                                                <td>{{ $charge->montant }}</td>
+                                                <td>{{ $charge->type }}</td>
+                                                <td>{{ $charge->date }}</td>
+
+                                                @php
+                                                    $annee = $charge->annee;
+                                                    $anneeplus = $charge->annee + 1;
+                                                @endphp
+                                                @if ($annee)
+                                                    <td class="text-bold">{{ $annee }}/{{ $anneeplus }}</td>
+                                                @else
+                                                    <td>pas d'année </td>
+                                                @endif
+
+                                                <td>
+                                                    @if ($charge->recus)
+                                                        <a href="{{ asset('uploads/charges/' . $charge->recus) }}"
+                                                            download>
+                                                            <img src="{{ asset('uploads/charges/' . $charge->recus) }}"
+                                                                height="40" width="40" class="img-responsive"
+                                                                alt="recu">
+                                                        </a>
+                                                    @else
+                                                        Pas de recus
+                                                    @endif
+                                                </td>
+
+                                                <td
+                                                    class="@if ($charge->status == 'paye') text-success @else text-danger @endif">
+                                                    <strong>
+                                                        @if ($charge->status == 'paye')
+                                                            <i class="fas fa-check-circle"></i> Paye
+                                                        @else
+                                                            <i class="fas fa-times-circle"></i> Non paye
+                                                        @endif
+                                                    </strong>
+                                                </td>
+
+                                                @if (Auth::user()->role != 'syndic')
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#editChargeModal{{ $charge->id }}"><i
+                                                                class="fas fa-edit"></i></button>
+                                                        <form action="{{ route('charges.destroy', $charge->id) }}"
+                                                            method="post" style="display: inline-block" class="mt-1">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                                    class="fas fa-trash-alt"></i></button>
+                                                        </form>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        </tfoot>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -221,7 +223,7 @@
         $currentYear = date('Y'); // Année en cours
         $current_month = date('n'); // Mois actuel (1-12)
         $current_day = date('j'); // Jour actuel (1-31)
-        
+
         if ($current_month >= 1 && $current_month <= 7 && $current_day <= 31) {
             $currentYear--; // Si la date est entre le 1er janvier et le 31 juillet, réduire l'année en cours de 1
         }
@@ -298,7 +300,7 @@
                                 <label for="date">Année</label>
                                 <select name="annee" id="annee" class="form-control" required>
                                     @php
-                                        
+
                                         $nextYear = $currentYear + 1;
                                     @endphp
                                     @for ($year = 2018; $year < $currentYear; $year++)
@@ -394,7 +396,7 @@
                             <label for="date">Année</label>
                             <select name="annee" id="annee" class="form-control" required>
                                 @php
-                                    
+
                                     $nextYear = $currentYear + 1;
                                 @endphp
                                 @for ($year = 2018; $year < $currentYear; $year++)

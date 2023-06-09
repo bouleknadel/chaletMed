@@ -62,125 +62,128 @@
                                 </button>
                             @endif
 
+                            <div class="table-responsive">
 
-
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Designation</th>
-                                        <th>Relevé</th>
-                                        <th>Date ajout</th>
-                                        @if (Auth::user()->role != 'syndic')
-                                            <th>Action</th>
-                                        @endif
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($items as $releve_bnk)
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $releve_bnk->id }}</td>
-                                            <td>{{ $releve_bnk->designation }}</td>
-                                            <td>
-                                                @if ($releve_bnk->fichier)
-                                                    <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                        download>
-                                                        <img src="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                            height="40" width="40" class="img-responsive"
-                                                            alt="recu">
-                                                    </a>
-                                                @else
-                                                    Pas de recus
-                                                @endif
-                                            </td>
-
-                                            <td>{{ \Carbon\Carbon::parse($releve_bnk->created_at)->format('Y-m-d H:i:s') }}
-                                            </td>
-
-
-
+                                            <th>#ID</th>
+                                            <th>Designation</th>
+                                            <th>Relevé</th>
+                                            <th>Date ajout</th>
                                             @if (Auth::user()->role != 'syndic')
+                                                <th>Action</th>
+                                            @endif
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($items as $releve_bnk)
+                                            <tr>
+                                                <td>{{ $releve_bnk->id }}</td>
+                                                <td>{{ $releve_bnk->designation }}</td>
                                                 <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#editModal{{ $releve_bnk->id }}">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
+                                                    @if ($releve_bnk->fichier)
+                                                        <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
+                                                            download>
+                                                            <img src="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
+                                                                height="40" width="40" class="img-responsive"
+                                                                alt="recu">
+                                                        </a>
+                                                    @else
+                                                        Pas de recus
+                                                    @endif
+                                                </td>
 
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="editModal{{ $releve_bnk->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="editModalLabel{{ $releve_bnk->id }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="editModalLabel{{ $releve_bnk->id }}">
-                                                                        Modification</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                <td>{{ \Carbon\Carbon::parse($releve_bnk->created_at)->format('Y-m-d H:i:s') }}
+                                                </td>
+
+
+
+                                                @if (Auth::user()->role != 'syndic')
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-sm btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#editModal{{ $releve_bnk->id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editModal{{ $releve_bnk->id }}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="editModalLabel{{ $releve_bnk->id }}"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="editModalLabel{{ $releve_bnk->id }}">
+                                                                            Modification</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form method="POST"
+                                                                        action="{{ route('releve_bnks.update', $releve_bnk->id) }}"
+                                                                        enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="modal-body">
+
+                                                                            <div class="form-group">
+                                                                                <label for="designation">Designation</label>
+                                                                                <input name="designation" id="designation"
+                                                                                    class="form-control"
+                                                                                    value="{{ $releve_bnk->designation }}"
+                                                                                    required>
+                                                                            </div>
+                                                                            <div classm="form-group">
+                                                                                <label for="fichier">Relevé</label>
+                                                                                <input type="file" name="fichier"
+                                                                                    id="fichier"
+                                                                                    class="form-control-file">
+                                                                                @if ($releve_bnk->fichier)
+                                                                                    <br>
+                                                                                    <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
+                                                                                        download>
+                                                                                        Télécharger le fichier
+                                                                                    </a>
+                                                                                @endif
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Enregistrer</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                <form method="POST"
-                                                                    action="{{ route('releve_bnks.update', $releve_bnk->id) }}"
-                                                                    enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-body">
-
-                                                                        <div class="form-group">
-                                                                            <label for="designation">Designation</label>
-                                                                            <input name="designation" id="designation"
-                                                                                class="form-control"
-                                                                                value="{{ $releve_bnk->designation }}"
-                                                                                required>
-                                                                        </div>
-                                                                        <div classm="form-group">
-                                                                            <label for="fichier">Relevé</label>
-                                                                            <input type="file" name="fichier"
-                                                                                id="fichier" class="form-control-file">
-                                                                            @if ($releve_bnk->fichier)
-                                                                                <br>
-                                                                                <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                                                    download>
-                                                                                    Télécharger le fichier
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Fermer</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Enregistrer</button>
-                                                                    </div>
-                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <form method="POST"
-                                                        action="{{ route('releve_bnks.destroy', $releve_bnk->id) }}"
-                                                        style="display: inline-block;" class="mt-2">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet element?')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                                        <form method="POST"
+                                                            action="{{ route('releve_bnks.destroy', $releve_bnk->id) }}"
+                                                            style="display: inline-block;" class="mt-2">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet element?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
 
 
 

@@ -52,127 +52,133 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Fonction</th>
-                                        <th>Carte d'identité</th> <!-- Nouvelle colonne -->
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($membres as $membre)
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $membre->nom }}</td>
-                                            <td>{{ $membre->fonction }}</td>
-                                            <td height="20" width="40" class="img-responsive">
-                                                @if ($membre->carte_identite)
-                                                    <a href="{{ asset('uploads/carte_identite/' . $membre->carte_identite) }}"
-                                                        download>
-                                                        <img src="{{ asset('uploads/carte_identite/' . $membre->carte_identite) }}"
-                                                            height="20" width="40" class="img-responsive"
-                                                            alt="carte_identite">
-                                                    </a>
-                                                @else
-                                                    Pas de carte d'identité
-                                                @endif
-                                            </td> <!-- Affichage de la carte d'identité -->
-                                            <td>
-                                                <a href="#" class="mr-3" data-toggle="modal"
-                                                    data-target="#modal-{{ $membre->id }}">
-                                                    <i class="fas fa-edit"></i> <!-- Icône pour modifier -->
-                                                </a>
-
-                                                <form action="{{ route('parametre.destroyBureau', $membre->id) }}"
-                                                    method="post" style="display: inline-block" class="">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        style="font-size: 9px;"><i class="fas fa-trash-alt"></i></button>
-                                                </form>
-                                            </td>
+                                            <th>Nom</th>
+                                            <th>Fonction</th>
+                                            <th>Carte d'identité</th> <!-- Nouvelle colonne -->
+                                            <th>Actions</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($membres as $membre)
+                                            <tr>
+                                                <td>{{ $membre->nom }}</td>
+                                                <td>{{ $membre->fonction }}</td>
+                                                <td height="20" width="40" class="img-responsive">
+                                                    @if ($membre->carte_identite)
+                                                        <a href="{{ asset('uploads/carte_identite/' . $membre->carte_identite) }}"
+                                                            download>
+                                                            <img src="{{ asset('uploads/carte_identite/' . $membre->carte_identite) }}"
+                                                                height="20" width="40" class="img-responsive"
+                                                                alt="carte_identite">
+                                                        </a>
+                                                    @else
+                                                        Pas de carte d'identité
+                                                    @endif
+                                                </td> <!-- Affichage de la carte d'identité -->
+                                                <td>
+                                                    <a href="#" class="mr-3" data-toggle="modal"
+                                                        data-target="#modal-{{ $membre->id }}">
+                                                        <i class="fas fa-edit"></i> <!-- Icône pour modifier -->
+                                                    </a>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modal-{{ $membre->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="modalLabel-{{ $membre->id }}"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel-{{ $membre->id }}">
-                                                            Modifier les informations</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="POST"
-                                                            action="{{ route('parametre.updateBureau', $membre->id) }}"
-                                                            enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
+                                                    <form action="{{ route('parametre.destroyBureau', $membre->id) }}"
+                                                        method="post" style="display: inline-block" class="">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            style="font-size: 9px;"><i
+                                                                class="fas fa-trash-alt"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
 
-                                                            <div class="form-group">
-                                                                <label for="photo">Photo :</label>
-                                                                <input type="file" class="form-control" id="photo"
-                                                                    name="photo">
-                                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal-{{ $membre->id }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="modalLabel-{{ $membre->id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel-{{ $membre->id }}">
+                                                                Modifier les informations</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST"
+                                                                action="{{ route('parametre.updateBureau', $membre->id) }}"
+                                                                enctype="multipart/form-data">
+                                                                @csrf
+                                                                @method('PUT')
 
-                                                            <div class="form-group">
-                                                                <label for="nom">Nom :</label>
-                                                                <input type="text" class="form-control" id="nom"
-                                                                    name="nom" value="{{ $membre->nom }}">
-                                                            </div>
+                                                                <div class="form-group">
+                                                                    <label for="photo">Photo :</label>
+                                                                    <input type="file" class="form-control"
+                                                                        id="photo" name="photo">
+                                                                </div>
 
-                                                            <div class="form-group">
-                                                                <label for="fonction">Fonction :</label>
-                                                                <select class="form-control" id="fonction" name="fonction">
-                                                                    <option value="Président"
-                                                                        {{ $membre->fonction == 'Président' ? 'selected' : '' }}>
-                                                                        Président</option>
-                                                                    <option value="Premier vice président exécutif"
-                                                                        {{ $membre->fonction == 'Premier vice président exécutif' ? 'selected' : '' }}>
-                                                                        Premier vice président exécutif</option>
-                                                                    <option value="Trésorier"
-                                                                        {{ $membre->fonction == 'Trésorier' ? 'selected' : '' }}>
-                                                                        Trésorier</option>
-                                                                    <option value="Responsable juridique"
-                                                                        {{ $membre->fonction == 'Responsable juridique' ? 'selected' : '' }}>
-                                                                        Responsable juridique</option>
-                                                                    <option value="Chef de sécurité"
-                                                                        {{ $membre->fonction == 'Chef de sécurité' ? 'selected' : '' }}>
-                                                                        Chef de sécurité</option>
-                                                                    <option value="Agent jadinier"
-                                                                        {{ $membre->fonction == 'Agent jadinier' ? 'selected' : '' }}>
-                                                                        Agent jadinier</option>
-                                                                    <option value="Agent de sécurité"
-                                                                        {{ $membre->fonction == 'Agent de sécurité' ? 'selected' : '' }}>
-                                                                        Agent de sécurité</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="carte_identite">Carte d'identité :</label>
-                                                                <input type="file" class="form-control"
-                                                                    id="carte_identite" name="carte_identite">
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Fermer</button>
-                                                                <button type="submit" class="btn btn-primary">Enregistrer
-                                                                    les modifications</button>
-                                                            </div>
-                                                        </form>
+                                                                <div class="form-group">
+                                                                    <label for="nom">Nom :</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="nom" name="nom"
+                                                                        value="{{ $membre->nom }}">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="fonction">Fonction :</label>
+                                                                    <select class="form-control" id="fonction"
+                                                                        name="fonction">
+                                                                        <option value="Président"
+                                                                            {{ $membre->fonction == 'Président' ? 'selected' : '' }}>
+                                                                            Président</option>
+                                                                        <option value="Premier vice président exécutif"
+                                                                            {{ $membre->fonction == 'Premier vice président exécutif' ? 'selected' : '' }}>
+                                                                            Premier vice président exécutif</option>
+                                                                        <option value="Trésorier"
+                                                                            {{ $membre->fonction == 'Trésorier' ? 'selected' : '' }}>
+                                                                            Trésorier</option>
+                                                                        <option value="Responsable juridique"
+                                                                            {{ $membre->fonction == 'Responsable juridique' ? 'selected' : '' }}>
+                                                                            Responsable juridique</option>
+                                                                        <option value="Chef de sécurité"
+                                                                            {{ $membre->fonction == 'Chef de sécurité' ? 'selected' : '' }}>
+                                                                            Chef de sécurité</option>
+                                                                        <option value="Agent jadinier"
+                                                                            {{ $membre->fonction == 'Agent jadinier' ? 'selected' : '' }}>
+                                                                            Agent jadinier</option>
+                                                                        <option value="Agent de sécurité"
+                                                                            {{ $membre->fonction == 'Agent de sécurité' ? 'selected' : '' }}>
+                                                                            Agent de sécurité</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="carte_identite">Carte d'identité :</label>
+                                                                    <input type="file" class="form-control"
+                                                                        id="carte_identite" name="carte_identite">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Fermer</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Enregistrer
+                                                                        les modifications</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- /.modal -->
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                            <!-- /.modal -->
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

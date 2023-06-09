@@ -154,239 +154,248 @@
                                 </form>
                             </div>
 
-
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>N° du chalet</th>
-                                        <th>Nom et Prénom</th>
-                                        <th>Contact</th>
-                                        <!-- <th>Prénom</th> -->
-                                        <th>Montant</th>
-                                        <th>Date de paiement </th>
-                                        <th>Année</th>
-                                        <th>Recu Paiement</th>
-                                        <th>Status</th>
-                                        <th>Status validation</th>
-                                        @if (Auth::user()->role != 'syndic')
-                                            <th>Action</th>
-                                        @endif
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        // Trier les cotisations par ordre : non payé, en attente, payé
-                                        $sortedCotisations = $cotisations->sortBy(function ($cotisation) {
-                                            if ($cotisation->status === 'non payé') {
-                                                return 0;
-                                            } elseif ($cotisation->statuValidation === 'en attente') {
-                                                return 1;
-                                            } elseif ($cotisation->status === 'payé') {
-                                                return 2;
-                                            }
-                                        });
-                                    @endphp
-                                    @foreach ($cotisations as $cotisation)
-                                        <tr class="{{ $cotisation->statuValidation === 'validé' ? 'validé' : '' }}">
-                                            <td>{{ $cotisation->user->numero_devilla }}</td>
-                                            <td> {{ $cotisation->user->name }} {{ $cotisation->user->lastname }} </td>
-                                            <td> {{ $cotisation->user->numero_de_telephone }} </td>
-                                            <!--   <td> $cotisation->user->lastname </td> -->
-                                            <td>{{ $cotisation->montant }} DH</td>
-                                            <td>{{ $cotisation->date }}</td>
-
-                                            @php
-                                                $annee = $cotisation->annee;
-                                                $anneeplus = intval($cotisation->annee) + 1;
-                                            @endphp
-                                            @if ($annee)
-                                                <td class="text-bold">{{ $annee }}/{{ $anneeplus }}</td>
-                                            @else
-                                                <td>pas d'année </td>
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>N° du chalet</th>
+                                            <th>Nom et Prénom</th>
+                                            <th>Contact</th>
+                                            <!-- <th>Prénom</th> -->
+                                            <th>Montant</th>
+                                            <th>Date de paiement </th>
+                                            <th>Année</th>
+                                            <th>Recu Paiement</th>
+                                            <th>Status</th>
+                                            <th>Status validation</th>
+                                            @if (Auth::user()->role != 'syndic')
+                                                <th>Action</th>
                                             @endif
 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            // Trier les cotisations par ordre : non payé, en attente, payé
+                                            $sortedCotisations = $cotisations->sortBy(function ($cotisation) {
+                                                if ($cotisation->status === 'non payé') {
+                                                    return 0;
+                                                } elseif ($cotisation->statuValidation === 'en attente') {
+                                                    return 1;
+                                                } elseif ($cotisation->status === 'payé') {
+                                                    return 2;
+                                                }
+                                            });
+                                        @endphp
+                                        @foreach ($cotisations as $cotisation)
+                                            <tr class="{{ $cotisation->statuValidation === 'validé' ? 'validé' : '' }}">
+                                                <td>{{ $cotisation->user->numero_devilla }}</td>
+                                                <td> {{ $cotisation->user->name }} {{ $cotisation->user->lastname }} </td>
+                                                <td> {{ $cotisation->user->numero_de_telephone }} </td>
+                                                <!--   <td> $cotisation->user->lastname </td> -->
+                                                <td>{{ $cotisation->montant }} DH</td>
+                                                <td>{{ $cotisation->date }}</td>
 
-                                            <td>
-                                                @if ($cotisation->recu_paiement)
-                                                    <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
-                                                        download>
-                                                        <img src="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
-                                                            height="40" width="40" class="img-responsive"
-                                                            alt="recu">
-                                                    </a>
+                                                @php
+                                                    $annee = $cotisation->annee;
+                                                    $anneeplus = intval($cotisation->annee) + 1;
+                                                @endphp
+                                                @if ($annee)
+                                                    <td class="text-bold">{{ $annee }}/{{ $anneeplus }}</td>
                                                 @else
-                                                    Pas de recus
+                                                    <td>pas d'année </td>
                                                 @endif
-                                            </td>
-                                            <td
-                                                class="@if ($cotisation->status == 'payé') text-success @elseif($cotisation->status == 'partiellement payé') text-info @else text-danger @endif">
-                                                <strong>
-                                                    @if ($cotisation->status == 'payé')
-                                                        <i class="fas fa-check-circle"></i> Payé
-                                                    @elseif($cotisation->status == 'partiellement payé')
-                                                        <i class="fas fa-exclamation-circle"></i> Partiellement payé
-                                                    @else
-                                                        <i class="fas fa-times-circle"></i> Non payé
-                                                    @endif
-                                                </strong>
-                                            </td>
-                                            <td>
-                                                @if ($cotisation->statuValidation == 'validé')
-                                                    <i class="fas fa-check-circle text-success"></i>
-                                                @else
-                                                    <i class="fas fa-clock text-warning"></i>
-                                                @endif
-                                                {{ $cotisation->statuValidation }}
-                                            </td>
-                                            @if (Auth::user()->role != 'syndic')
+
+
                                                 <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#editModal{{ $cotisation->id }}">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
+                                                    @if ($cotisation->recu_paiement)
+                                                        <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
+                                                            download>
+                                                            <img src="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
+                                                                height="40" width="40" class="img-responsive"
+                                                                alt="recu">
+                                                        </a>
+                                                    @else
+                                                        Pas de recus
+                                                    @endif
+                                                </td>
+                                                <td
+                                                    class="@if ($cotisation->status == 'payé') text-success @elseif($cotisation->status == 'partiellement payé') text-info @else text-danger @endif">
+                                                    <strong>
+                                                        @if ($cotisation->status == 'payé')
+                                                            <i class="fas fa-check-circle"></i> Payé
+                                                        @elseif($cotisation->status == 'partiellement payé')
+                                                            <i class="fas fa-exclamation-circle"></i> Partiellement payé
+                                                        @else
+                                                            <i class="fas fa-times-circle"></i> Non payé
+                                                        @endif
+                                                    </strong>
+                                                </td>
+                                                <td>
+                                                    @if ($cotisation->statuValidation == 'validé')
+                                                        <i class="fas fa-check-circle text-success"></i>
+                                                    @else
+                                                        <i class="fas fa-clock text-warning"></i>
+                                                    @endif
+                                                    {{ $cotisation->statuValidation }}
+                                                </td>
+                                                @if (Auth::user()->role != 'syndic')
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-sm btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#editModal{{ $cotisation->id }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
 
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="editModal{{ $cotisation->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="editModalLabel{{ $cotisation->id }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="editModalLabel{{ $cotisation->id }}">Modifier
-                                                                        la
-                                                                        cotisation</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editModal{{ $cotisation->id }}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="editModalLabel{{ $cotisation->id }}"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="editModalLabel{{ $cotisation->id }}">
+                                                                            Modifier
+                                                                            la
+                                                                            cotisation</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form method="POST"
+                                                                        action="{{ route('cotisations.update', $cotisation->id) }}"
+                                                                        enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="modal-body">
+                                                                            <div class="form-group">
+                                                                                <label for="user_id">Utilisateur</label>
+                                                                                <select name="user_id" id="user_id"
+                                                                                    class="form-control" required>
+                                                                                    @foreach ($users as $user)
+                                                                                        <option
+                                                                                            value="{{ $user->id }}"
+                                                                                            {{ $cotisation->user_id == $user->id ? 'selected' : '' }}>
+                                                                                            {{ $user->name }}
+                                                                                            ({{ $user->email }})
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="montant">Montant</label>
+                                                                                <input type="number" name="montant"
+                                                                                    id="montant" class="form-control"
+                                                                                    value="{{ $cotisation->montant }}"
+                                                                                    required>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="date">Date de
+                                                                                    paiement</label>
+                                                                                <input type="date" name="date"
+                                                                                    id="date" class="form-control"
+                                                                                    value="{{ $cotisation->date }}"
+                                                                                    required>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="date">Année</label>
+                                                                                <select name="annee" id="annee"
+                                                                                    class="form-control" required>
+
+                                                                                    @foreach ($annees as $year)
+                                                                                        @php
+                                                                                            $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
+                                                                                        @endphp
+                                                                                        <option
+                                                                                            value="{{ $year->annee }}"
+                                                                                            @if (intval($cotisation->annee) == intval($year->annee)) selected @endif>
+                                                                                            {{ $yearRange }}
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div classm="form-group">
+                                                                                <label for="recu_paiement">Reçu de
+                                                                                    paiement</label>
+                                                                                <input type="file" name="recu_paiement"
+                                                                                    id="recu_paiement"
+                                                                                    class="form-control-file">
+                                                                                @if ($cotisation->recu_paiement)
+                                                                                    <br>
+                                                                                    <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
+                                                                                        download>
+                                                                                        Télécharger le fichier
+                                                                                    </a>
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="status">Status</label>
+                                                                                <select name="status" id="status"
+                                                                                    class="form-control" required>
+                                                                                    <option value="">Sélectionner un
+                                                                                        status
+                                                                                    </option>
+                                                                                    <option value="payé"
+                                                                                        @if ($cotisation->status == 'payé') selected @endif>
+                                                                                        Payé</option>
+                                                                                    <option value="partiellement payé"
+                                                                                        @if ($cotisation->status == 'partiellement payé') selected @endif>
+                                                                                        Partiellement payé</option>
+                                                                                    <option value="non payé"
+                                                                                        @if ($cotisation->status == 'non payé') selected @endif>
+                                                                                        Non payé</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="statuValidation">Statut
+                                                                                    Validation</label>
+                                                                                <select name="statuValidation"
+                                                                                    id="statuValidation"
+                                                                                    class="form-control">
+                                                                                    <option value="valide"
+                                                                                        {{ $cotisation->statuValidation == 'valide' ? 'selected' : '' }}>
+                                                                                        validé</option>
+                                                                                    <option value="en attente"
+                                                                                        {{ $cotisation->statuValidation == 'en attente' ? 'selected' : '' }}>
+                                                                                        En attente</option>
+                                                                                </select>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Enregistrer</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                <form method="POST"
-                                                                    action="{{ route('cotisations.update', $cotisation->id) }}"
-                                                                    enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group">
-                                                                            <label for="user_id">Utilisateur</label>
-                                                                            <select name="user_id" id="user_id"
-                                                                                class="form-control" required>
-                                                                                @foreach ($users as $user)
-                                                                                    <option value="{{ $user->id }}"
-                                                                                        {{ $cotisation->user_id == $user->id ? 'selected' : '' }}>
-                                                                                        {{ $user->name }}
-                                                                                        ({{ $user->email }})
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="montant">Montant</label>
-                                                                            <input type="number" name="montant"
-                                                                                id="montant" class="form-control"
-                                                                                value="{{ $cotisation->montant }}"
-                                                                                required>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="date">Date de paiement</label>
-                                                                            <input type="date" name="date"
-                                                                                id="date" class="form-control"
-                                                                                value="{{ $cotisation->date }}" required>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="date">Année</label>
-                                                                            <select name="annee" id="annee"
-                                                                                class="form-control" required>
-
-                                                                                @foreach ($annees as $year)
-                                                                                    @php
-                                                                                        $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
-                                                                                    @endphp
-                                                                                    <option value="{{ $year->annee }}"
-                                                                                        @if (intval($cotisation->annee) == intval($year->annee)) selected @endif>
-                                                                                        {{ $yearRange }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div classm="form-group">
-                                                                            <label for="recu_paiement">Reçu de
-                                                                                paiement</label>
-                                                                            <input type="file" name="recu_paiement"
-                                                                                id="recu_paiement"
-                                                                                class="form-control-file">
-                                                                            @if ($cotisation->recu_paiement)
-                                                                                <br>
-                                                                                <a href="{{ asset('uploads/recus/' . $cotisation->recu_paiement) }}"
-                                                                                    download>
-                                                                                    Télécharger le fichier
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="status">Status</label>
-                                                                            <select name="status" id="status"
-                                                                                class="form-control" required>
-                                                                                <option value="">Sélectionner un
-                                                                                    status
-                                                                                </option>
-                                                                                <option value="payé"
-                                                                                    @if ($cotisation->status == 'payé') selected @endif>
-                                                                                    Payé</option>
-                                                                                <option value="partiellement payé"
-                                                                                    @if ($cotisation->status == 'partiellement payé') selected @endif>
-                                                                                    Partiellement payé</option>
-                                                                                <option value="non payé"
-                                                                                    @if ($cotisation->status == 'non payé') selected @endif>
-                                                                                    Non payé</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="statuValidation">Statut
-                                                                                Validation</label>
-                                                                            <select name="statuValidation"
-                                                                                id="statuValidation" class="form-control">
-                                                                                <option value="valide"
-                                                                                    {{ $cotisation->statuValidation == 'valide' ? 'selected' : '' }}>
-                                                                                    validé</option>
-                                                                                <option value="en attente"
-                                                                                    {{ $cotisation->statuValidation == 'en attente' ? 'selected' : '' }}>
-                                                                                    En attente</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Fermer</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Enregistrer</button>
-                                                                    </div>
-                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <form method="POST"
-                                                        action="{{ route('cotisations.destroy', $cotisation->id) }}"
-                                                        style="display: inline-block;" class="mt-2">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette cotisation?')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                                        <form method="POST"
+                                                            action="{{ route('cotisations.destroy', $cotisation->id) }}"
+                                                            style="display: inline-block;" class="mt-2">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette cotisation?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
 
 
 

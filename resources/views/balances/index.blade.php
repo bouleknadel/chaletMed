@@ -62,132 +62,135 @@
                                 </button>
                             @endif
 
+                            <div class="table-responsive">
 
-
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Année</th>
-                                        <th>Montant</th>
-                                        <th>Commentaire</th>
-                                        <th>Date ajout</th>
-                                        <th>Action</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($items as $balance)
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $balance->id }}</td>
-                                            <td>{{ $balance->annee }}/ {{ intval($balance->annee) + 1 }}</td>
-                                            @if ($balance->debit)
-                                                <td class="bg-info"> +{{ $balance->montant }}</td>
-                                            @else
-                                                <td class="bg-danger"> -{{ $balance->montant }}</td>
-                                            @endif
-                                            <td>{{ $balance->commentaire }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($balance->created_at)->format('Y-m-d H:i:s') }}
-                                            </td>
-                                            <td>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                    data-target="#editModal{{ $balance->id }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
+                                            <th>#ID</th>
+                                            <th>Année</th>
+                                            <th>Montant</th>
+                                            <th>Commentaire</th>
+                                            <th>Date ajout</th>
+                                            <th>Action</th>
 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="editModal{{ $balance->id }}" tabindex="-1"
-                                                    role="dialog" aria-labelledby="editModalLabel{{ $balance->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="editModalLabel{{ $balance->id }}">
-                                                                    Modification</h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <form method="POST"
-                                                                action="{{ route('balances.update', $balance->id) }}">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <div class="modal-body">
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                                                    <div class="form-group">
-                                                                        <label for="date">Année</label>
-                                                                        <select name="annee" id="annee"
-                                                                            class="form-control" required>
-                                                                            @foreach ($annees as $year)
-                                                                                @php
-                                                                                    $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
-                                                                                @endphp
-                                                                                <option
-                                                                                    @if (intval($balance->annee) == intval($year->annee)) selected @endif
-                                                                                    value="{{ $year->annee }}">
-                                                                                    {{ $yearRange }}
+                                        @foreach ($items as $balance)
+                                            <tr>
+                                                <td>{{ $balance->id }}</td>
+                                                <td>{{ $balance->annee }}/ {{ intval($balance->annee) + 1 }}</td>
+                                                @if ($balance->debit)
+                                                    <td class="bg-info"> +{{ $balance->montant }}</td>
+                                                @else
+                                                    <td class="bg-danger"> -{{ $balance->montant }}</td>
+                                                @endif
+                                                <td>{{ $balance->commentaire }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($balance->created_at)->format('Y-m-d H:i:s') }}
+                                                </td>
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                        data-toggle="modal" data-target="#editModal{{ $balance->id }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="editModal{{ $balance->id }}"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="editModalLabel{{ $balance->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="editModalLabel{{ $balance->id }}">
+                                                                        Modification</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form method="POST"
+                                                                    action="{{ route('balances.update', $balance->id) }}">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="modal-body">
+
+                                                                        <div class="form-group">
+                                                                            <label for="date">Année</label>
+                                                                            <select name="annee" id="annee"
+                                                                                class="form-control" required>
+                                                                                @foreach ($annees as $year)
+                                                                                    @php
+                                                                                        $yearRange = $year->annee . '/' . (intval($year->annee) + 1);
+                                                                                    @endphp
+                                                                                    <option
+                                                                                        @if (intval($balance->annee) == intval($year->annee)) selected @endif
+                                                                                        value="{{ $year->annee }}">
+                                                                                        {{ $yearRange }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="date">Type</label>
+                                                                            <select name="type" id="type"
+                                                                                class="form-control" required>
+                                                                                <option value="1"
+                                                                                    @if (intval($balance->type) == 1) selected @endif>
+                                                                                    DEBIT
                                                                                 </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="date">Type</label>
-                                                                        <select name="type" id="type"
-                                                                            class="form-control" required>
-                                                                            <option value="1"
-                                                                                @if (intval($balance->type) == 1) selected @endif>
-                                                                                DEBIT
-                                                                            </option>
-                                                                            <option value="0"
-                                                                                @if (intval($balance->type) == 0) selected @endif>
-                                                                                CREDIT
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
+                                                                                <option value="0"
+                                                                                    @if (intval($balance->type) == 0) selected @endif>
+                                                                                    CREDIT
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="montant">Montant</label>
-                                                                        <input type="number" name="montant" id="montant"
-                                                                            class="form-control"
-                                                                            value="{{ $balance->montant }}" required>
-                                                                    </div>
+                                                                        <div class="form-group">
+                                                                            <label for="montant">Montant</label>
+                                                                            <input type="number" name="montant"
+                                                                                id="montant" class="form-control"
+                                                                                value="{{ $balance->montant }}" required>
+                                                                        </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="commentaire">Commentaire</label>
-                                                                        <textarea name="commentaire" id="commentaire" class="form-control">{{ $balance->commentaire }}</textarea>
-                                                                    </div>
+                                                                        <div class="form-group">
+                                                                            <label for="commentaire">Commentaire</label>
+                                                                            <textarea name="commentaire" id="commentaire" class="form-control">{{ $balance->commentaire }}</textarea>
+                                                                        </div>
 
 
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Fermer</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Enregistrer</button>
-                                                                </div>
-                                                            </form>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Fermer</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">Enregistrer</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <form method="POST" action="{{ route('balances.destroy', $balance->id) }}"
-                                                    style="display: inline-block;" class="mt-2">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet element?')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                                    <form method="POST"
+                                                        action="{{ route('balances.destroy', $balance->id) }}"
+                                                        style="display: inline-block;" class="mt-2">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet element?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
 
 
 

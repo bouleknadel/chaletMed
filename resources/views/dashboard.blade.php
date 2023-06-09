@@ -29,11 +29,12 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6 ">
                     @foreach ($coordoneeBanque as $coordonee)
                         @if ($coordonee->status == 1)
-                            <div class="card " style="width : 50% ;">
-                                <div class="card-body" style="display: flex ; justify-content : space-between">
+                            <div class="card ">
+                                <div class="card-body"
+                                    style="display: flex ; justify-content : space-between; flex-wrap: wrap;">
 
 
                                     <div>
@@ -77,25 +78,33 @@
                             </div>
                         @endif
                     @endforeach
+                </div>
+                <div class="col-md-12">
 
 
-                    <form action="{{ route('dashboard') }}" method="GET" class="form-inline">
-                        <div class="row p-3">
 
-                            <div class="form-group">
-                                <select id="select-year" class="form-control" name="year" style="width: 400px ;">
-                                    <option value="" disabled {{ empty($selected_year) ? 'selected' : '' }}>Toutes les
-                                        années</option>
-                                    @for ($year = 2018; $year <= $current_year; $year++)
-                                        <?php $yearNext = $year + 1; ?>
-                                        <option value="{{ $year }}"
-                                            {{ $selected_year == $year || ($selected_year == null && $year == $current_year) ? 'selected' : '' }}>
-                                            {{ $year . '/' . $yearNext }}
-                                        </option>
-                                    @endfor
-                                </select>
+                    <form action="{{ route('dashboard') }}" method="GET">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <select id="select-year" class="form-control" name="year">
+                                        <option value="" disabled {{ empty($selected_year) ? 'selected' : '' }}>Toutes
+                                            les
+                                            années</option>
+                                        @for ($year = 2018; $year <= $current_year; $year++)
+                                            <?php $yearNext = $year + 1; ?>
+                                            <option value="{{ $year }}"
+                                                {{ $selected_year == $year || ($selected_year == null && $year == $current_year) ? 'selected' : '' }}>
+                                                {{ $year . '/' . $yearNext }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+
                             </div>
-                            <button type="submit" class="btn btn-primary ml-4" style="width : 300px ;">Filtrer</button>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-block btn-primary mb-4  ">Filtrer</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -306,7 +315,7 @@
 
                                 <!--<div class="d-flex justify-content-center">
 
-                                            </div>-->
+                                                                                        </div>-->
 
                             </div>
                         </div>
