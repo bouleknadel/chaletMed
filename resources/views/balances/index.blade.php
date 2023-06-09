@@ -83,9 +83,9 @@
                                                 <td>{{ $balance->id }}</td>
                                                 <td>{{ $balance->annee }}/ {{ intval($balance->annee) + 1 }}</td>
                                                 @if ($balance->debit)
-                                                    <td class="bg-info"> +{{ $balance->montant }}</td>
-                                                @else
                                                     <td class="bg-danger"> -{{ $balance->montant }}</td>
+                                                @else
+                                                    <td class="bg-info"> +{{ $balance->montant }}</td>
                                                 @endif
                                                 <td>{{ $balance->commentaire }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($balance->created_at)->format('Y-m-d H:i:s') }}
