@@ -89,7 +89,8 @@
                                         @foreach ($users as $user)
                                             <tr>
                                                 <td>{{ $user->name }} {{ $user->lastname }}
-                                                    ({{ $user->numero_devilla }})</td>
+                                                    ({{ $user->numero_devilla }})
+                                                </td>
 
                                                 {{-- @php
                                                     $total = 0;
@@ -130,18 +131,20 @@
                                                     <td class="">
 
                                                         @if ($user["status_$annee"] == 'payé')
-                                                            <span class="badge badge-success">Payé</span>
+                                                            <span class="badge badge-success">Payé:</span>
                                                         @elseif ($user["status_$annee"] == 'partiellement payé')
                                                             <span class="badge badge-warning">Part.:
-                                                                {{ $user["mi_$annee"] }}
-                                                                DH</span>
+                                                            </span>
                                                         @else
                                                             @if ($user["status_$annee"] == '' || $user["status_$annee"] == 'non payé')
-                                                                <span class="badge badge-danger">Non payé :
-                                                                    {{ $user["mi_$annee"] }}
-                                                                    DH</span>
+                                                                <span class="badge badge-danger">N.payé:
+
+                                                                </span>
                                                             @endif
                                                         @endif
+                                                        <span
+                                                            class="badge @if ($user["valide_$annee"]) badge-success @else badge-danger @endif">{{ $user["mi_$annee"] }}
+                                                            DH</span>
                                                     </td>
                                                 @endforeach
                                                 <td class="font-weight-bold text-danger">
