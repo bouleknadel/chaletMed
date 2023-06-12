@@ -24,6 +24,7 @@ class User extends Authenticatable
         'numero_de_telephone',
         'numero_de_telephone2',
         'email',
+        'synthese_commentaire',
         'password',
         'role',
     ];
@@ -47,8 +48,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function notifications()
-{
-    return $this->hasMany(NotificationMsj::class);
-}
-
+    {
+        return $this->hasMany(NotificationMsj::class);
+    }
 }

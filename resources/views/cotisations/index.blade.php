@@ -168,6 +168,7 @@
                                             <th>Recu Paiement</th>
                                             <th>Status</th>
                                             <th>Status validation</th>
+                                            <th>Commentaire</th>
                                             @if (Auth::user()->role != 'syndic')
                                                 <th>Action</th>
                                             @endif
@@ -238,6 +239,9 @@
                                                         <i class="fas fa-clock text-warning"></i>
                                                     @endif
                                                     {{ $cotisation->statuValidation }}
+                                                </td>
+                                                <td>
+                                                    {{ $cotisation->commentaire }}
                                                 </td>
                                                 @if (Auth::user()->role != 'syndic')
                                                     <td>
@@ -366,6 +370,12 @@
                                                                                 </select>
                                                                             </div>
 
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="commentaire">Commentaire</label>
+                                                                                <textarea name="commentaire" id="commentaire" class="form-control">{{ $cotisation->commentaire }}</textarea>
+                                                                            </div>
+
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button"
@@ -475,6 +485,10 @@
                                 <option value="partiellement payé">Partiellement payé</option>
                                 <option value="payé">Payé</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="commentaire">Commentaire</label>
+                            <textarea name="commentaire" id="commentaire" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

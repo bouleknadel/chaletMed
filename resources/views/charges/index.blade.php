@@ -139,6 +139,7 @@
                                             <th>Année</th>
                                             <th>Recus</th>
                                             <th>Status</th>
+                                            <th>Commentaire</th>
                                             @if (Auth::user()->role != 'syndic')
                                                 <th>Action</th>
                                             @endif
@@ -186,7 +187,9 @@
                                                         @endif
                                                     </strong>
                                                 </td>
-
+                                                <td>
+                                                    {{ $charge->commentaire }}
+                                                </td>
                                                 @if (Auth::user()->role != 'syndic')
                                                     <td>
                                                         <button type="button" class="btn btn-sm btn-primary"
@@ -330,6 +333,10 @@
                                     <option value="paye" {{ $charge->status == 'paye' ? 'selected' : '' }}>Payé</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="commentaire">Commentaire</label>
+                                <textarea name="commentaire" id="commentaire" class="form-control">{{ $charge->commentaire }}</textarea>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -419,6 +426,11 @@
                                 <option value="non paye">Non payé</option>
                                 <option value="paye">Payé</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="commentaire">Commentaire</label>
+                            <textarea name="commentaire" id="commentaire" class="form-control"></textarea>
                         </div>
 
                         <div class="modal-footer">

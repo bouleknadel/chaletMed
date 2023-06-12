@@ -11,6 +11,8 @@ Route::get('/', function () {
 //Releve Bnks
 Route::resource('releve_bnks', App\Http\Controllers\ReleveBnkController::class)->middleware(['auth']);
 Route::resource('document_divers', App\Http\Controllers\DocumentDiverController::class)->middleware(['auth']);
+Route::post('update_synthese_commentaire/{id}', [App\Http\Controllers\UserController::class, 'update_commentaire'])->name('update_synthese_commentaire')->middleware(['admin']);
+
 
 
 Route::resource('balances', App\Http\Controllers\BalanceController::class)->middleware(['auth', 'admin']);

@@ -6,11 +6,6 @@ use App\Models\Annee;
 use App\Models\Cotisation;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Models\NotificationMsj;
 
 
 
@@ -101,9 +96,9 @@ class CotisationController extends Controller
             $annee_colunms[] = $selectedYear - $i;
         }
 
-        for ($i = 1; $i <= 2; $i++) {
+        /* for ($i = 1; $i <= 2; $i++) {
             $annee_colunms[] = $selectedYear + $i;
-        }
+        } */
 
         sort($annee_colunms);
 
@@ -253,6 +248,7 @@ class CotisationController extends Controller
             'recu_paiement' => 'nullable|file',
             'status' => 'required|in:payé,non payé,partiellement payé',
             'annee' => 'required',
+            'commentaire' => 'required',
         ]);
 
 
@@ -275,6 +271,7 @@ class CotisationController extends Controller
         $cotisation->montant = $validatedData['montant'];
         $cotisation->date = $validatedData['date'];
         $cotisation->status = $validatedData['status'];
+        $cotisation->commentaire = $validatedData['commentaire'];
         $annee = $request->input('annee');
         $annee = substr($annee, 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'
 
@@ -336,6 +333,7 @@ class CotisationController extends Controller
         $cotisation->montant = $request->input('montant');
         $cotisation->date = $request->input('date');
         $cotisation->status = $request->input('status');
+        $cotisation->commentaire = $request->input('commentaire');
         $cotisation->statuValidation = $request->input('statuValidation');
         $annee = $request->input('annee');
         $annee = substr($annee, 0, 4); // Extrait les 4 premiers caractères (l'année) du format '2018/2019'

@@ -64,6 +64,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nom</th>
+                                            <th>Chalet</th>
 
                                             @foreach ($annee_colunms as $annee)
                                                 @php
@@ -82,6 +83,7 @@
                                             <th class="bg-danger text-white">Total Impayés</th>
 
                                             <th class="bg-success text-white">Total Payés</th>
+                                            <th>Commentaire</th>
 
                                         </tr>
                                     </thead>
@@ -89,7 +91,9 @@
                                         @foreach ($users as $user)
                                             <tr>
                                                 <td>{{ $user->name }} {{ $user->lastname }}
-                                                    ({{ $user->numero_devilla }})
+                                                </td>
+                                                <td>
+                                                    {{ $user->numero_devilla }}
                                                 </td>
 
                                                 {{-- @php
@@ -153,6 +157,22 @@
 
                                                 <td class="font-weight-bold text-success">
                                                     {{ $user['total_paye'] }} DH
+                                                </td>
+
+                                                <td class="font-weight-bold text-success">
+                                                    <form method="post"
+                                                        action="{{ route('update_synthese_commentaire', $user->id) }}">
+                                                        @csrf
+                                                        <div class="input-group mb-3">
+                                                            <input style="width: 300px" type="text" class="form-control"
+                                                                name="commentaire"
+                                                                value="{{ $user->synthese_commentaire }}"
+                                                                placeholder="Commentaire">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-primary" type="submit">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </td>
 
 
