@@ -47,7 +47,8 @@
                                             <div class="bank-info-row">
                                                 <span class="icon"><i class="fas fa-credit-card"></i></span>
                                                 <span class="label">Numéro de compte:</span>
-                                                <span class="value">{{ $coordonee->numero_compte }}</span>
+                                                <br>
+                                                <h3 class="value">{{ $coordonee->numero_compte }}</h3>
                                             </div>
                                             <div class="bank-info-row">
                                                 <span class="icon"><i class="fas fa-building"></i></span>

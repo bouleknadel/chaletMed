@@ -227,7 +227,10 @@
                         @if ($coord->status == 1)
                             <div class="col-md-6">
                                 <p><i class="fas fa-credit-card"></i> <span>Numéro de compte:
-                                    </span> <span class="value">{{ $coord->numero_compte }}</span></p>
+                                        <br>
+                                    </span>
+                                <h3 class="value">{{ $coord->numero_compte }}</h3>
+                                </p>
                             </div>
                             <div class="col-md-6">
                                 <p><i class="fas fa-building"></i> <span>Raison sociale:
