@@ -14,6 +14,7 @@ class ChargeController extends Controller
      */
     public function index(Request $request)
     {
+        
         $query = Charge::query();
         $current_year = date('Y'); // Année en cours
         $current_month = date('n'); // Mois actuel (1-12)
@@ -96,12 +97,16 @@ class ChargeController extends Controller
         $charge->annee = $premiereAnnee;
 
         if ($request->hasFile('recus')) {
-            $file = $request->file('recus');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            // Enregistrer le fichier dans le stockage public
-            $file->move('uploads/charges/', $fileName);
-            // Enregistrer le chemin d'accès au fichier dans la base de données
-            $charge->recus = $fileName;
+            $recus = [];
+            $files = $request->file('recus');
+            foreach ($files as $file) {
+                $fileName = uniqid() . '_' . $file->getClientOriginalName();
+                // Enregistrer le fichier dans le stockage public
+                $file->move('uploads/charges/', $fileName);
+                // Enregistrer le chemin d'accès au fichier dans la base de données
+                $recus[] = $fileName;
+            }
+            $charge->recus = implode('###', $recus);
         }
 
         $charge->save();
@@ -174,12 +179,16 @@ class ChargeController extends Controller
         $charge->annee = $premiereAnnee;
 
         if ($request->hasFile('recus')) {
-            $file = $request->file('recus');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            // Enregistrer le fichier dans le stockage public
-            $file->move('uploads/charges/', $fileName);
-            // Enregistrer le chemin d'accès au fichier dans la base de données
-            $charge->recus = $fileName;
+            $recus = [];
+            $files = $request->file('recus');
+            foreach ($files as $file) {
+                $fileName = uniqid() . '_' . $file->getClientOriginalName();
+                // Enregistrer le fichier dans le stockage public
+                $file->move('uploads/charges/', $fileName);
+                // Enregistrer le chemin d'accès au fichier dans la base de données
+                $recus[] = $fileName;
+            }
+            $charge->recus = implode('###', $recus);
         }
 
         $charge->save();

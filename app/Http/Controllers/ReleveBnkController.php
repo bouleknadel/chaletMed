@@ -49,7 +49,7 @@ class ReleveBnkController extends Controller
 
         $this->validate($request, [
             'designation' => 'required',
-            'fichier' => 'required|file',
+            'fichier.*' => 'required|file',
         ]);
 
 
@@ -59,12 +59,17 @@ class ReleveBnkController extends Controller
         $item->designation = $request->designation;
 
 
-        $file = $request->file('fichier');
-        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-        // Enregistrer le fichier dans le stockage public
-        $file->move('uploads/releve_bnk/', $fileName);
-        // Enregistrer le chemin d'accès au fichier dans la base de données
-        $item->fichier = $fileName;
+        $files = $request->file('fichier');
+        $recus = [];
+        foreach ($files as $file) {
+            $fileName = uniqid() . '_' . $file->getClientOriginalExtension();
+            // Enregistrer le fichier dans le stockage public
+            $file->move('uploads/releve_bnk/', $fileName);
+            // Enregistrer le chemin d'accès au fichier dans la base de données
+            $recus[] = $fileName;
+        }
+
+        $item->fichier = implode('###', $recus);
         $item->save();
 
         return back()->with('success', '   ReleveBnk ajoutée avec succès.');
@@ -108,20 +113,25 @@ class ReleveBnkController extends Controller
     {
         $this->validate($request, [
             'designation' => 'required',
-            'fichier' => 'file|nullable',
+            'fichier.*' => 'file|nullable',
         ]);
         $releve_bnk = ReleveBnk::findOrFail($id);
 
         $releve_bnk->designation = $request->get('designation');
 
 
-        if ($request->hasFile('fichier')) {
-            $file = $request->file('fichier');
-            $fileName = time() . '.' . $file->getClientOriginalName();
-            // Enregistrer le fichier dans le stockage public
-            $file->move('uploads/releve_bnk/', $fileName);
-            // Enregistrer le chemin d'accès au fichier dans la base de données
-            $releve_bnk->fichier = $fileName;
+        if ($request->has('fichier')) {
+            $files = $request->file('fichier');
+            $recus = [];
+            foreach ($files as $file) {
+                $fileName = uniqid() . '_' . $file->getClientOriginalExtension();
+                // Enregistrer le fichier dans le stockage public
+                $file->move('uploads/releve_bnk/', $fileName);
+                // Enregistrer le chemin d'accès au fichier dans la base de données
+                $recus[] = $fileName;
+            }
+
+            $releve_bnk->fichier = implode('###', $recus);
         }
 
         $releve_bnk->save();

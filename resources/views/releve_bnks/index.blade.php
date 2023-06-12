@@ -85,12 +85,14 @@
                                                 <td>{{ $releve_bnk->designation }}</td>
                                                 <td>
                                                     @if ($releve_bnk->fichier)
-                                                        <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                            download>
-                                                            <img src="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                                height="40" width="40" class="img-responsive"
-                                                                alt="recu">
-                                                        </a>
+                                                        @foreach (explode('###', $releve_bnk->fichier) as $recus)
+                                                            <a class="ma-1"
+                                                                href="{{ asset('uploads/releve_bnk/' . $recus) }}" download>
+                                                                <img src="{{ asset('uploads/releve_bnk/' . $recus) }}"
+                                                                    height="40" width="40" class="img-responsive"
+                                                                    alt="recu">
+                                                            </a>
+                                                        @endforeach
                                                     @else
                                                         Pas de recus
                                                     @endif
@@ -142,16 +144,10 @@
                                                                             </div>
                                                                             <div classm="form-group">
                                                                                 <label for="fichier">Relevé</label>
-                                                                                <input type="file" name="fichier"
-                                                                                    id="fichier"
+                                                                                <input type="file" multiple
+                                                                                    name="fichier[]" id="fichier"
                                                                                     class="form-control-file">
-                                                                                @if ($releve_bnk->fichier)
-                                                                                    <br>
-                                                                                    <a href="{{ asset('uploads/releve_bnk/' . $releve_bnk->fichier) }}"
-                                                                                        download>
-                                                                                        Télécharger le fichier
-                                                                                    </a>
-                                                                                @endif
+
                                                                             </div>
 
 
@@ -226,7 +222,7 @@
                         </div>
                         <div classm="form-group">
                             <label for="fichier">Relevé</label>
-                            <input type="file" name="fichier" id="fichier" class="form-control-file">
+                            <input type="file" multiple name="fichier[]" id="fichier" class="form-control-file">
 
                         </div>
                     </div>

@@ -166,12 +166,14 @@
 
                                                 <td>
                                                     @if ($charge->recus)
-                                                        <a href="{{ asset('uploads/charges/' . $charge->recus) }}"
-                                                            download>
-                                                            <img src="{{ asset('uploads/charges/' . $charge->recus) }}"
-                                                                height="40" width="40" class="img-responsive"
-                                                                alt="recu">
-                                                        </a>
+                                                        @foreach (explode('###', $charge->recus) as $recus)
+                                                            <a class="ma-1"
+                                                                href="{{ asset('uploads/charges/' . $recus) }}" download>
+                                                                <img src="{{ asset('uploads/charges/' . $recus) }}"
+                                                                    height="40" width="40" class="img-responsive"
+                                                                    alt="recu">
+                                                            </a>
+                                                        @endforeach
                                                     @else
                                                         Pas de recus
                                                     @endif
@@ -323,7 +325,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="recus">Reçus</label>
-                                <input type="file" name="recus" id="recus" class="form-control-file">
+                                <input type="file" name="recus[]" id="recus" class="form-control-file" multiple>
                             </div>
                             <div class="form-group">
                                 <label for="status">Statut</label>
@@ -418,7 +420,7 @@
                         </div>
                         <div class="form-group">
                             <label for="recus">Reçus</label>
-                            <input type="file" name="recus" id="recus" class="form-control-file">
+                            <input type="file" name="recus[]" id="recus" multiple class="form-control-file">
                         </div>
                         <div class="form-group">
                             <label for="status">Statut</label>
