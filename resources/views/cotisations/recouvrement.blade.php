@@ -63,6 +63,7 @@
                                 <table id="example1" class="table table-bordered table-striped ">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Nom</th>
                                             <th>Chalet</th>
 
@@ -90,6 +91,17 @@
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
+                                                <td>
+                                                    @if ($user->image)
+                                                        <a href="{{ asset('uploads/profil/' . $user->image) }}" download>
+                                                            <img src="{{ asset('uploads/profil/' . $user->image) }}"
+                                                                height="60" width="60" class="img-responsive"
+                                                                alt="photo">
+                                                        </a>
+                                                    @else
+                                                        Pas de Photo
+                                                    @endif
+                                                </td>
                                                 <td>{{ $user->name }} {{ $user->lastname }}
                                                 </td>
                                                 <td>
@@ -147,16 +159,18 @@
                                                             @endif
                                                         @endif
                                                         <span
-                                                            class="badge @if ($user["valide_$annee"] == 1) badge-success @else badge-danger @endif">{{ $user["mi_$annee"] }}
-                                                            DH</span>
+                                                            class="badge @if ($user["valide_$annee"] == 1) badge-success @else badge-danger @endif">
+                                                            <h5 class="m-0 p-0">{{ $user["mi_$annee"] }}
+                                                                DH</h5>
+                                                        </span>
                                                     </td>
                                                 @endforeach
                                                 <td class="font-weight-bold text-danger">
-                                                    {{ $user['total_impaye'] }} DH
+                                                    <h5>{{ $user['total_impaye'] }} DH</h5>
                                                 </td>
 
                                                 <td class="font-weight-bold text-success">
-                                                    {{ $user['total_paye'] }} DH
+                                                    <h5>{{ $user['total_paye'] }} DH</h5>
                                                 </td>
 
                                                 <td class="font-weight-bold text-success">

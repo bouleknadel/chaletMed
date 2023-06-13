@@ -69,10 +69,21 @@
                                     <i class="fas fa-user-plus"></i> Ajouter Utilisateur
                                 </button>
                             @endif
+                            <div>
+                                @if ($errors->any())
+                                    @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <strong>Validation:</strong> {{ $error }}
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                             <div class="table-responsive">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Rôle</th>
                                             <th>Nom</th>
                                             <th>Prénom</th>
@@ -90,6 +101,17 @@
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
+                                                <td>
+                                                    @if ($user->image)
+                                                        <a href="{{ asset('uploads/profil/' . $user->image) }}" download>
+                                                            <img src="{{ asset('uploads/profil/' . $user->image) }}"
+                                                                height="60" width="60" class="img-responsive"
+                                                                alt="photo">
+                                                        </a>
+                                                    @else
+                                                        Pas de Photo
+                                                    @endif
+                                                </td>
                                                 <td>{{ $user->role }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->lastname }}</td>
@@ -141,7 +163,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" action="{{ route('users.store') }}">
+                <form method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         <!-- Contenu du formulaire d'ajout d'utilisateur -->
                         @csrf
@@ -156,31 +178,37 @@
                                 <!-- Ajoutez les autres options de rôle ici -->
                             </select>
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nom</label>
                             <input type="text" name="name" class="form-control" id="exampleInputEmail1"
                                 placeholder="Enter email">
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">lastname</label>
                             <input type="text" class="form-control" name="lastname" id="exampleInputEmail1"
                                 placeholder="Enter email">
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">Numero chalet</label>
                             <input type="text" name="numero_devilla" class="form-control" id="exampleInputEmail1"
                                 placeholder="Enter email">
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">numero_de_telephone</label>
-                            <input type="text" class="form-control" name="numero_de_telephone" id="exampleInputEmail1"
-                                placeholder="Enter email">
+                            <input type="text" class="form-control" name="numero_de_telephone"
+                                id="exampleInputEmail1" placeholder="Enter email">
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">numero_de_telephone2</label>
                             <input type="text" class="form-control" name="numero_de_telephone2"
                                 id="exampleInputEmail1" placeholder="Enter email">
                         </div>
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
                             <input type="email" class="form-control"name="email" id="exampleInputEmail1"
@@ -193,8 +221,12 @@
                                 placeholder="Password">
                         </div>
 
-                        <!-- /.card-body -->
-                        <!-- ... -->
+                        <div classm="form-group">
+                            <label for="photo">Profil</label>
+                            <input type="file" name="photo" id="photo" class="form-control-file">
+                        </div>
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -217,7 +249,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="post" action="{{ route('users.update', $user->id) }}">
+                    <form method="post" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -238,40 +270,58 @@
                                 <input type="text" name="name" class="form-control" id="name{{ $user->id }}"
                                     value="{{ $user->name }}" placeholder="Nom">
                             </div>
+
                             <div class="form-group">
                                 <label for="lastname{{ $user->id }}">Prénom</label>
                                 <input type="text" name="lastname" class="form-control"
                                     id="lastname{{ $user->id }}" value="{{ $user->lastname }}"
                                     placeholder="Prénom">
                             </div>
+
                             <div class="form-group">
                                 <label for="numero_devilla{{ $user->id }}">Numéro de villa</label>
                                 <input type="text" name="numero_devilla" class="form-control"
                                     id="numero_devilla{{ $user->id }}" value="{{ $user->numero_devilla }}"
                                     placeholder="Numéro de villa">
                             </div>
+
                             <div class="form-group">
                                 <label for="numero_de_telephone{{ $user->id }}">Numéro de téléphone</label>
                                 <input type="text" name="numero_de_telephone" class="form-control"
                                     id="numero_de_telephone{{ $user->id }}" value="{{ $user->numero_de_telephone }}"
                                     placeholder="Numéro de téléphone">
                             </div>
+
                             <div class="form-group">
                                 <label for="numero_de_telephone2{{ $user->id }}">Numéro de téléphone 2</label>
                                 <input type="text" name="numero_de_telephone2" class="form-control"
                                     id="numero_de_telephone2{{ $user->id }}"
                                     value="{{ $user->numero_de_telephone2 }}" placeholder="Numéro de téléphone 2">
                             </div>
+
                             <div class="form-group">
                                 <label for="email{{ $user->id }}">Adresse email</label>
                                 <input type="email" name="email" class="form-control" id="email{{ $user->id }}"
                                     value="{{ $user->email }}" placeholder="Adresse email">
                             </div>
+
                             <div class="form-group">
                                 <label for="password{{ $user->id }}">Mot de passe</label>
                                 <input type="password" name="password" class="form-control"
                                     id="password{{ $user->id }}" placeholder="Mot de passe">
                             </div>
+
+                            <div classm="form-group">
+                                <label for="recu_paiement">Profil</label>
+                                <input type="file" name="photo" id="photo" class="form-control-file">
+                                @if ($user->image)
+                                    <br>
+                                    <a href="{{ asset('uploads/profil/' . $user->image) }}" download>
+                                        Télécharger le fichier
+                                    </a>
+                                @endif
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>

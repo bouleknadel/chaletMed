@@ -49,8 +49,14 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'role' => 'string',
+            'photo' => 'image|required',
         ]);
 
+        $file = $request->file('photo');
+        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+        // Enregistrer le fichier dans le stockage public
+        $file->move('uploads/profil/', $fileName);
+        // Enregistrer le chemin d'accès au fichier dans la base de données
         // Création d'un nouvel utilisateur avec les données du formulaire
         $user = User::create([
             'name' => $validatedData['name'],
@@ -60,8 +66,12 @@ class UserController extends Controller
             'numero_de_telephone2' => $validatedData['numero_de_telephone2'],
             'email' => $validatedData['email'],
             'role' => $validatedData['role'],
+            'image' => $fileName,
             'password' => Hash::make($validatedData['password']),
         ]);
+
+
+
 
         // Si la création de l'utilisateur a échoué, afficher un message d'erreur
         if (!$user) {
@@ -125,6 +135,15 @@ class UserController extends Controller
         $user->numero_de_telephone2 = $validatedData['numero_de_telephone2'];
         $user->email = $validatedData['email'];
         $user->role = $validatedData['role'];
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            // Enregistrer le fichier dans le stockage public
+            $file->move('uploads/profil/', $fileName);
+            // Enregistrer le chemin d'accès au fichier dans la base de données
+            $user->image = $fileName;
+        }
 
 
 

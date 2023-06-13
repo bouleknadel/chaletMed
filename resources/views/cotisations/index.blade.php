@@ -64,7 +64,7 @@
                             <!--filter les annes-->
 
                             <div class="col-md-12 ">
-                                <form action="{{ route('cotisations.index') }}" method="GET" class="filter-form">
+                                <form action="{{ route('cotisations.index') }}" method="GET" class="filter-form" >
                                     <div class="row">
                                         <div class="col-md-3">
 
