@@ -337,7 +337,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="commentaire">Commentaire</label>
-                                <textarea name="commentaire" id="commentaire" class="form-control">{{ $charge->commentaire }}</textarea>
+                                <textarea name="commentaire" id="commentaire" class="form-control" required>{{ $charge->commentaire }}</textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
